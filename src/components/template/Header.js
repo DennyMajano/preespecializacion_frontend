@@ -3,7 +3,7 @@ import Encryptacion from "../../services/Encrypt";
 import { NavLink } from "react-router-dom";
 import Request from "../../services/Request";
 import DefaultImage from "../utils/images/default.png";
-import RoutesPath from './../../config/RoutesPath';
+import RoutesPath from "./../../config/RoutesPath";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -320,13 +320,15 @@ class Header extends Component {
                     </NavLink>
                   )}
                 </li>
-                 {/*---GESTION*/}
+                {/*---GESTION*/}
                 <li
                   className={
                     this.props.location.pathname === RoutesPath.GESTIONES ||
-                    this.props.location.pathname === RoutesPath.GESTIONES_NUEVA ||
-                    this.props.location.pathname === RoutesPath.GESTIONES_HISTORIAL
-                    ? "active"
+                    this.props.location.pathname ===
+                      RoutesPath.GESTIONES_NUEVA ||
+                    this.props.location.pathname ===
+                      RoutesPath.GESTIONES_HISTORIAL
+                      ? "active"
                       : ""
                   }
                 >
@@ -383,7 +385,7 @@ class Header extends Component {
                 <li>
                   {" "}
                   {this.state.modulos.includes(
-                    "4bc73281-638e-4af5-9f0b-e1758a1d97ba"
+                    "d5213ccc-c971-40dc-a813-cc63ccfacf13"
                   ) && (
                     <a
                       className="has-arrow waves-effect waves-dark"
@@ -396,7 +398,7 @@ class Header extends Component {
                   )}
                   <ul className="collapse">
                     {this.state.modulos.includes(
-                      "5f4b7113-ff26-4a2d-8506-b6445e5eb4be"
+                      "f91cdcdd-6623-47d7-ae19-87b75e966ff6"
                     ) && (
                       <li>
                         <NavLink to="/administracion/modulos">
@@ -407,7 +409,7 @@ class Header extends Component {
                     )}
 
                     {this.state.modulos.includes(
-                      "3f689ee9-b3e1-439b-84ca-fee6d5c1781c"
+                      "289fd42f-b5d7-430f-a753-13ec027e4134"
                     ) ? (
                       <li>
                         <NavLink to="/administracion/roles">

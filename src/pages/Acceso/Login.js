@@ -10,8 +10,8 @@ export default class Login extends Component {
   }
 
   inicial_state = {
-    username: "ariel2294",
-    password: "KM4JELG76X3D",
+    username: "arielopez229422@gmail.com",
+    password: "12345",
     logueando: false,
     error_credenciales: false,
     error_login: false,
@@ -30,7 +30,7 @@ export default class Login extends Component {
     });
     if (this.state.username !== "" && this.state.password !== "") {
       const data = {
-        user_name: this.state.username,
+        correo_electronico: this.state.username,
         password: this.state.password,
       };
       if (this.state.logueando === false) {
@@ -45,7 +45,6 @@ export default class Login extends Component {
             switch (result.status) {
               case 200:
                 let datos = result.data;
-                Encryption.setSession("username", datos.acceso.user_name);
 
                 Encryption.setSession("alias", datos.acceso.alias);
                 Encryption.setSession("correo", datos.acceso.correo);
