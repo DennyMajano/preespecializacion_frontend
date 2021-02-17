@@ -318,7 +318,7 @@ export default class TablaFilter extends Component {
               expandRow={this.props.expand}
               rowClasses={this.props.rowClasses}
               selectRow={this.props.selectRow}
-              classes="table color-bordered-table info-bordered-table"
+              classes="table color-bordered-table muted-bordered-table"
               bordered={true}
             />
           </div>
