@@ -18,7 +18,17 @@ export default class Usuarios extends Component {
       text: "correo",
       hidden: true,
     },
-
+    {
+      dataField: "persona_codigo",
+      text: "CÓDIGO",
+      sort: true,
+      formatter: (cellContent, row) => {
+        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+      },
+      headerStyle: () => {
+        return { width: "10%", textAlign: "center" };
+      },
+    },
     {
       dataField: "nombre",
       text: "NOMBRE",
@@ -27,12 +37,12 @@ export default class Usuarios extends Component {
         return <p className="ml-4">{cellContent.toUpperCase()}</p>;
       },
       headerStyle: () => {
-        return { width: "25%", textAlign: "center" };
+        return { width: "15%", textAlign: "center" };
       },
     },
     {
-      dataField: "user_name",
-      text: "NOMBRE USUARIO",
+      dataField: "correo_electronico",
+      text: "CORREO",
       sort: true,
       formatter: (cellContent, row) => {
         return <p>{cellContent}</p>;
@@ -42,32 +52,36 @@ export default class Usuarios extends Component {
       },
     },
     {
-      dataField: "nombre_sistema",
-      text: "ALIAS",
+      dataField: "ultimo_login",
+      text: "ÚLT. LOGIN",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p>{cellContent.toUpperCase()}</p>;
+        if (cellContent !== null) {
+          return <p className="text-center">{cellContent}</p>;
+        } else {
+          return <p className="text-center">SIN INICIOS</p>;
+        }
       },
       headerStyle: () => {
-        return { width: "10%", textAlign: "center" };
+        return { width: "15%", textAlign: "center" };
       },
     },
 
     {
-      dataField: "condicion",
+      dataField: "estado",
       text: "ESTADO",
       sort: true,
       formatter: (cellContent, row) => {
-        if (row.condicion === 1) {
+        if (cellContent === 1) {
           return (
             <p className="text-center">
               <span className="label label-info">ACTIVO</span>
             </p>
           );
-        } else if (row.condicion === 0) {
+        } else if (cellContent === 0) {
           return (
             <p className="text-center">
-              <span className="label label-danger">INACTIVO</span>
+              <span className="label label-danger">BLOQUEADO</span>
             </p>
           );
         }
@@ -77,20 +91,20 @@ export default class Usuarios extends Component {
       },
     },
     {
-      dataField: "bloqueo",
-      text: "BLOQUEADO",
+      dataField: "password_defecto",
+      text: "PASSWORD CAMBIO",
       sort: true,
       formatter: (cellContent, row) => {
-        if (row.bloqueo === 0) {
+        if (cellContent === 0) {
           return (
             <p className="text-center">
-              <span className="label label-info">NO</span>
+              <span className="label label-info">SI</span>
             </p>
           );
         } else {
           return (
             <p className="text-center">
-              <span className="label label-inverse">BLOQUEADO</span>
+              <span className="label label-inverse">NO</span>
             </p>
           );
         }

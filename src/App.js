@@ -100,7 +100,7 @@ function App() {
             path="/administracion/usuarios"
             component={Authorization(
               Usuarios,
-              "b2368e0e-cf14-4168-bfb6-68b851781fbe"
+              "0e265555-6b54-4f97-b520-c836c4f7b215"
             )}
           />
           <PrivateRoute
@@ -108,7 +108,7 @@ function App() {
             path="/administracion/usuarios/new"
             component={Authorization(
               UsuariosForm,
-              "b2368e0e-cf14-4168-bfb6-68b851781fbe"
+              "0e265555-6b54-4f97-b520-c836c4f7b215"
             )}
           />
 
@@ -117,7 +117,7 @@ function App() {
             path="/administracion/usuarios/update/:id"
             component={Authorization(
               UsuariosForm,
-              "b2368e0e-cf14-4168-bfb6-68b851781fbe"
+              "0e265555-6b54-4f97-b520-c836c4f7b215"
             )}
           />
           {/**FIN RUTAS USUARIOS */}

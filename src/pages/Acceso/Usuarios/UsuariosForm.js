@@ -21,24 +21,28 @@ export default class UsuariosForm extends Component {
       ? "Actualización de usuarios"
       : "Registro de usuarios",
 
-    nombre: "",
+    persona: "",
+    iglesia: "",
+
     alias: "",
     rol: "",
-    roles: "",
+    roles: [],
     disabled_select_rol: true,
+    disabled_select_persona: true,
+    disabled_select_iglesi: true,
     correo: "",
-    username: "",
-    imagen: null,
     loading: false,
 
     redirect: false,
 
+    personas: [],
+    iglesias: [],
     //correo
     correo_old: null,
     correo_existe: false,
     //user
-    user_old: null,
-    user_existe: false,
+    persona_old: null,
+    persona_existe: false,
   };
   handleInputChange = (e) => {
     const idComponente = e.target.id;
@@ -73,8 +77,6 @@ export default class UsuariosForm extends Component {
   };
   componentDidMount() {
     this.setState({ roles: this.getRoles() });
-
-    document.getElementById("nombre").focus();
 
     this.getUsuarioById();
   }
@@ -242,44 +244,47 @@ export default class UsuariosForm extends Component {
   }
 
   timer_usuario = null;
-  validar_usuario(user) {
+  validar_persona(persona) {
     clearTimeout(this.timer_usuario);
 
     if (this.props.match.params.id) {
-      if (this.state.user_old !== null && user !== this.state.user_old) {
+      if (
+        this.state.persona_old !== null &&
+        persona !== this.state.persona_old
+      ) {
         this.timer_usuario = setTimeout(() => {
-          Request.GET("usuarios/validar/user", user).then((result) => {
+          Request.GET("usuarios/validar/persona", persona).then((result) => {
             if (result !== false) {
               if (result.status === 200) {
                 if (result.data.valor === 1) {
-                  this.setState({ user_existe: true });
+                  this.setState({ persona_existe: true });
                 } else {
-                  this.setState({ user_existe: false });
+                  this.setState({ persona_existe: false });
                 }
               } else {
-                this.setState({ user_existe: false });
+                this.setState({ persona_existe: false });
               }
             } else {
-              this.setState({ user_existe: false });
+              this.setState({ persona_existe: false });
             }
           });
         }, 800);
       }
     } else {
       this.timer_usuario = setTimeout(() => {
-        Request.GET("usuarios/validar/user", user).then((result) => {
+        Request.GET("usuarios/validar/persona", persona).then((result) => {
           if (result !== false) {
             if (result.status === 200) {
               if (result.data.valor === 1) {
-                this.setState({ user_existe: true });
+                this.setState({ persona_existe: true });
               } else {
-                this.setState({ user_existe: false });
+                this.setState({ persona_existe: false });
               }
             } else {
-              this.setState({ user_existe: false });
+              this.setState({ persona_existe: false });
             }
           } else {
-            this.setState({ user_existe: false });
+            this.setState({ persona_existe: false });
           }
         });
       }, 800);
@@ -325,91 +330,102 @@ export default class UsuariosForm extends Component {
           <div className="form-body">
             <div className="row p-t-20">
               <div className="col-lg-3 form-group">
-                <label htmlFor="">Nombre:(*)</label>
+                <label htmlFor="">Persona: (*)</label>
 
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Nombre"
-                  id="nombre"
-                  value={this.state.nombre}
-                  onChange={this.handleInputChange}
+                <AsyncSelect
+                  id="persona"
+                  name="persona"
+                  placeholder="Seleccione una opción"
+                  value={this.state.persona}
+                  isClearable={true}
+                  loadOptions={this.getPersonasParam}
+                  defaultOptions={this.state.personas}
+                  isDisabled={this.state.disabled_select_persona}
+                  onChange={(e) => {
+                    this.setState({ persona: e });
+                  }}
+                  noOptionsMessage={() => {
+                    return "No existen datos";
+                  }}
                 />
                 {this.validator.message(
-                  "nombre",
-                  this.state.nombre,
+                  "persona",
+                  this.state.persona,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "nombre",
-                      this.state.nombre,
+                      "persona",
+                      this.state.persona,
                       "required"
                     )}
                   </span>
                 )}
               </div>
-              {!this.props.match.params.id ? (
-                <div className="col-lg-3 form-group">
-                  <label htmlFor="">Nombre Usuario:(*)</label>
-
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Username"
-                    id="username"
-                    value={this.state.username}
-                    onChange={this.handleInputChange}
-                    onKeyUp={this.validar_usuario.bind(
-                      this,
-                      this.state.username
-                    )}
-                  />
-                  {this.validator.message(
-                    "nombre usuario",
-                    this.state.username,
-                    "required"
-                  ) && (
-                    <span className="label label-light-danger">
-                      {this.validator.message(
-                        "nombre usuario",
-                        this.state.username,
-                        "required"
-                      )}
-                    </span>
-                  )}
-
-                  {this.state.user_existe === true ? (
-                    <span className="label label-light-danger">
-                      Nombre de usuarios ya existe
-                    </span>
-                  ) : null}
-                </div>
-              ) : null}
               <div className="col-lg-3 form-group">
-                <label htmlFor="">Alias:(*)</label>
+                <label htmlFor="">Iglesia: (*)</label>
 
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Alias"
-                  id="alias"
-                  value={this.state.alias}
-                  onChange={this.handleInputChange}
+                <AsyncSelect
+                  id="iglesia"
+                  name="iglesia"
+                  placeholder="Seleccione una opción"
+                  value={this.state.iglesia}
+                  isClearable={true}
+                  loadOptions={this.getIglesiasParam}
+                  defaultOptions={this.state.iglesias}
+                  isDisabled={this.state.disabled_select_iglesi}
+                  onChange={(e) => {
+                    this.setState({ iglesia: e });
+                  }}
+                  noOptionsMessage={() => {
+                    return "No existen datos";
+                  }}
                 />
                 {this.validator.message(
-                  "alias",
-                  this.state.alias,
+                  "iglesia",
+                  this.state.iglesia,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "alias",
-                      this.state.alias,
+                      "iglesia",
+                      this.state.iglesia,
                       "required"
                     )}
                   </span>
                 )}
+              </div>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Correo electrónico:(*)</label>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Escriba correo electrónico"
+                  id="correo"
+                  value={this.state.correo}
+                  onChange={this.handleInputChange}
+                  onKeyUp={this.validar_correo.bind(this, this.state.correo)}
+                />
+                {this.validator.message(
+                  "correo electrónico",
+                  this.state.correo,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "correo electrónico",
+                      this.state.correo,
+                      "required"
+                    )}
+                  </span>
+                )}
+
+                {this.state.correo_existe === true ? (
+                  <span className="label label-light-danger">
+                    Correo electrónico ya éxiste
+                  </span>
+                ) : null}
               </div>
               <div className="col-lg-3 form-group">
                 <label htmlFor="">Rol: (*)</label>
@@ -444,53 +460,31 @@ export default class UsuariosForm extends Component {
                   </span>
                 )}
               </div>
-
               <div className="col-lg-3 form-group">
-                <label htmlFor="">Correo electrónico:(*)</label>
+                <label htmlFor="">Alias:(*)</label>
 
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Escriba correo electrónico"
-                  id="correo"
-                  value={this.state.correo}
+                  placeholder="Alias"
+                  id="alias"
+                  value={this.state.alias}
                   onChange={this.handleInputChange}
-                  onKeyUp={this.validar_correo.bind(this, this.state.correo)}
                 />
                 {this.validator.message(
-                  "correo electrónico",
-                  this.state.correo,
+                  "alias",
+                  this.state.alias,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "correo electrónico",
-                      this.state.correo,
+                      "alias",
+                      this.state.alias,
                       "required"
                     )}
                   </span>
                 )}
-
-                {this.state.correo_existe === true ? (
-                  <span className="label label-light-danger">
-                    Correo electrónico ya éxiste
-                  </span>
-                ) : null}
               </div>
-
-              {!this.props.match.params.id ? (
-                <div className="col-lg-3 form-group">
-                  <label htmlFor="">Fotografía:</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    placeholder="Imagen"
-                    id="imagen"
-                    name="imagen"
-                    onChange={this.handleFileChange}
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
         </LayoutPanelFormulario>

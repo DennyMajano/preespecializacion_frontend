@@ -420,7 +420,7 @@ class Header extends Component {
                     ) : null}
 
                     {this.state.modulos.includes(
-                      "b2368e0e-cf14-4168-bfb6-68b851781fbe"
+                      "0e265555-6b54-4f97-b520-c836c4f7b215"
                     ) && (
                       <li>
                         <NavLink to="/administracion/usuarios">
