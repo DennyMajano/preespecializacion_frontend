@@ -23,7 +23,7 @@ export default class Usuarios extends Component {
       text: "CÓDIGO",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        return <p className="ml-4 text-center">{cellContent.toUpperCase()}</p>;
       },
       headerStyle: () => {
         return { width: "10%", textAlign: "center" };
@@ -34,10 +34,19 @@ export default class Usuarios extends Component {
       text: "NOMBRE",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        if (row.id === Encrypt.getSession("usuario")) {
+          return (
+            <p className="ml-4">
+              {cellContent}{" "}
+              <span className="badge badge-info ml-2">Eres tú</span>{" "}
+            </p>
+          );
+        } else {
+          return <p className="ml-4">{cellContent}</p>;
+        }
       },
       headerStyle: () => {
-        return { width: "15%", textAlign: "center" };
+        return { width: "17%", textAlign: "center" };
       },
     },
     {
@@ -49,6 +58,17 @@ export default class Usuarios extends Component {
       },
       headerStyle: () => {
         return { width: "15%", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "rol",
+      text: "ROL ASIGNADO",
+      sort: true,
+      formatter: (cellContent, row) => {
+        return <p>{cellContent}</p>;
+      },
+      headerStyle: () => {
+        return { width: "12%", textAlign: "center" };
       },
     },
     {
@@ -166,10 +186,13 @@ export default class Usuarios extends Component {
       if (res) {
         const data = {
           code: props.id,
-          status: 0,
+          estado: 0,
         };
+        Alerts.loading_reload(true);
 
-        Request.PUT("usuarios/disable_enable", data).then((result) => {
+        Request.POST("usuarios/bloqueo", data).then((result) => {
+          Alerts.loading_reload(false);
+
           if (result !== false) {
             if (result.status === 200) {
               Alerts.alertEmpty(
@@ -204,10 +227,12 @@ export default class Usuarios extends Component {
       if (res) {
         const data = {
           code: props.id,
-          status: 1,
+          estado: 1,
         };
+        Alerts.loading_reload(true);
+        Request.POST("usuarios/bloqueo", data).then((result) => {
+          Alerts.loading_reload(false);
 
-        Request.PUT("usuarios/disable_enable", data).then((result) => {
           if (result !== false) {
             if (result.status === 200) {
               Alerts.alertEmpty(
@@ -240,7 +265,7 @@ export default class Usuarios extends Component {
       e.preventDefault();
 
       if (row.id !== Encrypt.getSession("usuario")) {
-        if (row.condicion === 1) {
+        if (row.estado === 1) {
           contextMenu.show({
             id: "menu_usuarios",
             event: e,
@@ -249,7 +274,7 @@ export default class Usuarios extends Component {
               correo: row.correo,
             },
           });
-        } else if (row.condicion === 0) {
+        } else if (row.estado === 0) {
           contextMenu.show({
             id: "menu_usuarios_bloqueado",
             event: e,
@@ -304,7 +329,7 @@ export default class Usuarios extends Component {
                   </Item>
                   <Separator />
                   <Item onClick={this.desbloquear}>
-                    <IconFont className="fa fa-pencil" /> DESBLOQUEAR
+                    <IconFont className="fa fa-unlock" /> DESBLOQUEAR
                   </Item>
                 </Menu>
               </div>
