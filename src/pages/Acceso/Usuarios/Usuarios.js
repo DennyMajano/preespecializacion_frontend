@@ -219,6 +219,46 @@ export default class Usuarios extends Component {
       }
     });
   };
+  delete = async ({ event, props }) => {
+    Alerts.Question(
+      "¿Está seguro que desea eliminar el usuario?",
+      "Administración de usuarios"
+    ).then((res) => {
+      if (res) {
+        const data = {
+          code: props.id,
+        };
+        Alerts.loading_reload(true);
+
+        Request.DELETE("usuarios", data).then((result) => {
+          Alerts.loading_reload(false);
+
+          if (result !== false) {
+            if (result.status === 200) {
+              Alerts.alertEmpty(
+                "¡Usuario eliminado con éxito!",
+                "Administración de usuarios",
+                "success"
+              );
+              this.refs.tabla.getData("usuarios/all");
+            } else {
+              Alerts.alertEmpty(
+                "No fue posible eliminar el usuario!",
+                "Administración de usuarios",
+                "error"
+              );
+            }
+          } else {
+            Alerts.alertEmpty(
+              "No fue posible eliminar el usuario!",
+              "Administración de usuarios",
+              "error"
+            );
+          }
+        });
+      }
+    });
+  };
   desbloquear = async ({ event, props }) => {
     Alerts.Question(
       "¿Está seguro que desea desbloquear el usuario?",
@@ -318,6 +358,10 @@ export default class Usuarios extends Component {
                     <IconFont className="fa fa-lock" /> BLOQUEAR
                   </Item>
                   <Separator />
+                  <Item onClick={this.delete}>
+                    <IconFont className="fa fa-trash" /> ELIMINAR
+                  </Item>
+                  <Separator />
                   <Item onClick={this.resetPassword}>
                     <IconFont className="fa fa-key" /> RESTABLECER CONTRASEÑA
                   </Item>
@@ -330,6 +374,10 @@ export default class Usuarios extends Component {
                   <Separator />
                   <Item onClick={this.desbloquear}>
                     <IconFont className="fa fa-unlock" /> DESBLOQUEAR
+                  </Item>
+                  <Separator />
+                  <Item onClick={this.delete}>
+                    <IconFont className="fa fa-trash" /> ELIMINAR
                   </Item>
                 </Menu>
               </div>
