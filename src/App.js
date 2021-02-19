@@ -24,6 +24,7 @@ import RolesModulos from "./pages/Acceso/Roles/RolesModulos";
 import Usuarios from "./pages/Acceso/Usuarios/Usuarios";
 
 import UsuariosForm from "./pages/Acceso/Usuarios/UsuariosForm";
+import ValidarAcceso from "./pages/Acceso/ValidarAcceso";
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
       <MainLayout>
         <Switch>
           <Route exact path="/login" component={Login} />
+          <Route
+            exact
+            path="/validar_acceso/:codigo"
+            component={ValidarAcceso}
+          />
           <PrivateRoute exact path="/" component={Test} />
 
           {/**INICIO RUTAS ROLES */}
