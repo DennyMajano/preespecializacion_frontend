@@ -25,6 +25,7 @@ import Usuarios from "./pages/Acceso/Usuarios/Usuarios";
 
 import UsuariosForm from "./pages/Acceso/Usuarios/UsuariosForm";
 import ValidarAcceso from "./pages/Acceso/ValidarAcceso";
+import SolicitarCorreoEnlace from "./pages/Acceso/SolicitarCorreoEnlace";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             path="/validar_acceso/:codigo"
             component={ValidarAcceso}
           />
+          <Route exact path="/restaurar_acceso" component={SolicitarCorreoEnlace}></Route>
           <PrivateRoute exact path="/" component={Test} />
 
           {/**INICIO RUTAS ROLES */}

@@ -144,13 +144,14 @@ export default class Usuarios extends Component {
       "Administración de usuarios"
     ).then((res) => {
       if (res) {
+        console.log(props);
         Alerts.loading_reload(true);
         const data = {
-          code: props.id,
-          correo: props.correo,
+          email: props.correo,
+          changeRequestType: 3
         };
 
-        Request.PUT("usuarios/restablecer_pass", data).then((result) => {
+        Request.PUT("usuarios/request_new_password", data).then((result) => {
           Alerts.loading_reload(false);
 
           if (result !== false) {
@@ -311,7 +312,7 @@ export default class Usuarios extends Component {
             event: e,
             props: {
               id: row.id,
-              correo: row.correo,
+              correo: row.correo_electronico,
             },
           });
         } else if (row.estado === 0) {
@@ -320,7 +321,7 @@ export default class Usuarios extends Component {
             event: e,
             props: {
               id: row.id,
-              correo: row.correo,
+              correo: row.correo_electronico,
             },
           });
         }

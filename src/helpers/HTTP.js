@@ -54,6 +54,30 @@ class HTTP {
     });
     return resp;
   }
+  async putRequest(
+    data_update,
+    mensaje_exito,
+    mensaje_error,
+    ruta_api_name,
+    ip = ""
+  ) {
+    let resp = null;
+
+    await Request.PUT(ruta_api_name, data_update, ip).then((result) => {
+      if (result !== false) {
+        if (result.status === 200 || result.status === 201) {
+          Alert.alertEmpty("Completado",mensaje_exito,"success");
+          resp = true;
+        } else {
+          Alert.alertEmpty("Error",mensaje_error,"error")
+          resp = false;
+        }
+      } else {
+        resp = false;
+      }
+    });
+    return resp;
+  }
   async update_admin(
     data_update,
     nombre_modulo,

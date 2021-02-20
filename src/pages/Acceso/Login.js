@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Encryption from "../../services/Encrypt";
 import Request from "../../services/Request";
 export default class Login extends Component {
@@ -193,12 +193,7 @@ export default class Login extends Component {
                   <div className="col-sm-12 text-center">
                     <p>
                       ¿Olvidaste tu contraseña?{" "}
-                      <a
-                        href="pages-register2.html"
-                        className="text-primary m-l-5"
-                      >
-                        <b>Restablecer</b>
-                      </a>
+                        <Link to="/restaurar_acceso">Restaurar</Link>
                     </p>
                   </div>
                 </div>
