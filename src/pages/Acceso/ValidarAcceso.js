@@ -13,6 +13,7 @@ export default class ValidarAcceso extends Component {
     super(props);
     this.state = {
       passwordEquals:null,
+      loading: false,
       type: 0,
       estado: null,
       token: this.props.match.params.codigo,
@@ -67,31 +68,42 @@ export default class ValidarAcceso extends Component {
         type:this.state.type
       }
 
-      Request.PUT("usuarios/change_password",data)
-      .then(
-        result => {
-          console.log(result);
-          if(result.data.estado == true){
-            Alerts.alertEmpty(
-              "Contraseña cambiada",
-              "La contraseña ha sido cambiada correctamente",
-              "success");
-            this.setState({redirect: true})
+      if(this.state.loading===false){
+        this.setState(
+          {
+            loading: true
           }
-          else if(result.data.estado == false){
-            Alerts.alertEmpty(
-              "Codigo incorrecto",
-              "El codigo de seguridad esta equivocado",
-              "error");
+        );
+        Request.PUT("usuarios/change_password",data)
+        .then(
+          result => {
+            this.setState(
+              {
+                loading: false
+              }
+            );
+            if(result.data.estado == true){
+              Alerts.alertEmpty(
+                "Contraseña cambiada",
+                "La contraseña ha sido cambiada correctamente",
+                "success");
+              this.setState({redirect: true})
+            }
+            else if(result.data.estado == false){
+              Alerts.alertEmpty(
+                "Codigo incorrecto",
+                "El codigo de seguridad esta equivocado",
+                "error");
+            }
+            else{
+              Alerts.alertEmpty(
+                "Error al procesar",
+                "Ocurrió un error",
+                "error");
+            }
           }
-          else{
-            Alerts.alertEmpty(
-              "Error al procesar",
-              "Ocurrió un error",
-              "error");
-          }
-        }
-      );
+        );
+      }
     }
     else{
       this.validator.showMessages();
@@ -212,8 +224,11 @@ export default class ValidarAcceso extends Component {
                     <button
                       className="btn btn-inverse btn-lg btn-block text-uppercase waves-effect waves-light"
                       type="submit"
+                      disabled= {this.state.loading}
                     >
-                      Enviar
+                      {!this.state.loading
+                      ? "Enviar"
+                      : "Enviando..."}
                     </button>
                   </div>
                 </div>

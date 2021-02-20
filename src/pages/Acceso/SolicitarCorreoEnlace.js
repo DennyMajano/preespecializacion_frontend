@@ -11,7 +11,8 @@ export default class SolicitarCorreoEnlace extends Component {
         super(props);
         this.state={
             email: "",
-            redirect: false
+            redirect: false,
+            loading: false
         }
         this.init_validator();
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -29,22 +30,32 @@ export default class SolicitarCorreoEnlace extends Component {
           email: this.state.email,
           changeRequestType: 1
         }
-        HTTP.putRequest(
-          data,
-          "Un correo se ha enviado a la dirección proporcionada",
-          "No se ha podido enviar un correo electronico",
-          "usuarios/request_new_password")
-        .then( 
-            (result) => {
-                console.log(result);
-                console.log("FIN");
-            if(result){
+
+        if(this.state.loading===false){
+          this.setState({
+            loading:true
+          });
+          HTTP.putRequest(
+            data,
+            "Un correo se ha enviado a la dirección proporcionada",
+            "No se ha podido enviar un correo electronico",
+            "usuarios/request_new_password")
+          .then( 
+              (result) => {
+              if(result){
                 this.setState({
-                    redirect: true
+                  loading:false
+                });
+                this.setState({
+                  redirect: true
                 })
-            }
-          })
-          .catch(err=>console.log(err))
+              }
+            })
+            
+
+        }
+
+       
       } 
       else{
         this.validator.showMessages();
@@ -97,7 +108,7 @@ export default class SolicitarCorreoEnlace extends Component {
                             className="form-control"
                             type="text"
                             name ="email"
-                                                
+                            value={this.state.email}      
                             placeholder="usuario@mail.com"
                             onChange={(e)=>{
                                 this.setState({
@@ -113,9 +124,12 @@ export default class SolicitarCorreoEnlace extends Component {
                           <button
                             className="btn btn-inverse btn-lg btn-block text-uppercase waves-effect waves-light"
                             type="submit"
-                           
+                            disabled={this.state.loading}
                           >
-                            Enviar enlace
+                           {!this.state.loading
+                           ? "Enviar correo"
+                          : "Enviando..."
+                          }
                           </button>
                         </div>
                       </div>
