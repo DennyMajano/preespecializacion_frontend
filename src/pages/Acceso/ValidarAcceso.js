@@ -82,14 +82,14 @@ export default class ValidarAcceso extends Component {
                 loading: false
               }
             );
-            if(result.data.estado == true){
+            if(result.data.estado === true){
               Alerts.alertEmpty(
                 "Contraseña cambiada",
                 "La contraseña ha sido cambiada correctamente",
                 "success");
               this.setState({redirect: true})
             }
-            else if(result.data.estado == false){
+            else if(result.data.estado === false){
               Alerts.alertEmpty(
                 "Codigo incorrecto",
                 "El codigo de seguridad esta equivocado",
@@ -118,7 +118,7 @@ export default class ValidarAcceso extends Component {
   }
 
   onPasswordsEntered(){
-    if(this.state.password1 == this.state.password2){
+    if(this.state.password1 === this.state.password2){
       this.setState({
         passwordEquals: true
       });
@@ -159,7 +159,7 @@ export default class ValidarAcceso extends Component {
               >
                 <h3 className="box-title m-b-20">Verificación de acceso</h3>
                 {
-                (this.state.type==2 || this.state.type==3) &&
+                (this.state.type===2 || this.state.type===3) &&
                 <div className="form-group ">
                   <div className="col-xs-12">
                     <label htmlFor="">Código de seguridad:</label>
@@ -257,13 +257,13 @@ export default class ValidarAcceso extends Component {
     );
   }
   renderCorrectUI(){
-    if(this.state.estado == 1){
+    if(this.state.estado === 1){
       return this.formForNewPassword();
     }
-    else if(this.state.estado == 0){
+    else if(this.state.estado === 0){
       return this.expiredMessage();
     }
-    else if(this.state.estado == -1){
+    else if(this.state.estado === -1){
       this.setState({
         redirect: true
       });
