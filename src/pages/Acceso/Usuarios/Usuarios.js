@@ -18,21 +18,40 @@ export default class Usuarios extends Component {
       text: "correo",
       hidden: true,
     },
-
+    {
+      dataField: "persona_codigo",
+      text: "CÓDIGO",
+      sort: true,
+      formatter: (cellContent, row) => {
+        return <p className="ml-4 text-center">{cellContent.toUpperCase()}</p>;
+      },
+      headerStyle: () => {
+        return { width: "10%", textAlign: "center" };
+      },
+    },
     {
       dataField: "nombre",
       text: "NOMBRE",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        if (row.id === Encrypt.getSession("usuario")) {
+          return (
+            <p className="ml-4">
+              {cellContent}{" "}
+              <span className="badge badge-info ml-2">Eres tú</span>{" "}
+            </p>
+          );
+        } else {
+          return <p className="ml-4">{cellContent}</p>;
+        }
       },
       headerStyle: () => {
-        return { width: "25%", textAlign: "center" };
+        return { width: "17%", textAlign: "center" };
       },
     },
     {
-      dataField: "user_name",
-      text: "NOMBRE USUARIO",
+      dataField: "correo_electronico",
+      text: "CORREO",
       sort: true,
       formatter: (cellContent, row) => {
         return <p>{cellContent}</p>;
@@ -42,32 +61,47 @@ export default class Usuarios extends Component {
       },
     },
     {
-      dataField: "nombre_sistema",
-      text: "ALIAS",
+      dataField: "rol",
+      text: "ROL ASIGNADO",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p>{cellContent.toUpperCase()}</p>;
+        return <p>{cellContent}</p>;
       },
       headerStyle: () => {
-        return { width: "10%", textAlign: "center" };
+        return { width: "12%", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "ultimo_login",
+      text: "ÚLT. LOGIN",
+      sort: true,
+      formatter: (cellContent, row) => {
+        if (cellContent !== null) {
+          return <p className="text-center">{cellContent}</p>;
+        } else {
+          return <p className="text-center">SIN INICIOS</p>;
+        }
+      },
+      headerStyle: () => {
+        return { width: "15%", textAlign: "center" };
       },
     },
 
     {
-      dataField: "condicion",
+      dataField: "estado",
       text: "ESTADO",
       sort: true,
       formatter: (cellContent, row) => {
-        if (row.condicion === 1) {
+        if (cellContent === 1) {
           return (
             <p className="text-center">
               <span className="label label-info">ACTIVO</span>
             </p>
           );
-        } else if (row.condicion === 0) {
+        } else if (cellContent === 0) {
           return (
             <p className="text-center">
-              <span className="label label-danger">INACTIVO</span>
+              <span className="label label-danger">BLOQUEADO</span>
             </p>
           );
         }
@@ -77,20 +111,20 @@ export default class Usuarios extends Component {
       },
     },
     {
-      dataField: "bloqueo",
-      text: "BLOQUEADO",
+      dataField: "password_defecto",
+      text: "PASSWORD CAMBIO",
       sort: true,
       formatter: (cellContent, row) => {
-        if (row.bloqueo === 0) {
+        if (cellContent === 0) {
           return (
             <p className="text-center">
-              <span className="label label-info">NO</span>
+              <span className="label label-info">SI</span>
             </p>
           );
         } else {
           return (
             <p className="text-center">
-              <span className="label label-inverse">BLOQUEADO</span>
+              <span className="label label-inverse">NO</span>
             </p>
           );
         }
@@ -110,13 +144,14 @@ export default class Usuarios extends Component {
       "Administración de usuarios"
     ).then((res) => {
       if (res) {
+        console.log(props);
         Alerts.loading_reload(true);
         const data = {
-          code: props.id,
-          correo: props.correo,
+          email: props.correo,
+          changeRequestType: 3
         };
 
-        Request.PUT("usuarios/restablecer_pass", data).then((result) => {
+        Request.PUT("usuarios/request_new_password", data).then((result) => {
           Alerts.loading_reload(false);
 
           if (result !== false) {
@@ -152,10 +187,13 @@ export default class Usuarios extends Component {
       if (res) {
         const data = {
           code: props.id,
-          status: 0,
+          estado: 0,
         };
+        Alerts.loading_reload(true);
 
-        Request.PUT("usuarios/disable_enable", data).then((result) => {
+        Request.POST("usuarios/bloqueo", data).then((result) => {
+          Alerts.loading_reload(false);
+
           if (result !== false) {
             if (result.status === 200) {
               Alerts.alertEmpty(
@@ -182,6 +220,46 @@ export default class Usuarios extends Component {
       }
     });
   };
+  delete = async ({ event, props }) => {
+    Alerts.Question(
+      "¿Está seguro que desea eliminar el usuario?",
+      "Administración de usuarios"
+    ).then((res) => {
+      if (res) {
+        const data = {
+          code: props.id,
+        };
+        Alerts.loading_reload(true);
+
+        Request.DELETE("usuarios", data).then((result) => {
+          Alerts.loading_reload(false);
+
+          if (result !== false) {
+            if (result.status === 200) {
+              Alerts.alertEmpty(
+                "¡Usuario eliminado con éxito!",
+                "Administración de usuarios",
+                "success"
+              );
+              this.refs.tabla.getData("usuarios/all");
+            } else {
+              Alerts.alertEmpty(
+                "No fue posible eliminar el usuario!",
+                "Administración de usuarios",
+                "error"
+              );
+            }
+          } else {
+            Alerts.alertEmpty(
+              "No fue posible eliminar el usuario!",
+              "Administración de usuarios",
+              "error"
+            );
+          }
+        });
+      }
+    });
+  };
   desbloquear = async ({ event, props }) => {
     Alerts.Question(
       "¿Está seguro que desea desbloquear el usuario?",
@@ -190,10 +268,12 @@ export default class Usuarios extends Component {
       if (res) {
         const data = {
           code: props.id,
-          status: 1,
+          estado: 1,
         };
+        Alerts.loading_reload(true);
+        Request.POST("usuarios/bloqueo", data).then((result) => {
+          Alerts.loading_reload(false);
 
-        Request.PUT("usuarios/disable_enable", data).then((result) => {
           if (result !== false) {
             if (result.status === 200) {
               Alerts.alertEmpty(
@@ -226,22 +306,22 @@ export default class Usuarios extends Component {
       e.preventDefault();
 
       if (row.id !== Encrypt.getSession("usuario")) {
-        if (row.condicion === 1) {
+        if (row.estado === 1) {
           contextMenu.show({
             id: "menu_usuarios",
             event: e,
             props: {
               id: row.id,
-              correo: row.correo,
+              correo: row.correo_electronico,
             },
           });
-        } else if (row.condicion === 0) {
+        } else if (row.estado === 0) {
           contextMenu.show({
             id: "menu_usuarios_bloqueado",
             event: e,
             props: {
               id: row.id,
-              correo: row.correo,
+              correo: row.correo_electronico,
             },
           });
         }
@@ -279,6 +359,10 @@ export default class Usuarios extends Component {
                     <IconFont className="fa fa-lock" /> BLOQUEAR
                   </Item>
                   <Separator />
+                  <Item onClick={this.delete}>
+                    <IconFont className="fa fa-trash" /> ELIMINAR
+                  </Item>
+                  <Separator />
                   <Item onClick={this.resetPassword}>
                     <IconFont className="fa fa-key" /> RESTABLECER CONTRASEÑA
                   </Item>
@@ -290,7 +374,11 @@ export default class Usuarios extends Component {
                   </Item>
                   <Separator />
                   <Item onClick={this.desbloquear}>
-                    <IconFont className="fa fa-pencil" /> DESBLOQUEAR
+                    <IconFont className="fa fa-unlock" /> DESBLOQUEAR
+                  </Item>
+                  <Separator />
+                  <Item onClick={this.delete}>
+                    <IconFont className="fa fa-trash" /> ELIMINAR
                   </Item>
                 </Menu>
               </div>

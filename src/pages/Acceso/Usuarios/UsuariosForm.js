@@ -21,24 +21,28 @@ export default class UsuariosForm extends Component {
       ? "Actualización de usuarios"
       : "Registro de usuarios",
 
-    nombre: "",
+    persona: "",
+    iglesia: "IG_TEST",
+
     alias: "",
     rol: "",
-    roles: "",
+    roles: [],
     disabled_select_rol: true,
+    disabled_select_persona: true,
+    disabled_select_iglesi: true,
     correo: "",
-    username: "",
-    imagen: null,
     loading: false,
 
     redirect: false,
 
+    personas: [],
+    iglesias: [],
     //correo
     correo_old: null,
     correo_existe: false,
     //user
-    user_old: null,
-    user_existe: false,
+    persona_old: null,
+    persona_existe: false,
   };
   handleInputChange = (e) => {
     const idComponente = e.target.id;
@@ -72,9 +76,7 @@ export default class UsuariosForm extends Component {
     }
   };
   componentDidMount() {
-    this.setState({ roles: this.getRoles() });
-
-    document.getElementById("nombre").focus();
+    this.setState({ roles: this.getRoles(), personas: this.getPersonas() });
 
     this.getUsuarioById();
   }
@@ -123,15 +125,54 @@ export default class UsuariosForm extends Component {
 
     return data;
   }
+  getPersonasParam = (inputValue, callback) => {
+    const tempArray = [];
+
+    if (inputValue !== "" && inputValue !== null) {
+      clearTimeout(this.timer_cuentas);
+      this.timer_cuentas = setTimeout(() => {
+        HTTP.findById(inputValue, "personas/select").then((data) => {
+          if (data !== false) {
+            data.forEach((element) => {
+              tempArray.push({
+                label: element.nombre,
+                value: element.id,
+                codigo: element.codigo,
+              });
+            });
+            callback(tempArray);
+          } else {
+            callback([]);
+          }
+        });
+      }, 500);
+    }
+  };
+  getPersonas() {
+    let data = [];
+
+    HTTP.findAll("personas/select").then((result) => {
+      result.forEach((element) => {
+        data.push({
+          label: element.nombre,
+          value: element.id,
+          codigo: element.codigo,
+        });
+      });
+
+      this.setState({ disabled_select_persona: false });
+    });
+
+    return data;
+  }
 
   getUsuarioById() {
     if (this.props.match.params.id) {
       HTTP.findById(this.props.match.params.id, "usuarios").then((result) => {
         if (result !== false) {
           this.setState({
-            nombre: result.nombre,
             alias: result.alias,
-            correo: result.correo,
+            correo: result.correo_electronico,
             rol: result.rol,
           });
         } else {
@@ -144,50 +185,72 @@ export default class UsuariosForm extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     if (this.validator.allValid()) {
-      this.setState({ loading: true });
+      if (
+        this.state.correo_existe === false &&
+        this.state.persona_existe === false
+      ) {
+        this.setState({ loading: true });
 
-      if (this.props.match.params.id) {
-        const data = {
-          nombre: this.state.nombre,
-          alias: this.state.alias,
-          rol:
-            this.state.rol !== null && this.state.rol !== ""
-              ? this.state.rol.value
-              : null,
-          correo: this.state.correo,
-          code: this.props.match.params.id,
-        };
-        HTTP.update(data, "usuario", "usuarios", "usuarios").then((result) => {
-          this.setState({ loading: false });
-          if (result !== false) {
-            this.setState({ redirect: true });
-          }
-        });
-      } else {
-        const data = new FormData();
-        data.append("nombre", this.state.nombre);
-        data.append("alias", this.state.alias);
-        data.append(
-          "rol",
-          this.state.rol !== null && this.state.rol !== ""
-            ? this.state.rol.value
-            : null
-        );
-        data.append("correo", this.state.correo);
-        data.append("user", this.state.username);
-        if (this.state.imagen !== null) {
-          data.append(
-            "imagen",
-            this.state.imagen,
-            this.state.imagen.name ? this.state.imagen.name : ""
+        if (this.props.match.params.id) {
+          const data = {
+            persona:
+              this.state.persona !== null && this.state.persona !== ""
+                ? this.state.persona.codigo
+                : null,
+            alias: this.state.alias,
+            rol:
+              this.state.rol !== null && this.state.rol !== ""
+                ? this.state.rol.value
+                : null,
+            correo_electronico: this.state.correo,
+            iglesia: this.state.iglesia,
+            code: this.props.match.params.id,
+          };
+          HTTP.update(data, "usuario", "usuarios", "usuarios").then(
+            (result) => {
+              this.setState({ loading: false });
+              if (result !== false) {
+                this.setState({ redirect: true });
+              }
+            }
+          );
+        } else {
+          const data = {
+            persona:
+              this.state.persona !== null && this.state.persona !== ""
+                ? this.state.persona.codigo
+                : null,
+            alias: this.state.alias,
+            rol:
+              this.state.rol !== null && this.state.rol !== ""
+                ? this.state.rol.value
+                : null,
+            correo_electronico: this.state.correo,
+            iglesia: this.state.iglesia,
+          };
+          HTTP.create(data, "usuario", "usuarios", "usuarios").then(
+            (result) => {
+              this.setState({ loading: false });
+              if (result !== false) {
+                this.setState({ redirect: true });
+              }
+            }
           );
         }
-        HTTP.create(data, "usuario", "usuarios", "usuarios").then((result) => {
-          this.setState({ loading: false });
-          if (result !== false) {
-            this.setState({ redirect: true });
-          }
-        });
+      } else {
+        if (this.state.correo_existe === true) {
+          Alerts.alertEmpty(
+            "¡Correo electrónico ingresado ya exíste en el sistema!",
+            "Administración de Usuarios",
+            "warning"
+          );
+        } else if (this.state.persona_existe === true) {
+          Alerts.alertEmpty(
+            "¡Persona selecciona ya tiene credeciales de acceso!",
+            "Administración de Usuarios",
+            "warning"
+          );
+        }
       }
     } else {
       this.validator.showMessages();
@@ -206,7 +269,7 @@ export default class UsuariosForm extends Component {
           Request.GET("usuarios/validar/correo", correo).then((result) => {
             if (result !== false) {
               if (result.status === 200) {
-                if (result.data.valor === 1) {
+                if (result.data.valor > 0) {
                   this.setState({ correo_existe: true });
                 } else {
                   this.setState({ correo_existe: false });
@@ -225,7 +288,7 @@ export default class UsuariosForm extends Component {
         Request.GET("usuarios/validar/correo", correo).then((result) => {
           if (result !== false) {
             if (result.status === 200) {
-              if (result.data.valor === 1) {
+              if (result.data.valor > 0) {
                 this.setState({ correo_existe: true });
               } else {
                 this.setState({ correo_existe: false });
@@ -242,47 +305,50 @@ export default class UsuariosForm extends Component {
   }
 
   timer_usuario = null;
-  validar_usuario(user) {
+  validar_persona(persona) {
     clearTimeout(this.timer_usuario);
 
     if (this.props.match.params.id) {
-      if (this.state.user_old !== null && user !== this.state.user_old) {
+      if (
+        this.state.persona_old !== null &&
+        persona !== this.state.persona_old
+      ) {
         this.timer_usuario = setTimeout(() => {
-          Request.GET("usuarios/validar/user", user).then((result) => {
+          Request.GET("usuarios/validar/persona", persona).then((result) => {
             if (result !== false) {
               if (result.status === 200) {
-                if (result.data.valor === 1) {
-                  this.setState({ user_existe: true });
+                if (result.data.valor > 1) {
+                  this.setState({ persona_existe: true });
                 } else {
-                  this.setState({ user_existe: false });
+                  this.setState({ persona_existe: false });
                 }
               } else {
-                this.setState({ user_existe: false });
+                this.setState({ persona_existe: false });
               }
             } else {
-              this.setState({ user_existe: false });
+              this.setState({ persona_existe: false });
             }
           });
-        }, 800);
+        }, 10);
       }
     } else {
       this.timer_usuario = setTimeout(() => {
-        Request.GET("usuarios/validar/user", user).then((result) => {
+        Request.GET("usuarios/validar/persona", persona).then((result) => {
           if (result !== false) {
             if (result.status === 200) {
-              if (result.data.valor === 1) {
-                this.setState({ user_existe: true });
+              if (result.data.valor > 0) {
+                this.setState({ persona_existe: true });
               } else {
-                this.setState({ user_existe: false });
+                this.setState({ persona_existe: false });
               }
             } else {
-              this.setState({ user_existe: false });
+              this.setState({ persona_existe: false });
             }
           } else {
-            this.setState({ user_existe: false });
+            this.setState({ persona_existe: false });
           }
         });
-      }, 800);
+      }, 10);
     }
   }
   /**Fin validciones de unicos */
@@ -324,92 +390,112 @@ export default class UsuariosForm extends Component {
         >
           <div className="form-body">
             <div className="row p-t-20">
-              <div className="col-lg-3 form-group">
-                <label htmlFor="">Nombre:(*)</label>
-
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Nombre"
-                  id="nombre"
-                  value={this.state.nombre}
-                  onChange={this.handleInputChange}
-                />
-                {this.validator.message(
-                  "nombre",
-                  this.state.nombre,
-                  "required"
-                ) && (
-                  <span className="label label-light-danger">
-                    {this.validator.message(
-                      "nombre",
-                      this.state.nombre,
-                      "required"
-                    )}
-                  </span>
-                )}
-              </div>
               {!this.props.match.params.id ? (
                 <div className="col-lg-3 form-group">
-                  <label htmlFor="">Nombre Usuario:(*)</label>
+                  <label htmlFor="">Persona: (*)</label>
 
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Username"
-                    id="username"
-                    value={this.state.username}
-                    onChange={this.handleInputChange}
-                    onKeyUp={this.validar_usuario.bind(
-                      this,
-                      this.state.username
-                    )}
+                  <AsyncSelect
+                    id="persona"
+                    name="persona"
+                    placeholder="Seleccione una opción"
+                    value={this.state.persona}
+                    isClearable={true}
+                    loadOptions={this.getPersonasParam}
+                    defaultOptions={this.state.personas}
+                    isDisabled={this.state.disabled_select_persona}
+                    onChange={(e) => {
+                      this.setState({ persona: e });
+
+                      this.validar_persona(e !== null ? e.codigo : null);
+                    }}
+                    noOptionsMessage={() => {
+                      return "No existen datos";
+                    }}
                   />
                   {this.validator.message(
-                    "nombre usuario",
-                    this.state.username,
+                    "persona",
+                    this.state.persona,
                     "required"
                   ) && (
                     <span className="label label-light-danger">
                       {this.validator.message(
-                        "nombre usuario",
-                        this.state.username,
+                        "persona",
+                        this.state.persona,
                         "required"
                       )}
                     </span>
                   )}
-
-                  {this.state.user_existe === true ? (
+                  {this.state.persona_existe === true ? (
                     <span className="label label-light-danger">
-                      Nombre de usuarios ya existe
+                      La persona selecciona ya tiene acceso al sistema
                     </span>
                   ) : null}
                 </div>
               ) : null}
               <div className="col-lg-3 form-group">
-                <label htmlFor="">Alias:(*)</label>
+                <label htmlFor="">Iglesia: (*)</label>
 
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Alias"
-                  id="alias"
-                  value={this.state.alias}
-                  onChange={this.handleInputChange}
+                <AsyncSelect
+                  id="iglesia"
+                  name="iglesia"
+                  placeholder="Seleccione una opción"
+                  value={this.state.iglesia}
+                  isClearable={true}
+                  loadOptions={this.getIglesiasParam}
+                  defaultOptions={this.state.iglesias}
+                  isDisabled={this.state.disabled_select_iglesi}
+                  onChange={(e) => {
+                    this.setState({ iglesia: e });
+                  }}
+                  noOptionsMessage={() => {
+                    return "No existen datos";
+                  }}
                 />
                 {this.validator.message(
-                  "alias",
-                  this.state.alias,
+                  "iglesia",
+                  this.state.iglesia,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "alias",
-                      this.state.alias,
+                      "iglesia",
+                      this.state.iglesia,
                       "required"
                     )}
                   </span>
                 )}
+              </div>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Correo electrónico:(*)</label>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Escriba correo electrónico"
+                  id="correo"
+                  value={this.state.correo}
+                  onChange={this.handleInputChange}
+                  onKeyUp={this.validar_correo.bind(this, this.state.correo)}
+                />
+                {this.validator.message(
+                  "correo electrónico",
+                  this.state.correo,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "correo electrónico",
+                      this.state.correo,
+                      "required"
+                    )}
+                  </span>
+                )}
+
+                {this.state.correo_existe === true ? (
+                  <span className="label label-light-danger">
+                    Correo electrónico ya éxiste
+                  </span>
+                ) : null}
               </div>
               <div className="col-lg-3 form-group">
                 <label htmlFor="">Rol: (*)</label>
@@ -444,53 +530,31 @@ export default class UsuariosForm extends Component {
                   </span>
                 )}
               </div>
-
               <div className="col-lg-3 form-group">
-                <label htmlFor="">Correo electrónico:(*)</label>
+                <label htmlFor="">Alias:(*)</label>
 
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Escriba correo electrónico"
-                  id="correo"
-                  value={this.state.correo}
+                  placeholder="Alias"
+                  id="alias"
+                  value={this.state.alias}
                   onChange={this.handleInputChange}
-                  onKeyUp={this.validar_correo.bind(this, this.state.correo)}
                 />
                 {this.validator.message(
-                  "correo electrónico",
-                  this.state.correo,
+                  "alias",
+                  this.state.alias,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "correo electrónico",
-                      this.state.correo,
+                      "alias",
+                      this.state.alias,
                       "required"
                     )}
                   </span>
                 )}
-
-                {this.state.correo_existe === true ? (
-                  <span className="label label-light-danger">
-                    Correo electrónico ya éxiste
-                  </span>
-                ) : null}
               </div>
-
-              {!this.props.match.params.id ? (
-                <div className="col-lg-3 form-group">
-                  <label htmlFor="">Fotografía:</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    placeholder="Imagen"
-                    id="imagen"
-                    name="imagen"
-                    onChange={this.handleFileChange}
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
         </LayoutPanelFormulario>
