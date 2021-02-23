@@ -66,10 +66,10 @@ class HTTP {
     await Request.PUT(ruta_api_name, data_update, ip).then((result) => {
       if (result !== false) {
         if (result.status === 200 || result.status === 201) {
-          Alert.alertEmpty("Completado",mensaje_exito,"success");
+          Alert.alertEmpty("Completado", mensaje_exito, "success");
           resp = true;
         } else {
-          Alert.alertEmpty("Error",mensaje_error,"error")
+          Alert.alertEmpty("Error", mensaje_error, "error");
           resp = false;
         }
       } else {
@@ -114,10 +114,10 @@ class HTTP {
     );
 
     if (mensaje) {
-      Alert.loading_reload(true)
+      Alert.loading_reload(true);
 
       await Request.DELETE(ruta_api_name, data, ip).then((response) => {
-      Alert.loading_reload(false)
+        Alert.loading_reload(false);
 
         if (response !== false) {
           if (response.status === 200 || response.status === 201) {
@@ -148,9 +148,9 @@ class HTTP {
     );
 
     if (mensaje) {
-      Alert.loading_reload(true)
+      Alert.loading_reload(true);
       await Request.DELETE(ruta_api_name, data, ip).then((response) => {
-      Alert.loading_reload(false)
+        Alert.loading_reload(false);
 
         if (response !== false) {
           if (response.status === 200 || response.status === 201) {
@@ -184,7 +184,11 @@ class HTTP {
     );
 
     if (mensaje) {
+      Alert.loading_reload(true);
+
       await Request.DELETE(ruta_api_name, data, ip).then((response) => {
+        Alert.loading_reload(false);
+
         if (response !== false) {
           if (response.status === 200 || response.status === 201) {
             Alert.alertSuccessDelete(nombre_modulo, nombre_modulo_plural);
