@@ -193,7 +193,7 @@ export default class ZonasForm extends Component {
           <div className="form-body">
             <div className="row p-t-20">
               <div className="col-lg-6 form-group">
-                <label htmlFor="">Nombre:(*)</label>
+                <label htmlFor="">Nombre: (*)</label>
 
                 <input
                   type="text"
