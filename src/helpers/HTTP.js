@@ -114,7 +114,11 @@ class HTTP {
     );
 
     if (mensaje) {
+      Alert.loading_reload(true)
+
       await Request.DELETE(ruta_api_name, data, ip).then((response) => {
+      Alert.loading_reload(false)
+
         if (response !== false) {
           if (response.status === 200 || response.status === 201) {
             Alert.alertSuccessEnable(nombre_modulo, nombre_modulo_plural);
@@ -144,7 +148,10 @@ class HTTP {
     );
 
     if (mensaje) {
+      Alert.loading_reload(true)
       await Request.DELETE(ruta_api_name, data, ip).then((response) => {
+      Alert.loading_reload(false)
+
         if (response !== false) {
           if (response.status === 200 || response.status === 201) {
             Alert.alertSuccessDisable(nombre_modulo, nombre_modulo_plural);

@@ -385,6 +385,85 @@ class Header extends Component {
                 <li>
                   {" "}
                   {this.state.modulos.includes(
+                    "efc079e7-b7ee-4c5c-b904-ea5b604f4433"
+                  ) && (
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-book-open" />
+                      <span className="hide-menu">Organización</span>
+                    </a>
+                  )}
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+                    ) && (
+                      <li>
+                        <NavLink to="/organizacion/zonas">
+                          <i className="mdi mdi-google-maps mr-1" />
+                          <span>Zonas</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                 
+                    {this.state.modulos.includes(
+                      "c85623b9-d6a6-44ea-a72c-011c5f4a13d7"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/tasas_iva">
+                          <i className="mdi mdi-gavel mr-1" />
+                          <span>Tasas IVA</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "81ea746c-7539-4ff6-b33b-d8bf62f8af9e"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/impuestos_especiales">
+                          <i className="mdi mdi-gavel mr-1" />
+                          <span>Impuestos Especiales</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "d5cd3659-e9d6-4c6f-afae-3d9d1d9c0032"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/tipos_documento">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Tipos de Documentos</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "f4dcf8a2-8824-42f8-b8fe-8a0956f2d300"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/unidades_medida">
+                          <i className="mdi mdi-scale-balance mr-1" />
+                          <span>Unidades de Medida</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "b5dcf605-897d-4521-9464-7176e234fd98"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/configuracion">
+                          <i className="mdi mdi-settings mr-1" />
+                          <span>Configuración</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
+                </li>
+                <li>
+                  {" "}
+                  {this.state.modulos.includes(
                     "d5213ccc-c971-40dc-a813-cc63ccfacf13"
                   ) && (
                     <a
@@ -481,6 +560,7 @@ class Header extends Component {
                     )}
                   </ul>
                 </li>
+               
 
                 <li>
                   {" "}

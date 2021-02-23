@@ -26,6 +26,9 @@ import Usuarios from "./pages/Acceso/Usuarios/Usuarios";
 import UsuariosForm from "./pages/Acceso/Usuarios/UsuariosForm";
 import ValidarAcceso from "./pages/Acceso/ValidarAcceso";
 import SolicitarCorreoEnlace from "./pages/Acceso/SolicitarCorreoEnlace";
+import Zonas from "./pages/Zonas/Zonas";
+import ZonasForm from "./pages/Zonas/ZonasForm";
+import ZonasDepartamento from "./pages/Zonas/ZonasDepartamento";
 
 function App() {
   return (
@@ -129,6 +132,41 @@ function App() {
             )}
           />
           {/**FIN RUTAS USUARIOS */}
+
+           {/**INICIO RUTAS ZONAS */}
+           <PrivateRoute
+            exact
+            path="/organizacion/zonas"
+            component={Authorization(
+              Zonas,
+              "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/zonas/new"
+            component={Authorization(
+              ZonasForm,
+              "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/zonas/update/:id"
+            component={Authorization(
+              ZonasForm,
+              "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/zonas/asignacion/:id"
+            component={Authorization(
+              ZonasDepartamento,
+              "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+            )}
+          />
+          {/**FIN RUTAS ZONAS */}
 
           <Redirect to="/" />
         </Switch>
