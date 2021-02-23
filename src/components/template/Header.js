@@ -408,14 +408,13 @@ class Header extends Component {
                       </li>
                     )}
 
-                 
                     {this.state.modulos.includes(
-                      "c85623b9-d6a6-44ea-a72c-011c5f4a13d7"
+                      "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
                     ) && (
                       <li>
-                        <NavLink to="/administracion/tasas_iva">
-                          <i className="mdi mdi-gavel mr-1" />
-                          <span>Tasas IVA</span>
+                        <NavLink to="/organizacion/distritos">
+                          <i className="mdi mdi-map-marker-radius mr-1" />
+                          <span>Distritos</span>
                         </NavLink>
                       </li>
                     )}
@@ -560,7 +559,6 @@ class Header extends Component {
                     )}
                   </ul>
                 </li>
-               
 
                 <li>
                   {" "}

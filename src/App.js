@@ -29,6 +29,8 @@ import SolicitarCorreoEnlace from "./pages/Acceso/SolicitarCorreoEnlace";
 import Zonas from "./pages/Zonas/Zonas";
 import ZonasForm from "./pages/Zonas/ZonasForm";
 import ZonasDepartamento from "./pages/Zonas/ZonasDepartamento";
+import Distritos from "./pages/Distritos/Distritos";
+import DistritosForm from "./pages/Distritos/DistritosForm";
 
 function App() {
   return (
@@ -41,7 +43,11 @@ function App() {
             path="/validar_acceso/:codigo"
             component={ValidarAcceso}
           />
-          <Route exact path="/restaurar_acceso" component={SolicitarCorreoEnlace}></Route>
+          <Route
+            exact
+            path="/restaurar_acceso"
+            component={SolicitarCorreoEnlace}
+          ></Route>
           <PrivateRoute exact path="/" component={Test} />
 
           {/**INICIO RUTAS ROLES */}
@@ -133,8 +139,8 @@ function App() {
           />
           {/**FIN RUTAS USUARIOS */}
 
-           {/**INICIO RUTAS ZONAS */}
-           <PrivateRoute
+          {/**INICIO RUTAS ZONAS */}
+          <PrivateRoute
             exact
             path="/organizacion/zonas"
             component={Authorization(
@@ -168,6 +174,32 @@ function App() {
           />
           {/**FIN RUTAS ZONAS */}
 
+          {/**INICIO RUTAS Distritos */}
+          <PrivateRoute
+            exact
+            path="/organizacion/distritos"
+            component={Authorization(
+              Distritos,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/distritos/new"
+            component={Authorization(
+              DistritosForm,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/distritos/update/:id"
+            component={Authorization(
+              DistritosForm,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          {/**FIN RUTAS Distritos */}
           <Redirect to="/" />
         </Switch>
       </MainLayout>
