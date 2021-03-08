@@ -502,18 +502,18 @@ class Header extends Component {
                     ) && (
                       <li>
                         <NavLink to="/administracion/usuarios">
-                          <i className="mdi mdi-account mr-1" />
+                          <i className="mdi mdi-account-key mr-1" />
                           <span>Usuarios</span>
                         </NavLink>
                       </li>
                     )}
                     {this.state.modulos.includes(
-                      "c85623b9-d6a6-44ea-a72c-011c5f4a13d7"
+                      "9c464bd0-6015-4927-a881-9b0005c645ed"
                     ) && (
                       <li>
-                        <NavLink to="/administracion/tasas_iva">
-                          <i className="mdi mdi-gavel mr-1" />
-                          <span>Tasas IVA</span>
+                        <NavLink to="/administracion/personas">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Personas</span>
                         </NavLink>
                       </li>
                     )}

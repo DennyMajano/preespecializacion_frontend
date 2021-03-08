@@ -31,6 +31,8 @@ import ZonasForm from "./pages/Zonas/ZonasForm";
 import ZonasDepartamento from "./pages/Zonas/ZonasDepartamento";
 import Distritos from "./pages/Distritos/Distritos";
 import DistritosForm from "./pages/Distritos/DistritosForm";
+import Personas from "./pages/Personas/Personas";
+import PersonasForm from "./pages/Personas/PersonasForm";
 
 function App() {
   return (
@@ -200,6 +202,38 @@ function App() {
             )}
           />
           {/**FIN RUTAS Distritos */}
+          {/**INICO RUTAS personas */}
+          <PrivateRoute
+          exact
+          path="/administracion/personas"
+          component = {
+            Authorization(
+              Personas,
+              "9c464bd0-6015-4927-a881-9b0005c645ed"
+            )
+          }
+           />
+           <PrivateRoute
+          exact
+          path="/administracion/personas/new"
+          component = {
+            Authorization(
+              PersonasForm,
+              "9c464bd0-6015-4927-a881-9b0005c645ed"
+            )
+          }
+           />
+          <PrivateRoute
+          exact
+          path="/administracion/personas/update/:id"
+          component = {
+            Authorization(
+              PersonasForm,
+              "9c464bd0-6015-4927-a881-9b0005c645ed"
+            )
+          }
+           />
+          {/**FIN RUTAS personas */}
           <Redirect to="/" />
         </Switch>
       </MainLayout>
