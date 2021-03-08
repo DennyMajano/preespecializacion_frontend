@@ -10,6 +10,7 @@ import Request from "../../services/Request";
 import Alerts from "../../services/Alerts";
 import ExtFile from "../../services/ExtFile";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+
 export default class PersonasForm extends Component {
   constructor(props) {
     super(props);
@@ -87,14 +88,7 @@ export default class PersonasForm extends Component {
     loading: false,
     redirect: false,
     modalImageIsOpen: false,
-
-
-    //correo
-    correo_old: null,
-    correo_existe: false,
-    //user
-    persona_old: null,
-    persona_existe: false,
+    changingFoto: false,
   };
 timer_cuentas = null;
 
@@ -452,10 +446,10 @@ timer_cuentas = null;
     if ((this.validator.allValid() && this.state.createUser ===false) || (this.validator.allValid() && this.state.createUser === true && this.validatorUser.allValid()) ) {
       this.setState({ loading: true });
       if(!this.state.isForCreate){
-        console.log("UPDATE");
+
         
         if(this.state.canEdit){
-          let data2 = new FormData();
+         
           const data3 ={
             "code":this.state.id,
             "codigo":this.state.codigo,
@@ -477,36 +471,6 @@ timer_cuentas = null;
             "profesion":this.state.profesion.value,
             "direccion":this.state.direccion,
           }
-          data2.append("code",this.state.id)
-          data2.append("codigo",this.state.codigo)
-          data2.append("nombre",this.state.nombre);
-          data2.append("apellido",this.state.apellido);
-          data2.append("telefono",this.state.telefono);
-          console.log(data2);
-          data2.append("sexo",this.state.sexo.value);
-          data2.append("nacionalidad",this.state.nacionalidad.value);
-          data2.append("fechaNacimiento",this.state.fechaNacimiento);
-          data2.append("departamentoNacimiento",this.state.departamentoNacimiento.value);
-          data2.append("municipioNacimiento",this.state.municipioNacimiento.value);
-          data2.append("cantonNacimiento",this.state.cantonNacimiento.value);
-          data2.append("departamentoResidencia",this.state.departamentoResidencia.value);
-          data2.append("municipioResidencia",this.state.municipioResidencia.value);
-          data2.append("cantonResidencia",this.state.cantonResidencia.value);
-          data2.append("tipoDocumento",this.state.tipoDocumento.value);
-          data2.append("numeroDocumento",this.state.numeroDocumento);
-          data2.append("estadoCivil",this.state.estadoCivil.value);
-          data2.append("profesion",this.state.profesion.value);
-          data2.append("direccion",this.state.direccion);
-          console.log(data2);
-          if (this.state.fotoPerfil !== null) {
-            data2.append(
-              "fotoPerfil",
-              this.state.fotoPerfil,
-              this.state.fotoPerfil.name ? this.state.fotoPerfil.name : ""
-            );
-          }
-          console.log(data2);
-          console.log(data3);
           HTTP.update(data3,"persona","personas","personas").then(
             result =>{
               
@@ -586,6 +550,25 @@ timer_cuentas = null;
     }
   };
 
+  changeFoto = async (e) =>{
+    this.setState({changingFoto: true});
+    const data = new FormData();
+    data.append(
+      "fotoPerfil",
+      this.state.fotoPerfil,
+      this.state.fotoPerfil.name ? this.state.fotoPerfil.name : ""
+    );
+      data.append(
+        "userId",
+        this.state.id,
+      );
+    HTTP.create(data, "persona", "personas", "personas/avatar").then(
+      (result) => {
+        this.setState({changingFoto: false});
+        this.toggleImageForm();
+      }
+    );
+  }
   /** Inicio validaciones  */
   timer_correo = null;
 
@@ -638,8 +621,8 @@ timer_cuentas = null;
     if(this.state.correo_electronico !== ""){
       this.timerMailExist = setTimeout(() => {
         Request.GET("usuarios/validar/correo", this.state.correo_electronico).then((result) => {
-          if(result.status == 200){
-            this.setState({mailExists: result.data.valor == 1});
+          if(result.status === 200){
+            this.setState({mailExists: result.data.valor === 1});
           }   
         });
       }, 800);
@@ -652,10 +635,10 @@ timer_cuentas = null;
     if(this.state.telefono !== ""){
       this.timerPhoneExist = setTimeout(() => {
         Request.GET("personas/phone", this.state.telefono).then((result) => {
-          if(result.status == 200){
+          if(result.status === 200){
             this.setState({phoneExists: true});
           }
-          else if(result.status == 404){
+          else if(result.status === 404){
             this.setState({phoneExists: false});
           }
           
@@ -670,10 +653,10 @@ timer_cuentas = null;
     if(this.state.numeroDocumento !== ""){
       this.timerDocumentExist = setTimeout(() => {
         Request.GET("personas/document", this.state.numeroDocumento).then((result) => {
-          if(result.status == 200){
+          if(result.status === 200){
             this.setState({documentExists: true});
           }
-          else if(result.status == 404){
+          else if(result.status === 404){
             this.setState({documentExists: false});
           }
           
@@ -765,7 +748,7 @@ timer_cuentas = null;
                 <button
                   type="submit"
                   className="btn btn-info"
-                  disabled={this.state.loading}
+                  disabled={this.state.loading || !this.state.canEdit}
                 >
                   <i className="fa fa-save mr-2"></i>
                   {this.state.loading === false ? "GUARDAR" : "GUARDANDO..."}
@@ -1272,10 +1255,31 @@ timer_cuentas = null;
                 Cambiar foto de perfil
               </ModalHeader>
               <ModalBody>
-              
+                <form>
+                  <div class="form-group">
+                    <label for="fotoPerfil">Nueva foto de perfil</label>
+                      <input
+                          type="file"
+                          accept=".png,.jpeg,.jpg"
+                          className="form-control"
+                          placeholder="Imagen"
+                          id="fotoPerfil"
+                          name="fotoPerfil"
+                          onChange={this.handleFileChange}
+                          />
+                  </div>
+                          
+                </form>
               </ModalBody>
               <ModalFooter className="text-right">
-               
+              <button
+                    type="button"
+                    className="btn btn-info"
+                    onClick = {this.changeFoto}
+                    disabled ={this.state.changingFoto}
+                  >
+                    <i className="fa fa-edit mr-2"></i>{this.state.changingFoto?"GUARDANDO":"GUARDAR"}
+                  </button>
               </ModalFooter>
             </Modal>
           

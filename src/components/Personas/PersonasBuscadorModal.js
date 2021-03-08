@@ -106,7 +106,7 @@ export default class PersonasBuscadorModal extends Component {
           sort: true,
           formatter: (cellContent, row) => {
             return <p className="ml-4">{
-              cellContent==1?"VIVO": "FALLECIDO"
+              cellContent===1?"VIVO": "FALLECIDO"
               
               }</p>;
           },

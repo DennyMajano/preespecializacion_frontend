@@ -3,7 +3,6 @@ import LayoutPanelTable from '../../components/layouts/panels/LayoutPanelTable'
 import TablaFilter from '../../components/tablas/TablaFilter'
 import { Menu, Item, Separator, contextMenu, IconFont } from "react-contexify";
 import HTTP from "../../helpers/HTTP";
-import Request from '../../services/Request';
 import PersonasBuscadorModal from '../../components/Personas/PersonasBuscadorModal';
 export default class Personas extends Component {
     constructor(props){
@@ -101,7 +100,7 @@ export default class Personas extends Component {
           sort: true,
           formatter: (cellContent, row) => {
             return <p className="ml-4">{
-              cellContent==1?"VIVO": "FALLECIDO"
+              cellContent===1?"VIVO": "FALLECIDO"
               
               }</p>;
           },
