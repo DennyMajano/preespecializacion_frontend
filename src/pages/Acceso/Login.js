@@ -11,7 +11,7 @@ export default class Login extends Component {
   myhref = null;
   inicial_state = {
     username: "arielopez229422@gmail.com",
-    password: "12345",
+    password: "123456",
     logueando: false,
     error_credenciales: false,
     error_login: false,
@@ -113,6 +113,11 @@ export default class Login extends Component {
           style={{
             backgroundImage:
               "url(../assets/images/background/login-register.jpg)",
+            height: "100%",
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
           }}
         >
           <div className="login-box card">
@@ -193,7 +198,7 @@ export default class Login extends Component {
                   <div className="col-sm-12 text-center">
                     <p>
                       ¿Olvidaste tu contraseña?{" "}
-                        <Link to="/restaurar_acceso">Restaurar</Link>
+                      <Link to="/restaurar_acceso">Restaurar</Link>
                     </p>
                   </div>
                 </div>
