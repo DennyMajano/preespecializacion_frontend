@@ -33,6 +33,8 @@ import Distritos from "./pages/Distritos/Distritos";
 import DistritosForm from "./pages/Distritos/DistritosForm";
 import Personas from "./pages/Personas/Personas";
 import PersonasForm from "./pages/Personas/PersonasForm";
+import MaestroInformes from "./pages/Maestro_Informes/MaestroInformes";
+import MaestroInformesForm from "./pages/Maestro_Informes/MaestroInformesForm";
 
 function App() {
   return (
@@ -204,36 +206,58 @@ function App() {
           {/**FIN RUTAS Distritos */}
           {/**INICO RUTAS personas */}
           <PrivateRoute
-          exact
-          path="/administracion/personas"
-          component = {
-            Authorization(
+            exact
+            path="/administracion/personas"
+            component={Authorization(
               Personas,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
-            )
-          }
-           />
-           <PrivateRoute
-          exact
-          path="/administracion/personas/new"
-          component = {
-            Authorization(
-              PersonasForm,
-              "9c464bd0-6015-4927-a881-9b0005c645ed"
-            )
-          }
-           />
+            )}
+          />
           <PrivateRoute
-          exact
-          path="/administracion/personas/update/:id"
-          component = {
-            Authorization(
+            exact
+            path="/administracion/personas/new"
+            component={Authorization(
               PersonasForm,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
-            )
-          }
-           />
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/administracion/personas/update/:id"
+            component={Authorization(
+              PersonasForm,
+              "9c464bd0-6015-4927-a881-9b0005c645ed"
+            )}
+          />
           {/**FIN RUTAS personas */}
+
+          {/**INICIO RUTAS Maestro de informes */}
+          <PrivateRoute
+            exact
+            path="/organizacion/maestro_informes"
+            component={Authorization(
+              MaestroInformes,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/maestro_informes/new"
+            component={Authorization(
+              MaestroInformesForm,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/maestro_informes/update/:id"
+            component={Authorization(
+              MaestroInformesForm,
+              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+            )}
+          />
+          {/**FIN RUTAS Maestro de informes */}
+
           <Redirect to="/" />
         </Switch>
       </MainLayout>

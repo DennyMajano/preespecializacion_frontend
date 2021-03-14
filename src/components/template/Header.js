@@ -419,22 +419,22 @@ class Header extends Component {
                       </li>
                     )}
                     {this.state.modulos.includes(
-                      "81ea746c-7539-4ff6-b33b-d8bf62f8af9e"
+                      "6036af3b-234f-4c74-bdec-53a457f39d0a"
                     ) && (
                       <li>
-                        <NavLink to="/administracion/impuestos_especiales">
-                          <i className="mdi mdi-gavel mr-1" />
-                          <span>Impuestos Especiales</span>
+                        <NavLink to="/organizacion/maestro_informes">
+                          <i className="mdi mdi-file-document mr-1" />
+                          <span>Maestro de Informe</span>
                         </NavLink>
                       </li>
                     )}
                     {this.state.modulos.includes(
-                      "d5cd3659-e9d6-4c6f-afae-3d9d1d9c0032"
+                      "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
                     ) && (
                       <li>
-                        <NavLink to="/administracion/tipos_documento">
-                          <i className="mdi mdi-account-card-details mr-1" />
-                          <span>Tipos de Documentos</span>
+                        <NavLink to="/organizacion/control_iglesias">
+                          <i className="mdi mdi-church mr-1" />
+                          <span>Control de Iglesias</span>
                         </NavLink>
                       </li>
                     )}
