@@ -439,12 +439,12 @@ class Header extends Component {
                       </li>
                     )}
                     {this.state.modulos.includes(
-                      "f4dcf8a2-8824-42f8-b8fe-8a0956f2d300"
+                      "1a087be0-a30e-4d26-af29-1846a20e2d1a"
                     ) && (
                       <li>
-                        <NavLink to="/administracion/unidades_medida">
-                          <i className="mdi mdi-scale-balance mr-1" />
-                          <span>Unidades de Medida</span>
+                        <NavLink to="/organizacion/niveles_pastorales">
+                          <i className="mdi mdi-file-chart mr-1" />
+                          <span>Niveles Pastorales</span>
                         </NavLink>
                       </li>
                     )}

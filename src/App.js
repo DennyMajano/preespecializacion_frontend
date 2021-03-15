@@ -35,6 +35,8 @@ import Personas from "./pages/Personas/Personas";
 import PersonasForm from "./pages/Personas/PersonasForm";
 import MaestroInformes from "./pages/Maestro_Informes/MaestroInformes";
 import MaestroInformesForm from "./pages/Maestro_Informes/MaestroInformesForm";
+import NivelesPastorales from "./pages/NivelesPastorales/NivelesPastorales";
+import NivelesPastoralesForm from "./pages/NivelesPastorales/NivelesPastoralesForm";
 
 function App() {
   return (
@@ -237,7 +239,7 @@ function App() {
             path="/organizacion/maestro_informes"
             component={Authorization(
               MaestroInformes,
-              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+              "6036af3b-234f-4c74-bdec-53a457f39d0a"
             )}
           />
           <PrivateRoute
@@ -245,7 +247,7 @@ function App() {
             path="/organizacion/maestro_informes/new"
             component={Authorization(
               MaestroInformesForm,
-              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+              "6036af3b-234f-4c74-bdec-53a457f39d0a"
             )}
           />
           <PrivateRoute
@@ -253,10 +255,37 @@ function App() {
             path="/organizacion/maestro_informes/update/:id"
             component={Authorization(
               MaestroInformesForm,
-              "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+              "6036af3b-234f-4c74-bdec-53a457f39d0a"
             )}
           />
           {/**FIN RUTAS Maestro de informes */}
+
+          {/**INICIO RUTAS NIVELES PASTORALES */}
+          <PrivateRoute
+            exact
+            path="/organizacion/niveles_pastorales"
+            component={Authorization(
+              NivelesPastorales,
+              "1a087be0-a30e-4d26-af29-1846a20e2d1a"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/niveles_pastorales/new"
+            component={Authorization(
+              NivelesPastoralesForm,
+              "1a087be0-a30e-4d26-af29-1846a20e2d1a"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/niveles_pastorales/update/:id"
+            component={Authorization(
+              NivelesPastoralesForm,
+              "1a087be0-a30e-4d26-af29-1846a20e2d1a"
+            )}
+          />
+          {/**FIN RUTAS NIVELES PASTORALES */}
 
           <Redirect to="/" />
         </Switch>
