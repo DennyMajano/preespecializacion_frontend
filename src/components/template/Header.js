@@ -432,9 +432,9 @@ class Header extends Component {
                       "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
                     ) && (
                       <li>
-                        <NavLink to="/organizacion/control_iglesias">
+                        <NavLink to="/organizacion/iglesias">
                           <i className="mdi mdi-church mr-1" />
-                          <span>Control de Iglesias</span>
+                          <span>Iglesias</span>
                         </NavLink>
                       </li>
                     )}
@@ -557,53 +557,6 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                  </ul>
-                </li>
-
-                <li>
-                  {" "}
-                  <a
-                    className="has-arrow waves-effect waves-dark"
-                    href={this.hrefLink}
-                    aria-expanded="false"
-                  >
-                    <i className="mdi mdi-arrange-send-backward" />
-                    <span className="hide-menu">Multi level dd</span>
-                  </a>
-                  <ul className="collapse">
-                    <li>
-                      <a href={this.hrefLink}>item 1.1</a>
-                    </li>
-                    <li>
-                      <a href={this.hrefLink}>item 1.2</a>
-                    </li>
-                    <li>
-                      {" "}
-                      <a
-                        className="has-arrow"
-                        href={this.hrefLink}
-                        aria-expanded="false"
-                      >
-                        Menu 1.3
-                      </a>
-                      <ul className="collapse">
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.1</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.2</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.3</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.4</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href={this.hrefLink}>item 1.4</a>
-                    </li>
                   </ul>
                 </li>
               </ul>

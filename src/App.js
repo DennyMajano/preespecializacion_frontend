@@ -37,6 +37,8 @@ import MaestroInformes from "./pages/Maestro_Informes/MaestroInformes";
 import MaestroInformesForm from "./pages/Maestro_Informes/MaestroInformesForm";
 import NivelesPastorales from "./pages/NivelesPastorales/NivelesPastorales";
 import NivelesPastoralesForm from "./pages/NivelesPastorales/NivelesPastoralesForm";
+import Iglesias from "./pages/Iglesias/Iglesias";
+import IglesiasForm from "./pages/Iglesias/IglesiasForm";
 
 function App() {
   return (
@@ -286,6 +288,33 @@ function App() {
             )}
           />
           {/**FIN RUTAS NIVELES PASTORALES */}
+
+          {/**INICIO RUTAS IGLESIAS */}
+          <PrivateRoute
+            exact
+            path="/organizacion/iglesias"
+            component={Authorization(
+              Iglesias,
+              "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/iglesias/new"
+            component={Authorization(
+              IglesiasForm,
+              "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/iglesias/update/:id"
+            component={Authorization(
+              IglesiasForm,
+              "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
+            )}
+          />
+          {/**FIN RUTAS IGLESIAS */}
 
           <Redirect to="/" />
         </Switch>
