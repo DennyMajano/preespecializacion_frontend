@@ -39,6 +39,7 @@ import NivelesPastorales from "./pages/NivelesPastorales/NivelesPastorales";
 import NivelesPastoralesForm from "./pages/NivelesPastorales/NivelesPastoralesForm";
 import Iglesias from "./pages/Iglesias/Iglesias";
 import IglesiasForm from "./pages/Iglesias/IglesiasForm";
+import IglesiasReportes from "./pages/Iglesias/IglesiasReportes";
 
 function App() {
   return (
@@ -311,6 +312,14 @@ function App() {
             path="/organizacion/iglesias/update/:id"
             component={Authorization(
               IglesiasForm,
+              "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/organizacion/iglesias/asignacion_resportes/:id"
+            component={Authorization(
+              IglesiasReportes,
               "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
             )}
           />

@@ -138,6 +138,11 @@ export default class Iglesias extends Component {
   update = ({ event, props }) => {
     this.props.history.push("/organizacion/iglesias/update/" + props.id);
   };
+  asignacion = ({ event, props }) => {
+    this.props.history.push(
+      "/organizacion/iglesias/asignacion_resportes/" + props.id
+    );
+  };
   rowEvents = {
     onContextMenu: (e, row, rowIndex) => {
       e.preventDefault();
@@ -183,6 +188,10 @@ export default class Iglesias extends Component {
                   titulo_tabla="Escriba el registro que desea buscar"
                 />
                 <Menu id={"menu"}>
+                  <Item onClick={this.asignacion}>
+                    <IconFont className="fa fa-plus" /> ASIGNAR REPORTES
+                  </Item>
+                  <Separator />
                   <Item onClick={this.update}>
                     <IconFont className="fa fa-pencil" /> ACTUALIZAR
                   </Item>
@@ -193,6 +202,10 @@ export default class Iglesias extends Component {
                   </Item>
                 </Menu>
                 <Menu id={"menu_disable"}>
+                  <Item onClick={this.asignacion}>
+                    <IconFont className="fa fa-plus" /> ASIGNAR REPORTES
+                  </Item>
+                  <Separator />
                   <Item onClick={this.update}>
                     <IconFont className="fa fa-pencil" /> ACTUALIZAR
                   </Item>
