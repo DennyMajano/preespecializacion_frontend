@@ -40,6 +40,8 @@ import NivelesPastoralesForm from "./pages/NivelesPastorales/NivelesPastoralesFo
 import Iglesias from "./pages/Iglesias/Iglesias";
 import IglesiasForm from "./pages/Iglesias/IglesiasForm";
 import IglesiasReportes from "./pages/Iglesias/IglesiasReportes";
+import NivelesAcademicos from "./pages/NivelesAcademicos/NivelesAcademicos";
+import NivelesAcademicoForm from "./pages/NivelesAcademicos/NivelesAcademicoForm";
 
 function App() {
   return (
@@ -324,6 +326,33 @@ function App() {
             )}
           />
           {/**FIN RUTAS IGLESIAS */}
+
+          {/**INICIO RUTAS NIVELES Academicos */}
+          <PrivateRoute
+            exact
+            path="/recursos_humanos/niveles_academicos"
+            component={Authorization(
+              NivelesAcademicos,
+              "68ff3ca6-05c7-450b-9d6f-5e315ef76d6e"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/recursos_humanos/niveles_academicos/new"
+            component={Authorization(
+              NivelesAcademicoForm,
+              "68ff3ca6-05c7-450b-9d6f-5e315ef76d6e"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/recursos_humanos/niveles_academicos/update/:id"
+            component={Authorization(
+              NivelesAcademicoForm,
+              "68ff3ca6-05c7-450b-9d6f-5e315ef76d6e"
+            )}
+          />
+          {/**FIN RUTAS NIVELES Academicos */}
 
           <Redirect to="/" />
         </Switch>

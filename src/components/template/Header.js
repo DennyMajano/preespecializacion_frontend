@@ -414,7 +414,7 @@ class Header extends Component {
                       <li>
                         <NavLink to="/recursos_humanos/niveles_academicos">
                           <i className="mdi mdi-file-chart mr-1" />
-                          <span>Niveles Académicos Pastor</span>
+                          <span>Niveles Académicos Teológicos</span>
                         </NavLink>
                       </li>
                     )}
