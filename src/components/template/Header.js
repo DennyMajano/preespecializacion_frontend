@@ -418,6 +418,16 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
+                     {this.state.modulos.includes(
+                      "9c464bd0-6015-4927-a881-9b0005c645ed"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/personas">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Personas</span>
+                        </NavLink>
+                      </li>
+                    )}
                   </ul>
                 </li>
 
@@ -537,16 +547,7 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                    {this.state.modulos.includes(
-                      "9c464bd0-6015-4927-a881-9b0005c645ed"
-                    ) && (
-                      <li>
-                        <NavLink to="/administracion/personas">
-                          <i className="mdi mdi-account-card-details mr-1" />
-                          <span>Personas</span>
-                        </NavLink>
-                      </li>
-                    )}
+                   
                     {this.state.modulos.includes(
                       "81ea746c-7539-4ff6-b33b-d8bf62f8af9e"
                     ) && (

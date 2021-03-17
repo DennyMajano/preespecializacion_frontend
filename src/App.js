@@ -214,7 +214,7 @@ function App() {
           {/**INICO RUTAS personas */}
           <PrivateRoute
             exact
-            path="/administracion/personas"
+            path="/recursos_humanos/personas"
             component={Authorization(
               Personas,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
@@ -222,7 +222,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/administracion/personas/new"
+            path="/recursos_humanos/personas/new"
             component={Authorization(
               PersonasForm,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
@@ -230,7 +230,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/administracion/personas/update/:id"
+            path="/recursos_humanos/personas/update/:id"
             component={Authorization(
               PersonasForm,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
