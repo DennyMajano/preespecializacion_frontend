@@ -385,6 +385,45 @@ class Header extends Component {
                 <li>
                   {" "}
                   {this.state.modulos.includes(
+                    "79f92aab-e480-4037-bfcd-fb85a7405fe7"
+                  ) && (
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-account-multiple" />
+                      <span className="hide-menu">Recursos Humanos</span>
+                    </a>
+                  )}
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "1a087be0-a30e-4d26-af29-1846a20e2d1a"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/niveles_pastorales">
+                          <i className="mdi mdi-file-chart mr-1" />
+                          <span>Niveles Pastorales</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                    {this.state.modulos.includes(
+                      "68ff3ca6-05c7-450b-9d6f-5e315ef76d6e"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/niveles_academicos">
+                          <i className="mdi mdi-file-chart mr-1" />
+                          <span>Niveles Académicos Pastor</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
+                </li>
+
+                <li>
+                  {" "}
+                  {this.state.modulos.includes(
                     "efc079e7-b7ee-4c5c-b904-ea5b604f4433"
                   ) && (
                     <a
@@ -438,16 +477,7 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                    {this.state.modulos.includes(
-                      "1a087be0-a30e-4d26-af29-1846a20e2d1a"
-                    ) && (
-                      <li>
-                        <NavLink to="/organizacion/niveles_pastorales">
-                          <i className="mdi mdi-file-chart mr-1" />
-                          <span>Niveles Pastorales</span>
-                        </NavLink>
-                      </li>
-                    )}
+
                     {this.state.modulos.includes(
                       "b5dcf605-897d-4521-9464-7176e234fd98"
                     ) && (

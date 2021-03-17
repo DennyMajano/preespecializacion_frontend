@@ -266,7 +266,7 @@ function App() {
           {/**INICIO RUTAS NIVELES PASTORALES */}
           <PrivateRoute
             exact
-            path="/organizacion/niveles_pastorales"
+            path="/recursos_humanos/niveles_pastorales"
             component={Authorization(
               NivelesPastorales,
               "1a087be0-a30e-4d26-af29-1846a20e2d1a"
@@ -274,7 +274,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/organizacion/niveles_pastorales/new"
+            path="/recursos_humanos/niveles_pastorales/new"
             component={Authorization(
               NivelesPastoralesForm,
               "1a087be0-a30e-4d26-af29-1846a20e2d1a"
@@ -282,7 +282,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/organizacion/niveles_pastorales/update/:id"
+            path="/recursos_humanos/niveles_pastorales/update/:id"
             component={Authorization(
               NivelesPastoralesForm,
               "1a087be0-a30e-4d26-af29-1846a20e2d1a"
