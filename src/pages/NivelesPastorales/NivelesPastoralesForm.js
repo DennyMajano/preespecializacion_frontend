@@ -108,7 +108,7 @@ export default class NivelesPastoralesForm extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/organizacion/niveles_pastorales" />;
+      return <Redirect to="/recursos_humanos/niveles_pastorales" />;
     }
     return (
       <React.Fragment>

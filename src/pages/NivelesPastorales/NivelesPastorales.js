@@ -95,7 +95,7 @@ export default class NivelesPastorales extends Component {
   };
   update = ({ event, props }) => {
     this.props.history.push(
-      "/organizacion/niveles_pastorales/update/" + props.id
+      "/recursos_humanos/niveles_pastorales/update/" + props.id
     );
   };
   rowEvents = {
@@ -129,7 +129,7 @@ export default class NivelesPastorales extends Component {
       <React.Fragment>
         <LayoutPanelTable
           titulo="Administración de niveles pastorales"
-          rutacreate="/organizacion/niveles_pastorales/new"
+          rutacreate="/recursos_humanos/niveles_pastorales/new"
         >
           <div className="form-body">
             <div className="row p-t-20">
