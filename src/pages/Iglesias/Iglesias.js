@@ -3,8 +3,15 @@ import LayoutPanelTable from "../../components/layouts/panels/LayoutPanelTable";
 import TablaFilter from "../../components/tablas/TablaFilter";
 import { Menu, Item, Separator, contextMenu, IconFont } from "react-contexify";
 import HTTP from "../../helpers/HTTP";
+import IglesiasModal from "../../components/Iglesias/IglesiasModal";
 
 export default class Iglesias extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      iglesia: [],
+    };
+  }
   columns = [
     {
       dataField: "id",
@@ -169,6 +176,9 @@ export default class Iglesias extends Component {
   componentDidMount() {
     document.getElementById("buscar").focus();
   }
+  setIglesia = (data) => {
+    this.setState({ iglesia: data });
+  };
   render() {
     return (
       <React.Fragment>
@@ -179,6 +189,14 @@ export default class Iglesias extends Component {
           <div className="form-body">
             <div className="row p-t-20">
               <div className="col-12 form-group">
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.refs.modal_iglesia.ActionModal();
+                  }}
+                >
+                  TEST MODAL USER
+                </button>
                 <TablaFilter
                   ref="tabla"
                   ruta={"iglesias/all"}
@@ -219,6 +237,7 @@ export default class Iglesias extends Component {
             </div>
           </div>
         </LayoutPanelTable>
+        <IglesiasModal ref="modal_iglesia" getData={this.setIglesia} />
       </React.Fragment>
     );
   }
