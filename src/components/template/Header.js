@@ -428,6 +428,16 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
+                    {this.state.modulos.includes(
+                      "753278e6-c194-4858-ab8e-5d3760cf5ea4"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/pastores">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Pastores</span>
+                        </NavLink>
+                      </li>
+                    )}
                   </ul>
                 </li>
 
