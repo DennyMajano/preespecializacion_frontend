@@ -43,6 +43,7 @@ import IglesiasReportes from "./pages/Iglesias/IglesiasReportes";
 import NivelesAcademicos from "./pages/NivelesAcademicos/NivelesAcademicos";
 import NivelesAcademicoForm from "./pages/NivelesAcademicos/NivelesAcademicoForm";
 import Pastores from "./pages/Pastores/Pastores";
+import PastoresForm from "./pages/Pastores/PastoresForm";
 
 function App() {
   return (
@@ -231,7 +232,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/recursos_humanos/personas/update/:id"
+            path="/recursos_humanos/personas/update/:codigo"
             component={Authorization(
               PersonasForm,
               "9c464bd0-6015-4927-a881-9b0005c645ed"
@@ -365,7 +366,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/recursos_humanos/pastores/update/:id"
+            path="/recursos_humanos/pastores/update/:codigo"
             component={Authorization(
               Pastores,
               "753278e6-c194-4858-ab8e-5d3760cf5ea4"
@@ -375,7 +376,7 @@ function App() {
             exact
             path="/recursos_humanos/pastores/new"
             component={Authorization(
-              Pastores,
+              PastoresForm,
               "753278e6-c194-4858-ab8e-5d3760cf5ea4"
             )}
           />
