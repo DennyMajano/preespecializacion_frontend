@@ -16,7 +16,8 @@ import { Fragment } from "react";
  * Metodos
  * -getPersonaFormData
  * -getPersonaData
- * -disableFields(status) //Para habilitar o deshabilitar campos
+ * -disableFields(status) //Para habilitar o deshabilitar campos DEPRECATED
+ * -findPersona(codigo) //para buscar una persona y mostrar los datos
  *
  * Props para el componente
  * -codigoPersona  //que es para especificar cuando cargue que recupere los datos de iuna persona por ese codigo P-xxxxx
@@ -27,13 +28,13 @@ import { Fragment } from "react";
 export default class PersonaFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.disableFields = this.disableFields.bind(this);
+    //this.disableFields = this.disableFields.bind(this);
     this.phoneNumberExists = this.phoneNumberExists.bind(this);
     this.documentNumberExists = this.documentNumberExists.bind(this);
     this.toggleImageForm = this.toggleImageForm.bind(this);
     this.init_validator();
     this.state = {
-      id: -1,
+    /*   id: -1,
       codigo: "",
       nombre: "",
       apellido: "",
@@ -52,8 +53,27 @@ export default class PersonaFormComponent extends Component {
       numeroDocumento: "",
       estadoCivil: null,
       profesion: null,
-      direccion: "",
-
+      direccion: "", */
+      id: -1,
+      codigo: "",
+      nombre: "testNombre",
+      apellido: "testApellido",
+      telefono: "testtel",
+      sexo: {value:1},
+      fotoPerfil: null,
+      nacionalidad: {value:1},
+      fechaNacimiento: "2020-03-03",
+      departamentoNacimiento: {value:1},
+      municipioNacimiento: {value:1},
+      cantonNacimiento: {value:1},
+      departamentoResidencia: {value:1},
+      municipioResidencia: {value:1},
+      cantonResidencia: {value:1},
+      tipoDocumento: {value:1},
+      numeroDocumento: "testNDocumento",
+      estadoCivil: {value:1},
+      profesion: {value:1},
+      direccion: "testDIR",
       //Listas
       sexos: [],
       departamentos: [],
@@ -73,6 +93,8 @@ export default class PersonaFormComponent extends Component {
 
       modalImageIsOpen: false,
       changingFoto: false,
+      showFotoUpdate: false,
+      fieldsEdited: false,
     };
   }
 
@@ -230,6 +252,7 @@ export default class PersonaFormComponent extends Component {
 
     return data;
   }
+  //NEL
   getSexosForSelect(inputValue, callback) {
     let data = [];
 
@@ -414,7 +437,7 @@ export default class PersonaFormComponent extends Component {
   handleInputChange = (e) => {
     const idComponente = e.target.id;
     const valorComponente = e.target.value;
-    this.setState({ [idComponente]: valorComponente });
+    this.setState({ [idComponente]: valorComponente, fieldsEdited: true });
   };
   toggleImageForm() {
     this.setState((prevState) => ({
@@ -449,6 +472,7 @@ export default class PersonaFormComponent extends Component {
       direccion: this.state.direccion,
     };
   }
+  
   /**
    *
    * @returns FormData de los campos para persona incluyendo el de fotografia si se llenó
@@ -507,10 +531,10 @@ export default class PersonaFormComponent extends Component {
    *
    * @param {boolean} status - true para deshabilitar, false para habilitar los campos
    */
-  disableFields(status) {
+ /*  disableFields(status) {
     this.setState({ disabledFields: status });
-  }
-  findPerson(codigo) {
+  } */
+  findPerson(codigo,onFinally=()=>{},onSuccess=()=>{},onFail=()=>{}) {
     HTTP.findById(codigo, "personas").then((result) => {
       console.log(result);
       console.log(typeof result);
@@ -536,15 +560,16 @@ export default class PersonaFormComponent extends Component {
           estadoCivil: result.estado.estado_civil,
           profesion: result.estado.profesion_oficio,
           direccion: result.estado.direccion,
+
+
+          //Como se recuperaron datos de una persona que existe entonces es para actualizar
+          forUpdate: true
         });
-        if (this.props.onPersonaLoaded) {
-          this.props.onPersonaLoaded();
-        }
+        onSuccess();
       } else {
-        if (this.props.onPersonaNotExists) {
-          this.props.onPersonaNotExists();
-        }
+        onFail();
       }
+      onFinally();
     });
   }
   render() {
@@ -552,7 +577,7 @@ export default class PersonaFormComponent extends Component {
       <Fragment>
         <fieldset
           disabled={
-            this.state.disabledFields //para habilitar o deshabilitar los campos
+            this.props.disableFields?this.props.disableFields:false //para habilitar o deshabilitar los campos
           }
         >
           <div className="row">
@@ -564,7 +589,7 @@ export default class PersonaFormComponent extends Component {
               <label htmlFor="tipoDocumento">Tipo de documento: (*)</label>
               <SimpleSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="tipoDocumento"
                 name="tipoDocumento"
@@ -660,7 +685,7 @@ export default class PersonaFormComponent extends Component {
               <label htmlFor="sexo">Sexo: (*)</label>
               <SimpleSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="sexo"
                 name="sexo"
@@ -681,7 +706,7 @@ export default class PersonaFormComponent extends Component {
               <label htmlFor="nacionalidad">Nacionalidad: (*)</label>
               <AsyncSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="nacionalidad"
                 name="nacionalidad"
@@ -717,7 +742,7 @@ export default class PersonaFormComponent extends Component {
               <label htmlFor="estadoCivil">Estado civil: (*)</label>
               <SimpleSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="estadoCivil"
                 name="estadoCivil"
@@ -740,7 +765,7 @@ export default class PersonaFormComponent extends Component {
               <label htmlFor="profesion">Profesión: (*)</label>
               <AsyncSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="profesion"
                 name="profesion"
@@ -801,7 +826,7 @@ export default class PersonaFormComponent extends Component {
               </label>
               <SimpleSelect
                 isDisabled={
-                  this.state.disabledFields //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
+                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
                 }
                 id="departamentoNacimiento"
                 name="departamentoNacimiento"
@@ -884,7 +909,7 @@ export default class PersonaFormComponent extends Component {
                 Departamento de residencia: (*)
               </label>
               <SimpleSelect
-                isDisabled={this.state.disabledFields}
+                isDisabled={this.props.disableFields?this.props.disableFields:false}
                 id="departamentoResidencia"
                 name="departamentoResidencia"
                 placeholder="Seleccione una opción"
@@ -963,7 +988,7 @@ export default class PersonaFormComponent extends Component {
         </fieldset>
 
         <div className="row">
-          <div className="col-lg-6 form-group" hidden={!this.state.forUpdate}>
+          <div className="col-lg-6 form-group" hidden={!this.state.forUpdate || this.state.showFotoUpdate}>
             <div className="alert alert-info  " role="alert">
               <div className="mb-2">
                 Cambiar la foto de perfil de la persona

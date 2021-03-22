@@ -172,8 +172,6 @@ export default class PersonasForm extends Component {
     this.setState({
       canEdit: !this.state.canEdit,
     });
-
-    this.refs.personaForm.disableFields(this.state.canEdit);
   }
 
   //Par usuarios
@@ -327,6 +325,7 @@ export default class PersonasForm extends Component {
           <PersonaFormComponent
             ref="personaForm"
             codigoPersona={this.props.match.params.codigo}
+            disableFields={!this.state.canEdit}
             onPersonaNotExists = {this.onPersonaNotExists}
             onPersonaLoaded = {this.onPersonaLoaded}
           ></PersonaFormComponent>

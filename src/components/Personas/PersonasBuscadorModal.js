@@ -169,7 +169,7 @@ export default class PersonasBuscadorModal extends Component {
           <ModalBody>
             <TablaFilter
               ref="tabla"
-              ruta={"personas/actives"}
+              ruta={this.props.rutaAConsultar?this.props.rutaAConsultar:"personas/actives"}
               rowEvents={this.rowEvents}
               identificador={"modulo_id"}
               columns={this.columns}
