@@ -368,7 +368,7 @@ function App() {
             exact
             path="/recursos_humanos/pastores/update/:codigo"
             component={Authorization(
-              Pastores,
+              PastoresForm,
               "753278e6-c194-4858-ab8e-5d3760cf5ea4"
             )}
           />

@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-
-import AsyncSelect from "react-select/async";
-import SimpleSelect from "react-select";
 import HTTP from "../../helpers/HTTP";
 import SimpleReactValidator from "simple-react-validator";
 import es from "../../helpers/ValidatorTranslate_es";
@@ -10,6 +7,9 @@ import Alerts from "../../services/Alerts";
 import ExtFile from "../../services/ExtFile";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Fragment } from "react";
+import UIAsynSelect from "../UICommons/UIAsynSelect";
+import UISelect from "../UICommons/UISelect";
+import UIInput from "../UICommons/UIInput";
 
 /**
  * Para utilizar este componente basicamente se necesita
@@ -34,7 +34,7 @@ export default class PersonaFormComponent extends Component {
     this.toggleImageForm = this.toggleImageForm.bind(this);
     this.init_validator();
     this.state = {
-    /*   id: -1,
+      id: -1,
       codigo: "",
       nombre: "",
       apellido: "",
@@ -53,38 +53,9 @@ export default class PersonaFormComponent extends Component {
       numeroDocumento: "",
       estadoCivil: null,
       profesion: null,
-      direccion: "", */
-      id: -1,
-      codigo: "",
-      nombre: "testNombre",
-      apellido: "testApellido",
-      telefono: "testtel",
-      sexo: {value:1},
-      fotoPerfil: null,
-      nacionalidad: {value:1},
-      fechaNacimiento: "2020-03-03",
-      departamentoNacimiento: {value:1},
-      municipioNacimiento: {value:1},
-      cantonNacimiento: {value:1},
-      departamentoResidencia: {value:1},
-      municipioResidencia: {value:1},
-      cantonResidencia: {value:1},
-      tipoDocumento: {value:1},
-      numeroDocumento: "testNDocumento",
-      estadoCivil: {value:1},
-      profesion: {value:1},
-      direccion: "testDIR",
+      direccion: "", 
+   
       //Listas
-      sexos: [],
-      departamentos: [],
-      municipiosNacimiento: null,
-      cantonesNacimiento: null,
-      municipiosResidencia: null,
-      cantonesResidencia: null,
-      nacionalidades: [],
-      tiposDocumento: [],
-      estadosCiviles: [],
-      profesiones: [],
 
       documentExists: null,
       phoneExists: null,
@@ -99,57 +70,51 @@ export default class PersonaFormComponent extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      sexos: this.getSexos(),
-      nacionalidades: this.getNacionalidades(),
-      departamentos: this.getDepartamentos(),
-      tiposDocumento: this.getTiposDocumentos(),
-      estadosCiviles: this.getEstadosCiviles(),
-      profesiones: this.getProfesiones(),
-    });
-
-    this.getPersonToUpdate();
-  }
-  getPersonToUpdate() {
     if (this.props.codigoPersona) {
-      HTTP.findById(this.props.codigoPersona, "personas").then((result) => {
-        console.log(result);
-        console.log(typeof result);
-        if (result !== false) {
-          // if (result.estado !== false) {
-          this.setState({
-            id: result.estado.id,
-            codigo: result.estado.codigo,
-            nombre: result.estado.nombres,
-            apellido: result.estado.apellidos,
-            telefono: result.estado.telefono,
-            sexo: result.estado.sexo,
-            nacionalidad: result.estado.nacionalidad,
-            fechaNacimiento: result.estado.fecha_nacimiento,
-            departamentoNacimiento: result.estado.departemento_nacimiento,
-            municipioNacimiento: result.estado.municipio_nacimiento,
-            cantonNacimiento: result.estado.canton_nacimiento,
-            departamentoResidencia: result.estado.departamento_residencia,
-            municipioResidencia: result.estado.municipio_residencia,
-            cantonResidencia: result.estado.canton_residencia,
-            tipoDocumento: result.estado.tipo_documento,
-            numeroDocumento: result.estado.numero_documento,
-            estadoCivil: result.estado.estado_civil,
-            profesion: result.estado.profesion_oficio,
-            direccion: result.estado.direccion,
-          });
-          if (this.props.onPersonaLoaded) {
-            this.props.onPersonaLoaded();
-          }
-        } else {
-          if (this.props.onPersonaNotExists) {
-            this.props.onPersonaNotExists();
-          }
-        }
-      });
+      this.fillFromPersona(this.props.codigoPersona)
     }
   }
 
+
+  fillFromPersona(code, onSucces=()=>{}, onFail=()=>{}){
+    HTTP.findById(code, "personas").then((result) => {
+      console.log(result);
+      console.log(typeof result);
+      if (result !== false) {
+        // if (result.estado !== false) {
+        this.setState({
+          id: result.estado.id,
+          codigo: result.estado.codigo,
+          nombre: result.estado.nombres,
+          apellido: result.estado.apellidos,
+          telefono: result.estado.telefono,
+          sexo: result.estado.sexo,
+          nacionalidad: result.estado.nacionalidad,
+          fechaNacimiento: result.estado.fecha_nacimiento,
+          departamentoNacimiento: result.estado.departemento_nacimiento,
+          municipioNacimiento: result.estado.municipio_nacimiento,
+          cantonNacimiento: result.estado.canton_nacimiento,
+          departamentoResidencia: result.estado.departamento_residencia,
+          municipioResidencia: result.estado.municipio_residencia,
+          cantonResidencia: result.estado.canton_residencia,
+          tipoDocumento: result.estado.tipo_documento,
+          numeroDocumento: result.estado.numero_documento,
+          estadoCivil: result.estado.estado_civil,
+          profesion: result.estado.profesion_oficio,
+          direccion: result.estado.direccion,
+        });
+        if (this.props.onPersonaLoaded) {
+          this.props.onPersonaLoaded();
+        }
+        onSucces();
+      } else {
+        if (this.props.onPersonaNotExists) {
+          this.props.onPersonaNotExists();
+        }
+        onFail();
+      }
+    });
+  }
   changeFoto = async (e) => {
     this.setState({ changingFoto: true });
     const data = new FormData();
@@ -167,6 +132,9 @@ export default class PersonaFormComponent extends Component {
     );
   };
 
+  setForUpdateForm(status){
+    this.setState({ forUpdate: status  });
+  }
   //Validaciones
   timerPhoneExist = null;
   phoneNumberExists() {
@@ -221,193 +189,6 @@ export default class PersonaFormComponent extends Component {
       )
     );
   }
-  //Obtencion de datos
-  getEstadosCiviles() {
-    let data = [];
-
-    HTTP.findAll("generales/estado_civil").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-  getSexos() {
-    let data = [];
-
-    HTTP.findAll("generales/comodin/sexo_persona").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-  //NEL
-  getSexosForSelect(inputValue, callback) {
-    let data = [];
-
-    HTTP.findAll("generales/comodin/sexo_persona").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    callback(data);
-  }
-
-  getNacionalidades() {
-    let data = [];
-
-    HTTP.findAll("generales/nacionalidad").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-  getNacionalidadesForSelect = (inputValue, callback) => {
-    const tempArray = [];
-
-    if (inputValue !== "" && inputValue !== null) {
-      clearTimeout(this.timer_cuentas);
-      this.timer_cuentas = setTimeout(() => {
-        HTTP.findById(inputValue, "generales/nacionalidad").then((data) => {
-          if (data !== false) {
-            data.forEach((element) => {
-              tempArray.push({
-                label: element.nombre,
-                value: element.id,
-              });
-            });
-            callback(tempArray);
-          } else {
-            callback([]);
-          }
-        });
-      }, 500);
-    }
-  };
-
-  getProfesiones() {
-    let data = [];
-
-    HTTP.findAll("generales/profesiones").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-  getProfesionesForSelect = (inputValue, callback) => {
-    const tempArray = [];
-
-    if (inputValue !== "" && inputValue !== null) {
-      clearTimeout(this.timer_cuentas);
-      this.timer_cuentas = setTimeout(() => {
-        HTTP.findById(inputValue, "generales/profesiones").then((data) => {
-          if (data !== false) {
-            data.forEach((element) => {
-              tempArray.push({
-                label: element.nombre,
-                value: element.id,
-              });
-            });
-            callback(tempArray);
-          } else {
-            callback([]);
-          }
-        });
-      }, 500);
-    }
-  };
-
-  getDepartamentos() {
-    let data = [];
-
-    HTTP.findAll("generales/departamentos").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-
-  getMunicipios(idDepartamento) {
-    let data = [];
-
-    HTTP.findById(idDepartamento, "generales/municipios").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-
-  getCantones(idMunicipio) {
-    let data = [];
-
-    HTTP.findById(idMunicipio, "generales/cantones").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-  getTiposDocumentos() {
-    let data = [];
-
-    HTTP.findAll("generales/tipo_documento").then((result) => {
-      console.log(result);
-      result.forEach((element) => {
-        data.push({
-          label: element.nombre,
-          value: element.id,
-        });
-      });
-    });
-
-    return data;
-  }
-
   handleFileChange = (e) => {
     const idComponente = e.target.id;
     if (e.target.files[0] !== undefined) {
@@ -472,7 +253,7 @@ export default class PersonaFormComponent extends Component {
       direccion: this.state.direccion,
     };
   }
-  
+
   /**
    *
    * @returns FormData de los campos para persona incluyendo el de fotografia si se llenó
@@ -531,10 +312,15 @@ export default class PersonaFormComponent extends Component {
    *
    * @param {boolean} status - true para deshabilitar, false para habilitar los campos
    */
- /*  disableFields(status) {
+  /*  disableFields(status) {
     this.setState({ disabledFields: status });
   } */
-  findPerson(codigo,onFinally=()=>{},onSuccess=()=>{},onFail=()=>{}) {
+  findPerson(
+    codigo,
+    onFinally = () => {},
+    onSuccess = () => {},
+    onFail = () => {}
+  ) {
     HTTP.findById(codigo, "personas").then((result) => {
       console.log(result);
       console.log(typeof result);
@@ -561,9 +347,8 @@ export default class PersonaFormComponent extends Component {
           profesion: result.estado.profesion_oficio,
           direccion: result.estado.direccion,
 
-
           //Como se recuperaron datos de una persona que existe entonces es para actualizar
-          forUpdate: true
+          forUpdate: true,
         });
         onSuccess();
       } else {
@@ -577,7 +362,7 @@ export default class PersonaFormComponent extends Component {
       <Fragment>
         <fieldset
           disabled={
-            this.props.disableFields?this.props.disableFields:false //para habilitar o deshabilitar los campos
+            this.props.disableFields ? this.props.disableFields : false //para habilitar o deshabilitar los campos
           }
         >
           <div className="row">
@@ -585,220 +370,156 @@ export default class PersonaFormComponent extends Component {
               <h3 className="box-title">Identificación</h3>
               <hr className="mt-0 mb-4"></hr>
             </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="tipoDocumento">Tipo de documento: (*)</label>
-              <SimpleSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="tipoDocumento"
-                name="tipoDocumento"
-                placeholder="Seleccione una opción"
-                value={this.state.tipoDocumento}
-                options={this.state.tiposDocumento}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({ tipoDocumento: e });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage("Tipo de documento", "tipoDocumento")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="numeroDocumento">Número de documento:(*)</label>
+            <UISelect
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Tipo de documento: (*)"
+              apiPath="generales/tipo_documento"
+              id="tipoDocumento"
+              value={this.state.tipoDocumento}
+              onChange={(e) => {
+                this.setState({ tipoDocumento: e });
+              }}
+              afterSelect={this.validatorMessage(
+                "Tipo de documento",
+                "tipoDocumento"
+              )}
+            ></UISelect>
 
-              <input
-                type="text"
-                className="form-control"
-                placeholder="numero de documento"
-                id="numeroDocumento"
-                name="numeroDocumento"
-                value={this.state.numeroDocumento}
-                onChange={this.handleInputChange}
-                onKeyUp={this.documentNumberExists}
-              />
-              {this.validatorMessage("Número de documento", "numeroDocumento")}
-              {this.state.documentExists === true ? (
-                <span className="label label-light-danger">
-                  Este numero de documento ya existe
-                </span>
-              ) : null}
-            </div>
+            <UIInput
+              type="text"
+              id="numeroDocumento"
+              placeholder="numero de documento"
+              value={this.state.numeroDocumento}
+              onChange={this.handleInputChange}
+              label="Número de documento:(*)"
+              inputProps={(this.state.forUpdate) ||{
+                onKeyUp: this.documentNumberExists,
+              }}
+              afterInput={[
+                this.validatorMessage("Número de documento", "numeroDocumento"),
+                this.state.documentExists === true ? (
+                  <span className="label label-light-danger">
+                    Este numero de documento ya existe
+                  </span>
+                ) : null,
+              ]}
+            ></UIInput>
           </div>
-
           <div className="row">
             <div className="col-lg-12">
               <h3 className="box-title">Datos personales</h3>
               <hr className="mt-0 mb-4"></hr>
             </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="nombre">Nombre:(*)</label>
-
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nombre"
-                id="nombre"
-                name="nombre"
-                value={this.state.nombre}
-                onChange={this.handleInputChange}
-              />
-              {this.validatorMessage("nombre", "nombre")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="apellido">Apellido:(*)</label>
-
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Apellido"
-                id="apellido"
-                name="apellido"
-                value={this.state.apellido}
-                onChange={this.handleInputChange}
-              />
-              {this.validatorMessage("apellido", "apellido")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="telefono">Teléfono:(*)</label>
-
-              <input
-                type="tel"
-                className="form-control"
-                placeholder="5555-5555"
-                id="telefono"
-                name="telefono"
-                value={this.state.telefono}
-                onChange={this.handleInputChange}
-                onKeyUp={this.phoneNumberExists}
-              />
-              {this.validatorMessage("telefono", "telefono")}
-              {this.state.phoneExists === true ? (
-                <span className="label label-light-danger">
-                  Este teléfono ya existe
-                </span>
-              ) : null}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="sexo">Sexo: (*)</label>
-              <SimpleSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="sexo"
-                name="sexo"
-                placeholder="Seleccione una opción"
-                value={this.state.sexo}
-                options={this.state.sexos}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({ sexo: e });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage("sexo", "sexo")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="nacionalidad">Nacionalidad: (*)</label>
-              <AsyncSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="nacionalidad"
-                name="nacionalidad"
-                placeholder="Seleccione una opción"
-                value={this.state.nacionalidad}
-                defaultOptions={this.state.nacionalidades}
-                loadOptions={this.getNacionalidadesForSelect}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({ nacionalidad: e });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage("nacionalidad", "nacionalidad")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="fechaNacimiento">Fecha de nacimiento:(*)</label>
-
-              <input
-                type="date"
-                className="form-control"
-                placeholder="dd-mm-yyyy"
-                id="fechaNacimiento"
-                name="fechaNacimiento"
-                value={this.state.fechaNacimiento}
-                onChange={this.handleInputChange}
-              />
-              {this.validatorMessage("fecha de nacimiento", "fechaNacimiento")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="estadoCivil">Estado civil: (*)</label>
-              <SimpleSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="estadoCivil"
-                name="estadoCivil"
-                placeholder="Seleccione una opción"
-                value={this.state.estadoCivil}
-                options={this.state.estadosCiviles}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    estadoCivil: e,
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage("Estado civil", "estadoCivil")}
-            </div>
-            <div className="col-lg-3 form-group">
-              <label htmlFor="profesion">Profesión: (*)</label>
-              <AsyncSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="profesion"
-                name="profesion"
-                placeholder="Seleccione una opción"
-                value={this.state.profesion}
-                defaultOptions={this.state.profesiones}
-                loadOptions={this.getProfesionesForSelect}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    profesion: e,
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage("Profesión", "profesion")}
-            </div>
-            <div className="col-lg-6 form-group">
-              <label htmlFor="direccion">Dirección:(*)</label>
-
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Av. las palmeras..."
-                id="direccion"
-                name="direccion"
-                value={this.state.direccion}
-                onChange={this.handleInputChange}
-              />
-              {this.validatorMessage("dirección", "direccion")}
-            </div>
+            <UIInput
+              type="text"
+              id="nombre"
+              placeholder="Nombre"
+              value={this.state.nombre}
+              onChange={this.handleInputChange}
+              label="Nombre:(*)"
+              afterInput={this.validatorMessage("nombre", "nombre")}
+            ></UIInput>
+            <UIInput
+              type="text"
+              id="apellido"
+              placeholder="Apellido"
+              value={this.state.apellido}
+              onChange={this.handleInputChange}
+              label="Apellido:(*)"
+              afterInput={this.validatorMessage("apellido", "apellido")}
+            ></UIInput>
+            <UIInput
+              type="tel"
+              id="telefono"
+              placeholder="Telefono"
+              value={this.state.telefono}
+              onChange={this.handleInputChange}
+              label="Teléfono:(*)"
+              afterInput={this.validatorMessage("teléfono", "telefono")}
+            ></UIInput>
+            <UISelect
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="sexo: (*)"
+              apiPath="generales/comodin/sexo_persona"
+              id="sexo"
+              value={this.state.sexo}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ sexo: e });
+              }}
+              afterSelect={this.validatorMessage("sexo", "sexo")}
+            ></UISelect>
+            <UIAsynSelect
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Nacionalidad: (*)"
+              apiPath="generales/nacionalidad"
+              id="nacionalidad"
+              value={this.state.nacionalidad}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ nacionalidad: e });
+              }}
+              afterSelect={this.validatorMessage(
+                "nacionalidad",
+                "nacionalidad"
+              )}
+            ></UIAsynSelect>
+            <UIInput
+              type="date"
+              id="fechaNacimiento"
+              placeholder="dd-mm-yyyy"
+              value={this.state.fechaNacimiento}
+              onChange={this.handleInputChange}
+              label="Fecha de nacimiento:(*)"
+              afterInput={this.validatorMessage("Fecha de nacimiento", "fechaNacimiento")}
+            ></UIInput>
+            
+            <UISelect
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Estado civil: (*)"
+              apiPath="generales/estado_civil"
+              id="estadoCivil"
+              value={this.state.estadoCivil}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ estadoCivil: e });
+              }}
+              afterSelect={this.validatorMessage("Estado cívil", "estadoCivil")}
+            ></UISelect>
+            <UIAsynSelect
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Profesión: (*)"
+              apiPath="generales/profesiones"
+              id="profesion"
+              value={this.state.profesion}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({
+                  profesion: e,
+                });
+              }}
+              afterSelect={this.validatorMessage("profesión", "profesion")}
+            ></UIAsynSelect>
+            <UIInput
+              type="text"
+              id="direccion"
+              placeholder="Dirección"
+              value={this.state.direccion}
+              onChange={this.handleInputChange}
+              label="Dirección:(*)"
+              afterInput={this.validatorMessage("Dirección", "direccion")}
+            ></UIInput>
+            
             <div
               className="col-lg-3 form-group"
               hidden={this.state.forUpdate} //para ocultar el campo de fotografia cuando sea usado para actualizar, ya que se usa un boton espefico para eso mas abajo cuando es para actualizar
@@ -814,181 +535,143 @@ export default class PersonaFormComponent extends Component {
                 onChange={this.handleFileChange}
               />
             </div>
+
           </div>
           <div className="row">
             <div className="col-lg-12">
               <h3 className="box-title">Datos de ubicación</h3>
               <hr className="mt-0 mb-4"></hr>
             </div>
-            <div className="col-lg-4 form-group">
-              <label htmlFor="departamentoNacimiento">
-                Departamento de nacimiento: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={
-                  this.props.disableFields?this.props.disableFields:false //para deshabilitar el campo, esto porque como no es un campo de HTML normal al poner disable el fieldset no le afecta
-                }
-                id="departamentoNacimiento"
-                name="departamentoNacimiento"
-                placeholder="Seleccione una opción"
-                value={this.state.departamentoNacimiento}
-                options={this.state.departamentos}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    departamentoNacimiento: e,
-                    municipiosNacimiento: this.getMunicipios(e.value),
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+
+            <UISelect
+              divClass="col-lg-4 form-group"
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Departamento de nacimiento: (*)"
+              apiPath="generales/departamentos"
+              id="departamentoNacimiento"
+              value={this.state.departamentoNacimiento}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ departamentoNacimiento: e });
+                this.refs.municipioNacimiento.setDataByFilter(e.value);
+              }}
+              afterSelect={this.validatorMessage(
                 "Departamento de nacimiento",
                 "departamentoNacimiento"
               )}
-            </div>
-            <div className="col-lg-4 form-group">
-              <label htmlFor="municipioNacimiento">
-                Municipio de nacimiento: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={this.state.municipiosNacimiento == null}
-                id="municipioNacimiento"
-                name="municipioNacimiento"
-                placeholder="Seleccione una opción"
-                value={this.state.municipioNacimiento}
-                options={this.state.municipiosNacimiento}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    municipioNacimiento: e,
-                    cantonesNacimiento: this.getCantones(e.value),
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+            ></UISelect>
+
+            <UISelect
+              divClass="col-lg-4 form-group"
+              loadDataAtMount={false}
+              ref="municipioNacimiento"
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Municipio de nacimiento: (*)"
+              apiPath="generales/municipios"
+              id="municipioNacimiento"
+              value={this.state.municipioNacimiento}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ municipioNacimiento: e });
+                this.refs.cantonNacimiento.setDataByFilter(e.value);
+              }}
+              afterSelect={this.validatorMessage(
                 "Municipio de nacimiento",
                 "municipioNacimiento"
               )}
-            </div>
-            <div className="col-lg-4 form-group">
-              <label htmlFor="cantonNacimiento">
-                Cantón de nacimiento: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={this.state.cantonesNacimiento == null}
-                id="cantonNacimiento"
-                name="cantonNacimiento"
-                placeholder="Seleccione una opción"
-                value={this.state.cantonNacimiento}
-                options={this.state.cantonesNacimiento}
-                on
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    cantonNacimiento: e,
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+            ></UISelect>
+
+            <UISelect
+              divClass="col-lg-4 form-group"
+              loadDataAtMount={false}
+              ref="cantonNacimiento"
+
+              label="Cantón de nacimiento: (*)"
+              apiPath="generales/cantones"
+              id="cantonNacimiento"
+              value={this.state.cantonNacimiento}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ cantonNacimiento: e });
+              }}
+              afterSelect={this.validatorMessage(
                 "Cantón de nacimiento",
                 "cantonNacimiento"
               )}
-            </div>
-
-            <div className="col-lg-4 form-group">
-              <label htmlFor="departamentoResidencia">
-                Departamento de residencia: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={this.props.disableFields?this.props.disableFields:false}
-                id="departamentoResidencia"
-                name="departamentoResidencia"
-                placeholder="Seleccione una opción"
-                value={this.state.departamentoResidencia}
-                options={this.state.departamentos}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    departamentoResidencia: e,
-                    municipiosResidencia: this.getMunicipios(e.value),
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+            ></UISelect>
+            <UISelect
+              divClass="col-lg-4 form-group"
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Departamento de residencia: (*)"
+              apiPath="generales/departamentos"
+              id="departamentoResidencia"
+              value={this.state.departamentoResidencia}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ departamentoResidencia: e });
+                this.refs.municipioResidencia.setDataByFilter(e.value);
+              }}
+              afterSelect={this.validatorMessage(
                 "Departamento de residencia",
                 "departamentoResidencia"
               )}
-            </div>
-            <div className="col-lg-4 form-group">
-              <label htmlFor="municipioResidencia">
-                Municipio de residencia: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={this.state.municipiosResidencia == null}
-                id="municipioResidencia"
-                name="municipioResidencia"
-                placeholder="Seleccione una opción"
-                value={this.state.municipioResidencia}
-                options={this.state.municipiosResidencia}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    municipioResidencia: e,
-                    cantonesResidencia: this.getCantones(e.value),
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+            ></UISelect>
+
+            <UISelect
+              divClass="col-lg-4 form-group"
+              loadDataAtMount={false}
+              ref="municipioResidencia"
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Municipio de residencia: (*)"
+              apiPath="generales/municipios"
+              id="municipioResidencia"
+              value={this.state.municipioResidencia}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ municipioResidencia: e });
+                this.refs.cantonResidencia.setDataByFilter(e.value);
+              }}
+              afterSelect={this.validatorMessage(
                 "Municipio de residencia",
                 "municipioResidencia"
               )}
-            </div>
-            <div className="col-lg-4 form-group">
-              <label htmlFor="cantonResidencia">
-                Cantón de residencia: (*)
-              </label>
-              <SimpleSelect
-                isDisabled={this.state.cantonesResidencia == null}
-                id="cantonResidencia"
-                name="cantonResidencia"
-                placeholder="Seleccione una opción"
-                value={this.state.cantonResidencia}
-                options={this.state.cantonesResidencia}
-                onChange={(e) => {
-                  // this.handleFocusSelect(true)
-                  this.setState({
-                    cantonResidencia: e,
-                  });
-                }}
-                noOptionsMessage={() => {
-                  return "No existen datos";
-                }}
-              />
-              {this.validatorMessage(
+            ></UISelect>
+            <UISelect
+              divClass="col-lg-4 form-group"
+              loadDataAtMount={false}
+              ref="cantonResidencia"
+              isDisabled={
+                this.props.disableFields ? this.props.disableFields : false
+              }
+              label="Cantón de residencia: (*)"
+              apiPath="generales/cantones"
+              id="cantonResidencia"
+              value={this.state.cantonResidencia}
+              onChange={(e) => {
+                // this.handleFocusSelect(true)
+                this.setState({ cantonResidencia: e });
+              }}
+              afterSelect={this.validatorMessage(
                 "Cantón de residencia",
                 "cantonResidencia"
               )}
-            </div>
+            ></UISelect>
           </div>
         </fieldset>
 
         <div className="row">
-          <div className="col-lg-6 form-group" hidden={!this.state.forUpdate || this.state.showFotoUpdate}>
+          <div
+            className="col-lg-6 form-group"
+            hidden={!this.state.forUpdate || this.state.showFotoUpdate}
+          >
             <div className="alert alert-info  " role="alert">
               <div className="mb-2">
                 Cambiar la foto de perfil de la persona
