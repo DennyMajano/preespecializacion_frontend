@@ -159,7 +159,25 @@ class Alerts {
       }
     });
   }
-
+  async QuestionYesNo(title, text, type = "question") {
+    return await Swal.fire({
+      title: title,
+      text: text,
+      icon: type,
+      showCancelButton: true,
+      confirmButtonColor: "#278eb6",
+      cancelButtonColor: "#93908F",
+      confirmButtonText: '<i class="fa fa-check"></i> SI',
+      cancelButtonText: '<i class="fa fa-times-circle"></i> NO',
+      focusCancel: true,
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
   //funcion de error de servidor
   alertErrorServer() {
     Swal.fire({

@@ -300,26 +300,29 @@ class Header extends Component {
                     <i className="mdi mdi-gauge" />
                     <span className="hide-menu">Inicio </span>
                   </NavLink>
-                </li>
-                <li
-                  className={
-                    this.props.location.pathname === "/categorias" ||
-                    this.props.location.pathname === "/categorias/new" ||
-                    this.props.location.pathname.includes("/categorias/update")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "dbe5c0ee-253f-40b0-a244-34e6b1d0316e"
-                  ) && (
-                    <NavLink exact to="/categorias">
-                      <i className="mdi mdi-clipboard" />
-                      <span className="hide-menu">Categorías </span>
+                </li>{" "}
+                {this.state.modulos.includes(
+                  "18130aec-698b-4d2e-8f24-461eff84c4af"
+                ) && (
+                  <li
+                    className={
+                      this.props.location.pathname ===
+                        "/periodos_ministeriales" ||
+                      this.props.location.pathname ===
+                        "/periodos_ministeriales/new" ||
+                      this.props.location.pathname.includes(
+                        "/periodos_ministeriales/update"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <NavLink exact to="/periodos_ministeriales">
+                      <i className="mdi mdi-calendar-clock" />
+                      <span className="hide-menu">Periodos Ministeriales</span>
                     </NavLink>
-                  )}
-                </li>
+                  </li>
+                )}
                 {/*---GESTION*/}
                 <li
                   className={
@@ -362,7 +365,6 @@ class Header extends Component {
                     </NavLink>
                   )}
                 </li>
-
                 <li
                   className={
                     this.props.location.pathname === "/clientes" ||
@@ -418,7 +420,7 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                     {this.state.modulos.includes(
+                    {this.state.modulos.includes(
                       "9c464bd0-6015-4927-a881-9b0005c645ed"
                     ) && (
                       <li>
@@ -440,7 +442,6 @@ class Header extends Component {
                     )}
                   </ul>
                 </li>
-
                 <li>
                   {" "}
                   {this.state.modulos.includes(
@@ -557,7 +558,7 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                   
+
                     {this.state.modulos.includes(
                       "81ea746c-7539-4ff6-b33b-d8bf62f8af9e"
                     ) && (

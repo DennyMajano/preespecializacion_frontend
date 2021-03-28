@@ -44,6 +44,8 @@ import NivelesAcademicos from "./pages/NivelesAcademicos/NivelesAcademicos";
 import NivelesAcademicoForm from "./pages/NivelesAcademicos/NivelesAcademicoForm";
 import Pastores from "./pages/Pastores/Pastores";
 import PastoresForm from "./pages/Pastores/PastoresForm";
+import PeriodosMinisteriales from "./pages/PeriodosMinisteriales/PeriodosMinisteriales";
+import PeriodosMinisterialesForm from "./pages/PeriodosMinisteriales/PeriodosMinisterialesForm";
 
 function App() {
   return (
@@ -380,9 +382,34 @@ function App() {
               "753278e6-c194-4858-ab8e-5d3760cf5ea4"
             )}
           />
-          
-          {/**FIN RUTAS PASTORES */}
 
+          {/**FIN RUTAS PASTORES */}
+          {/**INICIO RUTAS PERIODOS MINISTERIALES */}
+          <PrivateRoute
+            exact
+            path="/periodos_ministeriales"
+            component={Authorization(
+              PeriodosMinisteriales,
+              "18130aec-698b-4d2e-8f24-461eff84c4af"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/periodos_ministeriales/new"
+            component={Authorization(
+              PeriodosMinisterialesForm,
+              "18130aec-698b-4d2e-8f24-461eff84c4af"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/periodos_ministeriales/update/:id"
+            component={Authorization(
+              PeriodosMinisterialesForm,
+              "18130aec-698b-4d2e-8f24-461eff84c4af"
+            )}
+          />
+          {/**FIN RUTAS NIVELES PERIODOS MINISTERIALES */}
           <Redirect to="/" />
         </Switch>
       </MainLayout>
