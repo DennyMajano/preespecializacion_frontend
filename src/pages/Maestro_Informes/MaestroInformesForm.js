@@ -20,6 +20,7 @@ export default class MaestroInformesForm extends Component {
     tipos_informe: [],
     tipo_informe: "",
     nombre: "",
+    ruta: "",
     loading: false,
 
     redirect: false,
@@ -73,6 +74,7 @@ export default class MaestroInformesForm extends Component {
             this.setState({
               nombre: result.nombre,
               tipo_informe: result.tipo_informe,
+              ruta: result.ruta,
             });
           } else {
             this.setState({ redirect: true });
@@ -95,6 +97,7 @@ export default class MaestroInformesForm extends Component {
             this.state.tipo_informe !== "" && this.state.tipo_informe !== null
               ? this.state.tipo_informe.value
               : 0,
+          ruta: this.state.ruta,
         };
         HTTP.update(
           data,
@@ -114,6 +117,7 @@ export default class MaestroInformesForm extends Component {
             this.state.tipo_informe !== "" && this.state.tipo_informe !== null
               ? this.state.tipo_informe.value
               : 0,
+          ruta: this.state.ruta,
         };
         HTTP.create(
           data,
@@ -170,7 +174,7 @@ export default class MaestroInformesForm extends Component {
         >
           <div className="form-body">
             <div className="row p-t-20">
-              <div className="col-lg-6 form-group">
+              <div className="col-lg-4 form-group">
                 <label htmlFor="">Nombre:(*)</label>
 
                 <input
@@ -195,7 +199,32 @@ export default class MaestroInformesForm extends Component {
                   </span>
                 )}
               </div>
-              <div className="col-lg-6 form-group">
+              <div className="col-lg-4 form-group">
+                <label htmlFor="">Ruta: (*)</label>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Ruta: /informe/ministerial"
+                  id="ruta"
+                  value={this.state.ruta}
+                  onChange={this.handleInputChange}
+                />
+                {this.validator.message(
+                  "ruta",
+                  this.state.ruta,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "ruta",
+                      this.state.ruta,
+                      "required"
+                    )}
+                  </span>
+                )}
+              </div>
+              <div className="col-lg-4 form-group">
                 <label htmlFor="">Tipo Informe: (*)</label>
 
                 <Select
