@@ -139,7 +139,7 @@ export default class MaestroInformesForm extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/organizacion/maestro_informes" />;
+      return <Redirect to="/administracion/maestro_informes" />;
     }
     return (
       <React.Fragment>

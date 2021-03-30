@@ -479,16 +479,6 @@ class Header extends Component {
                       </li>
                     )}
                     {this.state.modulos.includes(
-                      "6036af3b-234f-4c74-bdec-53a457f39d0a"
-                    ) && (
-                      <li>
-                        <NavLink to="/organizacion/maestro_informes">
-                          <i className="mdi mdi-file-document mr-1" />
-                          <span>Maestro de Informe</span>
-                        </NavLink>
-                      </li>
-                    )}
-                    {this.state.modulos.includes(
                       "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
                     ) && (
                       <li>
@@ -526,6 +516,16 @@ class Header extends Component {
                     </a>
                   )}
                   <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "6036af3b-234f-4c74-bdec-53a457f39d0a"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/maestro_informes">
+                          <i className="mdi mdi-file-document mr-1" />
+                          <span>Maestro de Informe</span>
+                        </NavLink>
+                      </li>
+                    )}
                     {this.state.modulos.includes(
                       "f91cdcdd-6623-47d7-ae19-87b75e966ff6"
                     ) && (

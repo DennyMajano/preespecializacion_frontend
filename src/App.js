@@ -245,7 +245,7 @@ function App() {
           {/**INICIO RUTAS Maestro de informes */}
           <PrivateRoute
             exact
-            path="/organizacion/maestro_informes"
+            path="/administracion/maestro_informes"
             component={Authorization(
               MaestroInformes,
               "6036af3b-234f-4c74-bdec-53a457f39d0a"
@@ -253,7 +253,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/organizacion/maestro_informes/new"
+            path="/administracion/maestro_informes/new"
             component={Authorization(
               MaestroInformesForm,
               "6036af3b-234f-4c74-bdec-53a457f39d0a"
@@ -261,7 +261,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/organizacion/maestro_informes/update/:id"
+            path="/administracion/maestro_informes/update/:id"
             component={Authorization(
               MaestroInformesForm,
               "6036af3b-234f-4c74-bdec-53a457f39d0a"

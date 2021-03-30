@@ -92,7 +92,7 @@ export default class MaestroInformes extends Component {
   };
   update = ({ event, props }) => {
     this.props.history.push(
-      "/organizacion/maestro_informes/update/" + props.id
+      "/administracion/maestro_informes/update/" + props.id
     );
   };
   rowEvents = {
@@ -126,7 +126,7 @@ export default class MaestroInformes extends Component {
       <React.Fragment>
         <LayoutPanelTable
           titulo="Administración de maestro de informes"
-          rutacreate="/organizacion/maestro_informes/new"
+          rutacreate="/administracion/maestro_informes/new"
         >
           <div className="form-body">
             <div className="row p-t-20">
