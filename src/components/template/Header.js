@@ -3,7 +3,6 @@ import Encryptacion from "../../services/Encrypt";
 import { NavLink } from "react-router-dom";
 import Request from "../../services/Request";
 import DefaultImage from "../utils/images/default.png";
-import RoutesPath from "./../../config/RoutesPath";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -301,6 +300,66 @@ class Header extends Component {
                     <span className="hide-menu">Inicio </span>
                   </NavLink>
                 </li>{" "}
+                {/*---INFORMES MENSUALES*/}
+                <li>
+                  {this.state.modulos.includes(
+                    "c60cf119-9e48-4267-9b68-1ac6e511bb39"
+                  ) && (
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-clipboard-text " />
+                      <span className="hide-menu">Informes Mensuales</span>
+                    </a>
+                  )}
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "069c8570-a351-4e5b-9228-448893c18e49"
+                    ) && (
+                      <li>
+                        <NavLink to="/informes_mensuales/gestiones_entrega">
+                          <i className="mdi mdi-clipboard-flow mr-1" />
+                          <span>Gestiones de Entrega</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                    {this.state.modulos.includes(
+                      "8130362d-d425-4019-b47b-42450ee15fed"
+                    ) && (
+                      <li>
+                        <NavLink to="/informes_mensuales/recepcion_informes">
+                          <i className="mdi mdi-clipboard-check mr-1" />
+                          <span>Recepción de Informes</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
+                </li>
+                {this.state.modulos.includes(
+                  "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+                ) && (
+                  <li
+                    className={
+                      this.props.location.pathname ===
+                        "/presentacion_informes" ||
+                      this.props.location.pathname ===
+                        "/presentacion_informes/new" ||
+                      this.props.location.pathname.includes(
+                        "/presentacion_informes/update"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <NavLink exact to="/presentacion_informes">
+                      <i className="mdi mdi-clipboard-check" />
+                      <span className="hide-menu">Presentar Informes</span>
+                    </NavLink>
+                  </li>
+                )}
                 {this.state.modulos.includes(
                   "18130aec-698b-4d2e-8f24-461eff84c4af"
                 ) && (
@@ -323,67 +382,6 @@ class Header extends Component {
                     </NavLink>
                   </li>
                 )}
-                {/*---GESTION*/}
-                <li
-                  className={
-                    this.props.location.pathname === RoutesPath.GESTIONES ||
-                    this.props.location.pathname ===
-                      RoutesPath.GESTIONES_NUEVA ||
-                    this.props.location.pathname ===
-                      RoutesPath.GESTIONES_HISTORIAL
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "3ba1f88d-3cf1-4bc2-90c4-74a5388acb10"
-                  ) && (
-                    <NavLink exact to="/gestiones">
-                      <i className="mdi mdi-clipboard" />
-                      <span className="hide-menu">Gestiones</span>
-                    </NavLink>
-                  )}
-                </li>
-                {/*---/GESTION*/}
-                <li
-                  className={
-                    this.props.location.pathname === "/productos" ||
-                    this.props.location.pathname === "/productos/new" ||
-                    this.props.location.pathname.includes("/productos/update")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "6506804a-90e0-40a5-8522-5fd094005f71"
-                  ) && (
-                    <NavLink exact to="/productos">
-                      <i className="mdi mdi-cart" />
-                      <span className="hide-menu">Productos </span>
-                    </NavLink>
-                  )}
-                </li>
-                <li
-                  className={
-                    this.props.location.pathname === "/clientes" ||
-                    this.props.location.pathname === "/clientes/new" ||
-                    this.props.location.pathname.includes("/clientes/update")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "6e7719cb-ec27-41db-8330-bc36a612bd85"
-                  ) && (
-                    <NavLink exact to="/clientes">
-                      <i className="mdi mdi-account-card-details" />
-                      <span className="hide-menu">Clientes </span>
-                    </NavLink>
-                  )}
-                </li>
                 <li>
                   {" "}
                   {this.state.modulos.includes(
