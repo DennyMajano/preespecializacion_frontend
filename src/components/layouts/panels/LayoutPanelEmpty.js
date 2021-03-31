@@ -18,7 +18,7 @@ function LayoutPanelEmpty(props) {
         {/* ============================================================== */}
         <div className="row">
           <div className="col-lg-12">
-            <div className="card card-outline-secondary">
+            <div className="card card-outline-secondary border border-maroon">
               <div className="card-header">
                 <div className="pull-left">
                   <h3>
@@ -31,7 +31,9 @@ function LayoutPanelEmpty(props) {
               </div>
               <div className="card-body">{props.children}</div>
 
-              <div className="card-footer text-center">{props.buttons}</div>
+              {props.buttons ? (
+                <div className="card-footer text-center">{props.buttons}</div>
+              ) : null}
             </div>
           </div>
         </div>

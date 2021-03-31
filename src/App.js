@@ -46,6 +46,9 @@ import Pastores from "./pages/Pastores/Pastores";
 import PastoresForm from "./pages/Pastores/PastoresForm";
 import PeriodosMinisteriales from "./pages/PeriodosMinisteriales/PeriodosMinisteriales";
 import PeriodosMinisterialesForm from "./pages/PeriodosMinisteriales/PeriodosMinisterialesForm";
+import GestionesInformes from "./pages/Informes/GestionesInformes/GestionesInformes";
+import GestionesInformesForm from "./pages/Informes/GestionesInformes/GestionesInformesForm";
+import GestionesAsignacionInformes from "./pages/Informes/GestionesInformes/GestionesAsignacionInformes";
 
 function App() {
   return (
@@ -410,6 +413,42 @@ function App() {
             )}
           />
           {/**FIN RUTAS NIVELES PERIODOS MINISTERIALES */}
+
+          {/**INICIO RUTAS GESTIONES DE INFORMES */}
+          <PrivateRoute
+            exact
+            path="/informes_mensuales/gestiones_entrega"
+            component={Authorization(
+              GestionesInformes,
+              "069c8570-a351-4e5b-9228-448893c18e49"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/informes_mensuales/gestiones_entrega/new"
+            component={Authorization(
+              GestionesInformesForm,
+              "069c8570-a351-4e5b-9228-448893c18e49"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/informes_mensuales/gestiones_entrega/asignacion_informes/:id"
+            component={Authorization(
+              GestionesAsignacionInformes,
+              "069c8570-a351-4e5b-9228-448893c18e49"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/informes_mensuales/gestiones_entrega/update/:id"
+            component={Authorization(
+              GestionesInformesForm,
+              "069c8570-a351-4e5b-9228-448893c18e49"
+            )}
+          />
+          {/**FIN RUTAS NIVELES GESTIONES DE INFORMES */}
+
           <Redirect to="/" />
         </Switch>
       </MainLayout>

@@ -1,5 +1,5 @@
 import React from "react";
-function LayoutPanelTable(props) {
+function LayoutPanelFormulario(props) {
   return (
     <React.Fragment>
       {/* ============================================================== */}
@@ -66,4 +66,4 @@ function LayoutPanelTable(props) {
     </React.Fragment>
   );
 }
-export default LayoutPanelTable;
+export default LayoutPanelFormulario;
