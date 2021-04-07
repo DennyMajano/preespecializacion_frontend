@@ -19,6 +19,7 @@ export default class PeriodosMinisteriales extends Component {
     descripcion: "",
     anio: "",
     estado: "",
+    periodo_actual: null,
   };
 
   async handleChangeTab(key) {
@@ -28,6 +29,8 @@ export default class PeriodosMinisteriales extends Component {
       this.refs.tabla_configurados.clear();
     } else if (key === "periodos_finalizados") {
       this.refs.tabla_finalizados.clear();
+    } else if (key === "periodo_vigente") {
+      this.getPeriodoVigente();
     }
   }
   columns = [
@@ -178,6 +181,61 @@ export default class PeriodosMinisteriales extends Component {
     HTTP.findById(2, "periodos/estado").then((result) => {
       if (result !== false) {
         this.setState(result[0]);
+        this.setState({
+          periodo_actual: result.length > 0 ? result[0].id : null,
+        });
+      }
+    });
+  }
+  finalizar() {
+    Alerts.QuestionYesNo(
+      "¿Está seguro que desea finalizar el periodo ministerial?",
+      "Administración de periodos ministeriales",
+      "question"
+    ).then((resp) => {
+      if (resp) {
+        Alerts.loading_reload(true);
+        HTTP.findById(this.state.codigo, "periodo/finalizar").then((result) => {
+          if (result !== false) {
+            if (result.puedeFinalizar === true) {
+              const data = {
+                codigo: this.state.codigo,
+              };
+              Request.PUT("periodo/finalizar", data).then((result) => {
+                Alerts.loading_reload(false);
+                if (result !== false) {
+                  if (result.status === 200) {
+                    Alerts.alertEmpty(
+                      "¡Periodo ministerial finalizado con éxito!",
+                      "Administración de periodos ministeriales",
+                      "success"
+                    );
+                    this.getPeriodoVigente();
+                  } else {
+                    Alerts.alertEmpty(
+                      "¡Periodo ministerial no pudo ser finalizado!",
+                      "Administración de periodos ministeriales",
+                      "error"
+                    );
+                  }
+                } else {
+                  Alerts.alertEmpty(
+                    "¡Periodo ministerial no pudo ser finalizado!",
+                    "Administración de periodos ministeriales",
+                    "error"
+                  );
+                }
+              });
+            } else {
+              Alerts.loading_reload(false);
+              Alerts.alertEmpty(
+                "¡No puede finalizar el periodo, porque hay gestiones de informes no finalizados!",
+                "Administración de periodos ministeriales",
+                "warning"
+              );
+            }
+          }
+        });
       }
     });
   }
@@ -198,27 +256,50 @@ export default class PeriodosMinisteriales extends Component {
                 >
                   <Tab eventKey="periodo_vigente" title="Periodo vigente">
                     <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12 mx-auto m-t-30">
-                        {/* Card */}
-                        <div className="card border border-dark">
-                          <div className="card-header border-bottom border-dark">
-                            Periodo Ministerial Vigente
-                          </div>
-                          <div className="card-body text-center">
-                            <h4 className="card-title">
-                              {this.state.descripcion}
-                            </h4>
+                      {this.state.periodo_actual !== null ? (
+                        <div className="col-lg-6 col-md-8 col-sm-12 mx-auto m-t-30">
+                          {/* Card */}
+                          <div className="card border border-dark">
+                            <div className="card-header border-bottom border-dark">
+                              Periodo Ministerial Vigente
+                            </div>
+                            <div className="card-body text-center">
+                              <h4 className="card-title">
+                                {this.state.descripcion}
+                              </h4>
 
-                            <button type="button" className="btn btn-info">
-                              Go somewhere
-                            </button>
+                              <button
+                                onClick={this.finalizar.bind(this)}
+                                type="button"
+                                className="btn btn-info"
+                              >
+                                <i className="fa fa-close mr-2"></i>
+                                Finalizar Periodo
+                              </button>
+                            </div>
+                            <div className="card-footer text-muted border-top border-secondary text-center">
+                              Iglesia de Dios de la Profecía Universal
+                            </div>
                           </div>
-                          <div className="card-footer text-muted border-top border-secondary text-center">
-                            Iglesia de Dios de la Profecía Universal
-                          </div>
+                          {/* Card */}
                         </div>
-                        {/* Card */}
-                      </div>
+                      ) : (
+                        <div className="col-lg-6 col-md-8 col-sm-12 mx-auto m-t-30">
+                          {/* Card */}
+                          <div className="card border border-dark">
+                            <div className="card-header border-bottom border-dark">
+                              No existe periodo activo
+                            </div>
+                            <div className="card-body text-center">
+                              <h3>Por favor active un periodo ministerial</h3>
+                            </div>
+                            <div className="card-footer text-muted border-top border-secondary text-center">
+                              Iglesia de Dios de la Profecía Universal
+                            </div>
+                          </div>
+                          {/* Card */}
+                        </div>
+                      )}
                     </div>
                   </Tab>
                   <Tab
@@ -257,7 +338,7 @@ export default class PeriodosMinisteriales extends Component {
                   </Tab>
                   <Tab
                     eventKey="periodos_finalizados"
-                    title="Periodos Configurados"
+                    title="Periodos Finalizados"
                   >
                     <div className="form-body">
                       <div className="row p-t-20">
