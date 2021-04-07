@@ -6,6 +6,7 @@ import SimpleReactValidator from "simple-react-validator";
 import es from "../../../helpers/ValidatorTranslate_es";
 import Request from "../../../services/Request";
 import Alerts from "../../../services/Alerts";
+import Select from "react-select";
 
 export default class GestionesInformesForm extends Component {
   constructor(props) {
@@ -24,7 +25,9 @@ export default class GestionesInformesForm extends Component {
     tipos: [],
     fecha_recibir_inicio: "",
     fecha_recibir_final: "",
+    periodo_actual: null,
     loading: false,
+    disabled_select_tipo: true,
     actualizando: false,
     redirect: false,
   };
@@ -35,8 +38,22 @@ export default class GestionesInformesForm extends Component {
   };
 
   componentDidMount() {
-    document.getElementById("nombre").focus();
+    document.getElementById("descripcion").focus();
+    this.setState({
+      tipos: this.getTiposInforme(),
+    });
+    this.getPeriodoVigente();
     this.getbyId();
+  }
+
+  getPeriodoVigente() {
+    HTTP.findById(2, "periodos/estado").then((result) => {
+      if (result !== false) {
+        this.setState({
+          periodo_actual: result.length > 0 ? result[0] : null,
+        });
+      }
+    });
   }
   getbyId() {
     if (this.props.match.params.id) {
@@ -81,7 +98,7 @@ export default class GestionesInformesForm extends Component {
     }
   }
 
-  asignacionDepartamentos() {
+  asignacionInformes() {
     if (this.validator.allValid()) {
       this.setState({
         loading: true,
@@ -102,21 +119,31 @@ export default class GestionesInformesForm extends Component {
         });
       } else {
         const data = {
-          nombre: this.state.nombre,
+          descripcion: this.state.descripcion,
+          tipo:
+            this.state.tipo !== "" && this.state.tipo !== null
+              ? this.state.tipo.value
+              : null,
+          fechaRecibirFin: this.state.fecha_recibir_final,
+          fechaRecibirInicio: this.state.fecha_recibir_inicio,
+          periodo:
+            this.state.periodo_actual !== null
+              ? this.state.periodo_actual.codigo
+              : null,
         };
-        Request.POST("zonas", data).then((result) => {
+        Request.POST("gestiones", data).then((result) => {
           this.setState({
             loading: false,
           });
           if (result !== false) {
             if (result.status === 201) {
               this.props.history.push(
-                `/informes_mensuales/gestiones_entrega/asignacion/${result.data.zona}`
+                `/informes_mensuales/gestiones_entrega/asignacion_informes/${result.data.id}`
               );
             } else {
               Alerts.alertEmpty(
                 "¡No se pudo crear!",
-                "Administración de zonas",
+                "Administración de gestiones de informe",
                 "error"
               );
             }
@@ -128,7 +155,22 @@ export default class GestionesInformesForm extends Component {
       this.forceUpdate();
     }
   }
+  getTiposInforme() {
+    let data = [];
 
+    HTTP.findAll(`generales/tipo_informe`).then((result) => {
+      result.forEach((element) => {
+        data.push({
+          label: element.nombre,
+          value: element.id,
+        });
+      });
+
+      this.setState({ disabled_select_tipo: false });
+    });
+
+    return data;
+  }
   render() {
     if (this.state.redirect) {
       return <Redirect to="/informes_mensuales/gestiones_entrega" />;
@@ -183,11 +225,11 @@ export default class GestionesInformesForm extends Component {
                       ? true
                       : false
                   }
-                  onClick={this.asignacionDepartamentos.bind(this)}
+                  onClick={this.asignacionInformes.bind(this)}
                 >
                   <i className="fa fa-plus mr-2"></i>
                   {this.state.loading === false
-                    ? "GUARDAR Y ASIGNAR MÓDULOS"
+                    ? "Guardar y Asignar Informes"
                     : "CARGANDO..."}
                 </button>
               </div>
@@ -196,26 +238,105 @@ export default class GestionesInformesForm extends Component {
         >
           <div className="form-body">
             <div className="row p-t-20">
-              <div className="col-lg-6 form-group">
-                <label htmlFor="">Nombre: (*)</label>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Descripción: (*)</label>
 
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Nombre"
-                  id="nombre"
-                  value={this.state.nombre}
+                  placeholder="Descripción"
+                  id="descripcion"
+                  value={this.state.descripcion}
                   onChange={this.handleInputChange}
                 />
                 {this.validator.message(
-                  "nombre",
-                  this.state.nombre,
+                  "descripción",
+                  this.state.descripcion,
                   "required"
                 ) && (
                   <span className="label label-light-danger">
                     {this.validator.message(
-                      "nombre",
-                      this.state.nombre,
+                      "descripción",
+                      this.state.descripcion,
+                      "required"
+                    )}
+                  </span>
+                )}
+              </div>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Tipo Gestión informes: (*)</label>
+
+                <Select
+                  id="tipo"
+                  name="tipo"
+                  placeholder="Seleccione una opción"
+                  value={this.state.tipo}
+                  isClearable={true}
+                  options={this.state.tipos}
+                  isDisabled={this.state.disabled_select_tipo}
+                  onChange={(e) => {
+                    this.setState({
+                      tipo: e,
+                    });
+                  }}
+                />
+                {this.validator.message(
+                  "tipo",
+                  this.state.tipo,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "tipo",
+                      this.state.tipo,
+                      "required"
+                    )}
+                  </span>
+                )}
+              </div>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Fecha inicio recepción: (*)</label>
+
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fecha_recibir_inicio"
+                  value={this.state.fecha_recibir_inicio}
+                  onChange={this.handleInputChange}
+                />
+                {this.validator.message(
+                  "Fecha inicio recepción",
+                  this.state.fecha_recibir_inicio,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "Fecha inicio recepción",
+                      this.state.fecha_recibir_inicio,
+                      "required"
+                    )}
+                  </span>
+                )}
+              </div>
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Fecha fin recepción: (*)</label>
+
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fecha_recibir_final"
+                  value={this.state.fecha_recibir_final}
+                  onChange={this.handleInputChange}
+                />
+                {this.validator.message(
+                  "Fecha fin recepción",
+                  this.state.fecha_recibir_final,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "Fecha fin recepción",
+                      this.state.fecha_recibir_final,
                       "required"
                     )}
                   </span>

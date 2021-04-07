@@ -447,7 +447,7 @@ function App() {
               "069c8570-a351-4e5b-9228-448893c18e49"
             )}
           />
-          {/**FIN RUTAS NIVELES GESTIONES DE INFORMES */}
+          {/**FIN RUTAS GESTIONES DE INFORMES */}
 
           <Redirect to="/" />
         </Switch>
