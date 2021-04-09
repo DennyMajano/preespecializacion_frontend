@@ -179,7 +179,7 @@ class HTTP {
     let resp;
 
     const mensaje = await Alert.alertConfirm(
-      `¿Esta seguro que desea eliminar el ${nombre_modulo}?`,
+      `¿Esta seguro que desea eliminar el registro de ${nombre_modulo}?`,
       `Administración de ${nombre_modulo_plural}`
     );
 

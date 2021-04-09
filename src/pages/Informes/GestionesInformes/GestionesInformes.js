@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import LayoutPanelTable from "../../../components/layouts/panels/LayoutPanelTable";
 import { Tabs, Tab } from "react-bootstrap";
 import LayoutPanelEmpty from "../../../components/layouts/panels/LayoutPanelEmpty";
+import Request from "../../../services/Request";
+import HTTP from "../../../helpers/HTTP";
 export default class GestionesInformes extends Component {
   constructor(props) {
     super(props);
@@ -10,15 +12,47 @@ export default class GestionesInformes extends Component {
 
   inicial_state = {
     tab_active: "gestion_activa",
+    gestiones_nopublicadas: [],
   };
   async handleChangeTab(key) {
     await this.setState({ tab_active: key });
 
-    // if (key === "periodos_configurando") {
-    //   this.refs.tabla_configurados.clear();
-    // } else if (key === "periodos_finalizados") {
-    //   this.refs.tabla_finalizados.clear();
-    // }
+    if (key === "periodos_cogestion_activanfigurando") {
+    } else if (key === "gestiones_inactivas") {
+      this.getGestionesNoPublicadas();
+    }
+  }
+  componentDidMount() {
+    this.getGestionesNoPublicadas();
+  }
+
+  actualizar(id) {
+    this.props.history.push(
+      `/informes_mensuales/gestiones_entrega/update/${id}`
+    );
+  }
+
+  getGestionesNoPublicadas() {
+    HTTP.findAll("gestiones/inactivas").then((result) => {
+      if (result !== false) {
+        this.setState({ gestiones_nopublicadas: result });
+      }
+    });
+  }
+  delete(codigo) {
+    const data = {
+      codigoGestion: codigo,
+    };
+    HTTP.delete_disable(
+      data,
+      "gestión de informe",
+      "gestiones de informe",
+      "gestion"
+    ).then((result) => {
+      if (result !== false) {
+        this.getGestionesNoPublicadas();
+      }
+    });
   }
   render() {
     return (
@@ -75,46 +109,83 @@ export default class GestionesInformes extends Component {
                     </div>
                   </Tab>
                   <Tab
-                    eventKey="gestiones_configuracion"
+                    eventKey="gestiones_inactivas"
                     title="Gestiones no publicadas"
                   >
                     <div className="row">
                       <div className="col-lg-12 mt-4 ">
-                        <LayoutPanelEmpty titulo_panel="Gestion: GEST-1245454">
-                          <div className="row">
-                            <div className="col-lg-12 ">
-                              <table className="table table-bordered table-bordered-table color-bordered-table muted-bordered-table">
-                                <thead>
-                                  <tr>
-                                    <th>Tipo Gestión</th>
-                                    <th>Descripción</th>
-                                    <th>Fecha Creación</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Fecha Fin</th>
-                                    <th>Estado</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Informes de Iglesia</td>
-                                    <td>
-                                      Informes correspondiente al mes de Abril
-                                      de 2021
-                                    </td>
-                                    <td>
-                                      Domingo, 30 de Marzo de 2021 - 4:35 AM
-                                    </td>
-                                    <td>Jueves, 15 Abril de 2021 - 12:00 AM</td>
-                                    <td>
-                                      Viernes, 30 Abril de 2021 - 11:59 PM
-                                    </td>
-                                    <td>No Publicada</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </LayoutPanelEmpty>
+                        {this.state.gestiones_nopublicadas.map((element) => {
+                          return (
+                            <LayoutPanelEmpty
+                              key={element.id}
+                              titulo_panel={`Gestion: ${element.codigo}`}
+                              buttons={
+                                <React.Fragment>
+                                  <button
+                                    onClick={this.actualizar.bind(
+                                      this,
+                                      element.id
+                                    )}
+                                    className="btn btn-outline-info mr-2"
+                                  >
+                                    <i className="fa fa-pencil mr-2"></i>
+                                    Actualizar
+                                  </button>
+                                  <button className="btn btn-outline-info mr-2">
+                                    <i className="fa fa-pencil mr-2"></i>
+                                    Publicar
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={this.delete.bind(
+                                      this,
+                                      element.codigo
+                                    )}
+                                    className="btn btn-outline-danger"
+                                  >
+                                    <i className="fa fa-pencil mr-2"></i>
+                                    Eliminar
+                                  </button>
+                                </React.Fragment>
+                              }
+                            >
+                              <div className="row">
+                                <div className="col-lg-12 ">
+                                  <table className="table table-bordered table-bordered-table color-bordered-table muted-bordered-table">
+                                    <thead>
+                                      <tr>
+                                        <th className="text-center">
+                                          Tipo Gestión
+                                        </th>
+                                        <th className="text-center">
+                                          Descripción
+                                        </th>
+                                        <th className="text-center">
+                                          Fecha Creación
+                                        </th>
+                                        <th className="text-center">
+                                          Fecha Inicio
+                                        </th>
+                                        <th className="text-center">
+                                          Fecha Fin
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{element.tipo_gestion_name}</td>
+                                        <td>{element.descripcion}</td>
+                                        <td>{element.fecha_cr}</td>
+                                        <td>{element.fecha_recibir_inicio}</td>
+                                        <td>{element.fecha_recibir_fin}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </LayoutPanelEmpty>
+                          );
+                        })}
                       </div>
                     </div>
                   </Tab>

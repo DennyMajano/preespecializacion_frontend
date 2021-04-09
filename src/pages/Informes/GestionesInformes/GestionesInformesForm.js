@@ -7,6 +7,7 @@ import es from "../../../helpers/ValidatorTranslate_es";
 import Request from "../../../services/Request";
 import Alerts from "../../../services/Alerts";
 import Select from "react-select";
+import DateValidator from "../../../services/DateValidator";
 
 export default class GestionesInformesForm extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class GestionesInformesForm extends Component {
       : "Registro gestiones de informe",
 
     descripcion: "",
+    codigo: null,
     tipo: "",
     tipos: [],
     fecha_recibir_inicio: "",
@@ -40,7 +42,7 @@ export default class GestionesInformesForm extends Component {
   componentDidMount() {
     document.getElementById("descripcion").focus();
     this.setState({
-      tipos: this.getTiposInforme(),
+      tipos: this.getTiposGestiones(),
     });
     this.getPeriodoVigente();
     this.getbyId();
@@ -57,10 +59,22 @@ export default class GestionesInformesForm extends Component {
   }
   getbyId() {
     if (this.props.match.params.id) {
-      HTTP.findById(this.props.match.params.id, "zonas").then((result) => {
+      HTTP.findById(this.props.match.params.id, "gestion").then((result) => {
         if (result !== false) {
           this.setState({
-            nombre: result.nombre,
+            codigo: result.codigo,
+            descripcion: result.descripcion,
+            tipo: {
+              label: result.tipo_gestion_name,
+              value: result.tipo_gestion_id,
+            },
+            fecha_recibir_inicio: DateValidator.validarFechas(
+              result.fecha_recibir_inicio
+            ),
+            fecha_recibir_final: DateValidator.validarFechas(
+              result.fecha_recibir_fin
+            ),
+            disabled_select_tipo: false,
           });
         } else {
           this.setState({ redirect: true });
@@ -78,20 +92,28 @@ export default class GestionesInformesForm extends Component {
     this.forceUpdate();
   }
 
-  updateZona() {
+  updateGestion() {
     if (this.validator.allValid()) {
       this.setState({ actualizando: true });
       const data = {
-        code: this.props.match.params.id,
-        nombre: this.state.nombre,
+        descripcion: this.state.descripcion,
+        tipo:
+          this.state.tipo !== "" && this.state.tipo !== null
+            ? this.state.tipo.value
+            : null,
+        fechaRecibirFin: this.state.fecha_recibir_final,
+        fechaRecibirInicio: this.state.fecha_recibir_inicio,
+        codigoGestion: this.state.codigo,
       };
-      HTTP.update(data, "zona", "zonas", "zonas").then((result) => {
-        this.setState({ actualizando: false });
+      HTTP.update(data, "gestión", "gestiones de informes", "gestiones").then(
+        (result) => {
+          this.setState({ actualizando: false });
 
-        if (result !== false) {
-          this.setState({ redirect: true });
+          if (result !== false) {
+            this.setState({ redirect: true });
+          }
         }
-      });
+      );
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -105,18 +127,26 @@ export default class GestionesInformesForm extends Component {
       });
       if (this.props.match.params.id) {
         const data = {
-          code: this.props.match.params.id,
-          nombre: this.state.nombre,
+          descripcion: this.state.descripcion,
+          tipo:
+            this.state.tipo !== "" && this.state.tipo !== null
+              ? this.state.tipo.value
+              : null,
+          fechaRecibirFin: this.state.fecha_recibir_final,
+          fechaRecibirInicio: this.state.fecha_recibir_inicio,
+          codigoGestion: this.state.codigo,
         };
-        HTTP.update(data, "zona", "zonas", "zonas").then((result) => {
-          this.setState({ actualizando: false });
+        HTTP.update(data, "gestión", "gestiones de informes", "gestiones").then(
+          (result) => {
+            this.setState({ actualizando: false });
 
-          if (result !== false) {
-            this.props.history.push(
-              `/informes_mensuales/gestiones_entrega/asignacion/${this.props.match.params.id}`
-            );
+            if (result !== false) {
+              this.props.history.push(
+                `/informes_mensuales/gestiones_entrega/asignacion_informes/${this.props.match.params.id}`
+              );
+            }
           }
-        });
+        );
       } else {
         const data = {
           descripcion: this.state.descripcion,
@@ -155,10 +185,10 @@ export default class GestionesInformesForm extends Component {
       this.forceUpdate();
     }
   }
-  getTiposInforme() {
+  getTiposGestiones() {
     let data = [];
 
-    HTTP.findAll(`generales/tipo_informe`).then((result) => {
+    HTTP.findAll(`generales/tipos_gestiones`).then((result) => {
       result.forEach((element) => {
         data.push({
           label: element.nombre,
@@ -208,12 +238,12 @@ export default class GestionesInformesForm extends Component {
                         ? true
                         : false
                     }
-                    onClick={this.updateZona.bind(this)}
+                    onClick={this.updateGestion.bind(this)}
                   >
                     <i className="fa fa-save mr-2"></i>
                     {this.state.actualizando === false
-                      ? "GUARDAR Y SALIR"
-                      : "GUARDANDO..."}
+                      ? "Guardar y Salir"
+                      : "Guardando..."}
                   </button>
                 )}
                 <button
