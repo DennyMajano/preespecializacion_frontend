@@ -52,8 +52,13 @@ export default class GestionesAsignacionInformes extends Component {
   }
 
   getGestionById() {
-    if (this.props.match.params.id) {
-      HTTP.findById(this.props.match.params.id, "gestion").then((result) => {
+    if (this.props.match.params.id || this.props.match.params.gestion_activa) {
+      HTTP.findById(
+        this.props.match.params.id
+          ? this.props.match.params.id
+          : this.props.match.params.gestion_activa,
+        "gestion"
+      ).then((result) => {
         if (result !== false) {
           this.setState({
             nombre: result.descripcion,
@@ -243,14 +248,15 @@ export default class GestionesAsignacionInformes extends Component {
   rowEvents = {
     onContextMenu: (e, row, rowIndex) => {
       e.preventDefault();
-
-      contextMenu.show({
-        id: "menu",
-        event: e,
-        props: {
-          id: row.gestion_informe,
-        },
-      });
+      if (!this.props.match.params.gestion_activa) {
+        contextMenu.show({
+          id: "menu",
+          event: e,
+          props: {
+            id: row.gestion_informe,
+          },
+        });
+      }
     },
   };
   render() {
@@ -306,7 +312,12 @@ export default class GestionesAsignacionInformes extends Component {
                   isClearable={true}
                   loadOptions={this.getInformesParam}
                   defaultOptions={this.state.informes}
-                  isDisabled={this.state.disabled_select_informe}
+                  isDisabled={
+                    this.state.disabled_select_informe === true ||
+                    this.props.match.params.gestion_activa
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     // this.handleFocusSelect(true)
                     this.setState({ informe: e });
@@ -352,13 +363,15 @@ export default class GestionesAsignacionInformes extends Component {
               </div>
               <div className="col-12 card-footer text-center">
                 <div className="btn-group">
-                  <button
-                    type="button"
-                    onClick={this.asignar.bind(this)}
-                    className="btn btn-info"
-                  >
-                    ASIGNAR
-                  </button>
+                  {!this.props.match.params.gestion_activa ? (
+                    <button
+                      type="button"
+                      onClick={this.asignar.bind(this)}
+                      className="btn btn-info"
+                    >
+                      ASIGNAR
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -369,7 +382,10 @@ export default class GestionesAsignacionInformes extends Component {
               <div className="col-lg-12">
                 <TablaFilter
                   ref="tabla"
-                  ruta={`gestiones/informes/${this.props.match.params.id}`}
+                  ruta={`gestiones/informes/${
+                    this.props.match.params.id ||
+                    this.props.match.params.gestion_activa
+                  }`}
                   rowEvents={this.rowEvents}
                   identificador={"gestion_informe"}
                   columns={this.columns}

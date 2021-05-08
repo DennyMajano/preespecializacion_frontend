@@ -34,7 +34,17 @@ export default class GestionesInformes extends Component {
       `/informes_mensuales/gestiones_entrega/update/${id}`
     );
   }
+  asignacion(id) {
+    this.props.history.push(
+      `/informes_mensuales/gestiones_entrega/asignacion_informes/${id}`
+    );
+  }
 
+  asignados(id) {
+    this.props.history.push(
+      `/informes_mensuales/gestiones_entrega/asignados/${id}`
+    );
+  }
   getGestionesNoPublicadas() {
     HTTP.findAll("gestiones/inactivas").then((result) => {
       if (result !== false) {
@@ -177,6 +187,16 @@ export default class GestionesInformes extends Component {
                                 buttons={
                                   <React.Fragment>
                                     <button
+                                      onClick={this.asignados.bind(
+                                        this,
+                                        element.id
+                                      )}
+                                      className="btn btn-outline-info mr-2"
+                                    >
+                                      <i className="fa fa-file-text-o mr-2"></i>
+                                      Ver Informes Gestión
+                                    </button>
+                                    <button
                                       type="button"
                                       className="btn btn-outline-inverse"
                                       onClick={this.finalizar.bind(
@@ -261,6 +281,16 @@ export default class GestionesInformes extends Component {
                                     >
                                       <i className="fa fa-pencil mr-2"></i>
                                       Actualizar
+                                    </button>
+                                    <button
+                                      onClick={this.asignacion.bind(
+                                        this,
+                                        element.id
+                                      )}
+                                      className="btn btn-outline-info mr-2"
+                                    >
+                                      <i className="fa fa-file-text-o mr-2"></i>
+                                      Informes Gestión
                                     </button>
                                     <button
                                       type="button"

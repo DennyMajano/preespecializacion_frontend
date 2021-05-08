@@ -441,6 +441,14 @@ function App() {
           />
           <PrivateRoute
             exact
+            path="/informes_mensuales/gestiones_entrega/asignados/:gestion_activa"
+            component={Authorization(
+              GestionesAsignacionInformes,
+              "069c8570-a351-4e5b-9228-448893c18e49"
+            )}
+          />
+          <PrivateRoute
+            exact
             path="/informes_mensuales/gestiones_entrega/update/:id"
             component={Authorization(
               GestionesInformesForm,
