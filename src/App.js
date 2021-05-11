@@ -49,6 +49,7 @@ import PeriodosMinisterialesForm from "./pages/PeriodosMinisteriales/PeriodosMin
 import GestionesInformes from "./pages/Informes/GestionesInformes/GestionesInformes";
 import GestionesInformesForm from "./pages/Informes/GestionesInformes/GestionesInformesForm";
 import GestionesAsignacionInformes from "./pages/Informes/GestionesInformes/GestionesAsignacionInformes";
+import RecepcionInformes from "./pages/Informes/RecepcionInformes/RecepcionInformes";
 
 function App() {
   return (
@@ -456,6 +457,17 @@ function App() {
             )}
           />
           {/**FIN RUTAS GESTIONES DE INFORMES */}
+
+          {/**INCIO RUTAS PRESENTAR INFORMES */}
+          <PrivateRoute
+            exact
+            path="/presentacion_informes"
+            component={Authorization(
+              RecepcionInformes,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+          {/**FIN RUTAS PRESENTAR INFORMES */}
 
           <Redirect to="/" />
         </Switch>

@@ -356,7 +356,7 @@ class Header extends Component {
                   >
                     <NavLink exact to="/presentacion_informes">
                       <i className="mdi mdi-clipboard-check" />
-                      <span className="hide-menu">Entrega de Informes</span>
+                      <span className="hide-menu">Presentar Informes</span>
                     </NavLink>
                   </li>
                 )}

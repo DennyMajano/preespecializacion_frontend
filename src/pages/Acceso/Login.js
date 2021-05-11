@@ -59,6 +59,10 @@ export default class Login extends Component {
                 Encryption.setSession("correo", datos.acceso.correo);
 
                 Encryption.setSession("usuario", datos.acceso.usuario);
+                Encryption.setSession(
+                  "codigo_persona",
+                  datos.acceso.codigo_persona
+                );
 
                 Encryption.setSession(
                   "modulos",
