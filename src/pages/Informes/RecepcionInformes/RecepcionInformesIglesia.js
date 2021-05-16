@@ -5,7 +5,8 @@ import SimpleReactValidator from "simple-react-validator";
 import es from "../../../helpers/ValidatorTranslate_es";
 import Request from "../../../services/Request";
 import Alerts from "../../../services/Alerts";
-
+import { Tabs, Tab } from "react-bootstrap";
+import TablaFilter from "../../../components/tablas/TablaFilter";
 export default class RecepcionInformesIglesia extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,7 @@ export default class RecepcionInformesIglesia extends Component {
     title: "Panel para presentación de informes",
     nombre: "",
     loading: false,
+    tab_active: "",
     gestiones: null,
     actualizando: false,
     iglesia: null,
@@ -31,6 +33,25 @@ export default class RecepcionInformesIglesia extends Component {
   componentDidMount() {
     // document.getElementById("nombre").focus();
     this.getIglesia();
+    this.getGestiones();
+  }
+
+  getGestiones() {
+    if (this.props.match.params.id) {
+      HTTP.findById(
+        this.props.match.params.id,
+        "gestiones/disponibles/iglesia"
+      ).then((result) => {
+        if (result !== false) {
+          this.setState({
+            gestiones: result,
+            tab_active: result.length > 0 ? 0 : "",
+          });
+        } else {
+          this.setState({ redirect: true });
+        }
+      });
+    }
   }
   getIglesia() {
     if (this.props.match.params.id) {
@@ -125,6 +146,108 @@ export default class RecepcionInformesIglesia extends Component {
     }
   }
 
+  columns = [
+    {
+      dataField: "id",
+      text: "id",
+      hidden: true,
+      formatter: (cellContent, row) => {
+        return <p className="text-center">{cellContent}</p>;
+      },
+      headerStyle: () => {
+        return { width: "15%", textAlign: "center" };
+      },
+    },
+
+    {
+      dataField: "informe",
+      text: "Nombre Informe",
+
+      formatter: (cellContent, row) => {
+        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+      },
+      headerStyle: () => {
+        return { width: "15%", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "opciones",
+      text: "Opciones",
+
+      formatter: (cellContent, row) => {
+        if (row.estado === 0) {
+          return (
+            <div className="text-center">
+              <button className="btn btn-info">
+                <i className="fa fa-pencil-square-o mr-2"></i>Crear Infome
+              </button>
+            </div>
+          );
+        } else if (row.estado === 1) {
+          return (
+            <div className="text-center">
+              <div className=" btn-group">
+                <button className="btn btn-outline-info mr-2">
+                  <i className="fa fa-pencil mr-2"></i>ACTUALIZAR
+                </button>
+                <button className="btn btn-success mr-2">
+                  <i className="fa fa-paper-plane-o mr-2"></i>ENVIAR
+                </button>
+                <button className="btn btn-outline-secondary">
+                  <i className="fa fa-eye mr-2"></i>VISTA PREVIA
+                </button>
+              </div>
+            </div>
+          );
+        } else if (row.estado === 2) {
+          return (
+            <div className="text-center">
+              <button className="btn btn-outline-secondary">
+                <i className="fa fa-eye mr-2"></i>VISTA PREVIA
+              </button>
+            </div>
+          );
+        }
+      },
+      headerStyle: () => {
+        return { width: "15%", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "estado",
+      text: "ESTADO",
+
+      formatter: (cellContent, row) => {
+        if (cellContent === 0) {
+          return (
+            <p className="text-center">
+              <span className="label label-light-danger"> NO ENVIADO</span>
+            </p>
+          );
+        } else if (cellContent === 1) {
+          return (
+            <p className="text-center">
+              <span className="label label-light-info">DIGITANTO</span>
+            </p>
+          );
+        } else if (cellContent === 2) {
+          return (
+            <p className="text-center">
+              <span className="label label-light-success">ENVIADO</span>
+            </p>
+          );
+        }
+      },
+      headerStyle: () => {
+        return { width: "10%", textAlign: "center" };
+      },
+    },
+  ];
+  async handleChangeTab(key) {
+    await this.setState({ tab_active: key });
+
+    this.refs[key].clear();
+  }
   render() {
     if (this.state.redirect) {
       return <Redirect to="/presentacion_informes" />;
@@ -257,13 +380,83 @@ export default class RecepcionInformesIglesia extends Component {
             {/* Column */}
             <div className="col-lg-9 col-xlg-9 col-md-7">
               {this.state.gestiones !== null ? (
-                ""
+                <div className="card">
+                  <div className="card-body">
+                    {/* Nav tabs */}
+                    <div className="card-body">
+                      <Tabs
+                        activeKey={this.state.tab_active}
+                        onSelect={this.handleChangeTab.bind(this)}
+                        id="tabs"
+                      >
+                        {this.state.gestiones.map((element, index) => {
+                          return (
+                            <Tab
+                              eventKey={index}
+                              title={element.descripcion.toUpperCase()}
+                            >
+                              <div className="row">
+                                <div className="col-lg-12">
+                                  <div className="table-responsive">
+                                    <table className="table table-bordered table-bordered-table color-bordered-table muted-bordered-table">
+                                      <thead>
+                                        <tr>
+                                          <th className="text-center">
+                                            Código Gestión
+                                          </th>
+
+                                          <th className="text-center">
+                                            Fecha Publicación
+                                          </th>
+                                          <th className="text-center">
+                                            Fecha de Inicio para Envío
+                                          </th>
+                                          <th className="text-center">
+                                            Fecha Límite para Envío
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>{element.codigo}</td>
+                                          <td>{element.fecha_publicacion}</td>
+
+                                          <td>
+                                            {element.fecha_recibir_inicio}
+                                          </td>
+                                          <td>{element.fecha_recibir_fin}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                <div className="col-lg-12">
+                                  <h4 className="card-title m-t-10">
+                                    Informes solicitados
+                                  </h4>
+                                  <TablaFilter
+                                    buscador={false}
+                                    key={element.id}
+                                    ref={index}
+                                    ruta={`gestion/iglesia/informes/${element.codigo}/${this.props.match.params.id}`}
+                                    rowEvents={this.rowEvents}
+                                    identificador={"id"}
+                                    columns={this.columns}
+                                    titulo_tabla="Escriba el registro que desea buscar"
+                                  />
+                                </div>
+                              </div>
+                            </Tab>
+                          );
+                        })}
+                      </Tabs>
+                    </div>
+                    {/* Tab panes */}
+                  </div>
+                </div>
               ) : (
                 <div className="card">
-                  {/* Nav tabs */}
-
-                  {/* Tab panes */}
-                  <div className="tab-content">
+                  <div className="card-body">
                     <h1>NO HAY GESTIONES ACTIVAS</h1>
                   </div>
                 </div>

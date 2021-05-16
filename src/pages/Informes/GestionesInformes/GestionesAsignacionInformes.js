@@ -27,7 +27,7 @@ export default class GestionesAsignacionInformes extends Component {
     loading: false,
     informes: [],
     informe: "",
-    mes: 4,
+    mes: "",
     meses: [],
 
     redirect: false,
@@ -42,7 +42,10 @@ export default class GestionesAsignacionInformes extends Component {
   };
 
   componentDidMount() {
-    this.setState({ departamentos: this.getInformes() });
+    this.setState({
+      departamentos: this.getInformes(),
+      meses: this.getMeses(),
+    });
     document.getElementById("nombre").focus();
     this.getGestionById();
   }
@@ -159,11 +162,12 @@ export default class GestionesAsignacionInformes extends Component {
   getMeses() {
     let data = [];
 
-    HTTP.findAll(`maestro_informe/select/tipo/`).then((result) => {
+    HTTP.findAll(`generales/meses`).then((result) => {
       result.forEach((element) => {
         data.push({
           label: element.nombre,
           value: element.id,
+          numerico: element.numerico,
         });
       });
 
@@ -180,7 +184,10 @@ export default class GestionesAsignacionInformes extends Component {
             ? this.state.informe.value
             : null,
         codigoGestion: this.state.codigo,
-        mesId: this.state.mes,
+        mesId:
+          this.state.mes !== "" && this.state.mes !== null
+            ? this.state.mes.numerico
+            : null,
       };
       Alerts.loading_reload(true);
       Request.POST("gestion/asignacion", data).then((result) => {
@@ -194,20 +201,21 @@ export default class GestionesAsignacionInformes extends Component {
             this.setState({
               informe: "",
               mes: "",
+              disabled_select_meses: true,
             });
             this.validator.hideMessages();
             this.forceUpdate();
           } else if (result.status === 409) {
             Alerts.alertEmpty(
-              "¡El departamento ya fue asignado!",
-              "Administración de zonas",
+              "¡El informe ya fue asignado!",
+              "Administración de gestiones",
               "warning"
             );
           }
         } else {
           Alerts.alertEmpty(
             "¡No se pudo asignar!",
-            "Administración de zonas",
+            "Administración de gestiones",
             "error"
           );
         }
@@ -321,6 +329,15 @@ export default class GestionesAsignacionInformes extends Component {
                   onChange={(e) => {
                     // this.handleFocusSelect(true)
                     this.setState({ informe: e });
+                    if (e !== null) {
+                      this.setState({
+                        disabled_select_meses: false,
+                      });
+                    } else {
+                      this.setState({
+                        disabled_select_meses: true,
+                      });
+                    }
                   }}
                   noOptionsMessage={() => {
                     return "No existen datos";

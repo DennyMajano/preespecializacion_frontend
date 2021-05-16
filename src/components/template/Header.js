@@ -348,7 +348,7 @@ class Header extends Component {
                       this.props.location.pathname ===
                         "/presentacion_informes/new" ||
                       this.props.location.pathname.includes(
-                        "/presentacion_informes/update"
+                        "/presentacion_informes/iglesia"
                       )
                         ? "active"
                         : ""
