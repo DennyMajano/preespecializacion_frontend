@@ -115,9 +115,16 @@ export default class RecepcionInformes extends Component {
                           </div>
                         </div>
                         <div className="card-footer text-center">
-                          <a href="#" class="btn btn-inverse">
+                          <button
+                            onClick={() => {
+                              this.props.history.push(
+                                `/presentacion_informes/iglesia/${element.codigo}`
+                              );
+                            }}
+                            class="btn btn-inverse"
+                          >
                             Presentar Informes
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>

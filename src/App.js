@@ -50,6 +50,7 @@ import GestionesInformes from "./pages/Informes/GestionesInformes/GestionesInfor
 import GestionesInformesForm from "./pages/Informes/GestionesInformes/GestionesInformesForm";
 import GestionesAsignacionInformes from "./pages/Informes/GestionesInformes/GestionesAsignacionInformes";
 import RecepcionInformes from "./pages/Informes/RecepcionInformes/RecepcionInformes";
+import RecepcionInformesIglesia from "./pages/Informes/RecepcionInformes/RecepcionInformesIglesia";
 
 function App() {
   return (
@@ -464,6 +465,14 @@ function App() {
             path="/presentacion_informes"
             component={Authorization(
               RecepcionInformes,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/iglesia/:id"
+            component={Authorization(
+              RecepcionInformesIglesia,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
             )}
           />

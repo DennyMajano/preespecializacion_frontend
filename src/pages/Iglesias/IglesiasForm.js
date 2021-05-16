@@ -767,7 +767,31 @@ export default class IglesiasForm extends Component {
                   </span>
                 )}
               </div>
-              <div className="col-lg-6 form-group">
+              <div className="col-lg-3 form-group">
+                <label htmlFor="">Fecha Ordenamiento:</label>
+
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fecha_ordenamiento"
+                  value={this.state.fecha_ordenamiento}
+                  onChange={this.handleInputChange}
+                />
+                {/* {this.validator.message(
+                  "fecha ordenamiento",
+                  this.state.fecha_ordenamiento,
+                  "required"
+                ) && (
+                  <span className="label label-light-danger">
+                    {this.validator.message(
+                      "fecha ordenamiento",
+                      this.state.fecha_ordenamiento,
+                      "required"
+                    )}
+                  </span>
+                )} */}
+              </div>
+              <div className="col-lg-4 form-group">
                 <label htmlFor="">Dirección: </label>
 
                 <textarea
@@ -780,7 +804,7 @@ export default class IglesiasForm extends Component {
                   onChange={this.handleInputChange}
                 />
               </div>
-              <div className="col-lg-6 form-group">
+              <div className="col-lg-5 form-group">
                 <label htmlFor="">Src Google: </label>
 
                 <textarea
