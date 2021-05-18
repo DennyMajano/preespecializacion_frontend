@@ -7,7 +7,7 @@ import Request from "../../../services/Request";
 import Alerts from "../../../services/Alerts";
 import { Tabs, Tab } from "react-bootstrap";
 import TablaFilter from "../../../components/tablas/TablaFilter";
-export default class RecepcionInformesIglesia extends Component {
+export default class PresentacionInformesIglesia extends Component {
   constructor(props) {
     super(props);
     this.state = this.inicial_state;
@@ -45,7 +45,7 @@ export default class RecepcionInformesIglesia extends Component {
         if (result !== false) {
           this.setState({
             gestiones: result,
-            tab_active: result.length > 0 ? 0 : "",
+            tab_active: result.length > 0 ? result[0].codigo : "",
           });
         } else {
           this.setState({ redirect: true });
@@ -158,7 +158,16 @@ export default class RecepcionInformesIglesia extends Component {
         return { width: "15%", textAlign: "center" };
       },
     },
-
+    {
+      dataField: "ruta",
+      text: "id",
+      hidden: true,
+    },
+    {
+      dataField: "informe_ide",
+      text: "id",
+      hidden: true,
+    },
     {
       dataField: "informe",
       text: "Nombre Informe",
@@ -178,7 +187,15 @@ export default class RecepcionInformesIglesia extends Component {
         if (row.estado === 0) {
           return (
             <div className="text-center">
-              <button className="btn btn-info">
+              <button
+                type="button"
+                onClick={() => {
+                  this.props.history.push(
+                    `${row.ruta}/create/${this.state.tab_active}`
+                  );
+                }}
+                className="btn btn-info"
+              >
                 <i className="fa fa-pencil-square-o mr-2"></i>Crear Infome
               </button>
             </div>
@@ -187,10 +204,26 @@ export default class RecepcionInformesIglesia extends Component {
           return (
             <div className="text-center">
               <div className=" btn-group">
-                <button className="btn btn-outline-info mr-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.props.history.push(
+                      `${row.ruta}/update/${this.state.tab_active}/${row.informe_ide}`
+                    );
+                  }}
+                  className="btn btn-outline-info mr-2"
+                >
                   <i className="fa fa-pencil mr-2"></i>ACTUALIZAR
                 </button>
-                <button className="btn btn-success mr-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.props.history.push(
+                      `${row.ruta}/create/${this.state.tab_active}`
+                    );
+                  }}
+                  className="btn btn-success mr-2"
+                >
                   <i className="fa fa-paper-plane-o mr-2"></i>ENVIAR
                 </button>
                 <button className="btn btn-outline-secondary">
@@ -392,7 +425,7 @@ export default class RecepcionInformesIglesia extends Component {
                         {this.state.gestiones.map((element, index) => {
                           return (
                             <Tab
-                              eventKey={index}
+                              eventKey={element.codigo}
                               title={element.descripcion.toUpperCase()}
                             >
                               <div className="row">
@@ -437,7 +470,7 @@ export default class RecepcionInformesIglesia extends Component {
                                   <TablaFilter
                                     buscador={false}
                                     key={element.id}
-                                    ref={index}
+                                    ref={element.codigo}
                                     ruta={`gestion/iglesia/informes/${element.codigo}/${this.props.match.params.id}`}
                                     rowEvents={this.rowEvents}
                                     identificador={"id"}

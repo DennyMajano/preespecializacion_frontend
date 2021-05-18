@@ -49,8 +49,11 @@ import PeriodosMinisterialesForm from "./pages/PeriodosMinisteriales/PeriodosMin
 import GestionesInformes from "./pages/Informes/GestionesInformes/GestionesInformes";
 import GestionesInformesForm from "./pages/Informes/GestionesInformes/GestionesInformesForm";
 import GestionesAsignacionInformes from "./pages/Informes/GestionesInformes/GestionesAsignacionInformes";
-import RecepcionInformes from "./pages/Informes/RecepcionInformes/RecepcionInformes";
-import RecepcionInformesIglesia from "./pages/Informes/RecepcionInformes/RecepcionInformesIglesia";
+import PresentacionInformesIglesia from "./pages/Informes/PresentacionInformes/PresentacionInformesIglesia";
+import PresentacionInformes from "./pages/Informes/PresentacionInformes/PresentacionInformes";
+import InformeFinancieroMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeFinancieroMensual/InformeFinancieroMensual";
+import InformeMinisterialMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeMinisterialMensual/InformeMinisterialMensual";
+import InformeTesoreroMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeTesoreroMensual/InformeTesoreroMensual";
 
 function App() {
   return (
@@ -464,7 +467,7 @@ function App() {
             exact
             path="/presentacion_informes"
             component={Authorization(
-              RecepcionInformes,
+              PresentacionInformes,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
             )}
           />
@@ -472,7 +475,58 @@ function App() {
             exact
             path="/presentacion_informes/iglesia/:id"
             component={Authorization(
-              RecepcionInformesIglesia,
+              PresentacionInformesIglesia,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_financiero_mensual/create/:gestion"
+            component={Authorization(
+              InformeFinancieroMensual,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_financiero_mensual/update/:gestion/:ide"
+            component={Authorization(
+              InformeFinancieroMensual,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_ministerial_mensual/create/:gestion"
+            component={Authorization(
+              InformeMinisterialMensual,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_ministerial_mensual/update/:gestion/:ide"
+            component={Authorization(
+              InformeMinisterialMensual,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_tesorero_mensual/create/:gestion"
+            component={Authorization(
+              InformeTesoreroMensual,
+              "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/presentacion_informes/informe_tesorero_mensual/update/:gestion/:ide"
+            component={Authorization(
+              InformeTesoreroMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
             )}
           />

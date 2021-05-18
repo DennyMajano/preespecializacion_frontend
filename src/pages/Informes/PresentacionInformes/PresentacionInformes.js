@@ -3,7 +3,7 @@ import LayoutPanelTable from "../../../components/layouts/panels/LayoutPanelTabl
 import HTTP from "../../../helpers/HTTP";
 import Encrypt from "../../../services/Encrypt";
 
-export default class RecepcionInformes extends Component {
+export default class PresentacionInformes extends Component {
   constructor(props) {
     super(props);
     this.state = this.inicial_state;
