@@ -482,7 +482,7 @@ function App() {
 
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_financiero_mensual/create/:gestion"
+            path="/presentacion_informes/informe_financiero_mensual/gestion/:gestion/:iglesia"
             component={Authorization(
               InformeFinancieroMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -490,7 +490,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_financiero_mensual/update/:gestion/:ide"
+            path="/presentacion_informes/informe_financiero_mensual/gestion/:gestion/:iglesia/:ide"
             component={Authorization(
               InformeFinancieroMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -499,7 +499,7 @@ function App() {
 
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_ministerial_mensual/create/:gestion"
+            path="/presentacion_informes/informe_ministerial_mensual/gestion/:gestion/:iglesia"
             component={Authorization(
               InformeMinisterialMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -507,7 +507,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_ministerial_mensual/update/:gestion/:ide"
+            path="/presentacion_informes/informe_ministerial_mensual/gestion/:gestion/:iglesia/:ide"
             component={Authorization(
               InformeMinisterialMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -516,7 +516,7 @@ function App() {
 
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_tesorero_mensual/create/:gestion"
+            path="/presentacion_informes/informe_tesorero_mensual/gestion/:gestion/:iglesia"
             component={Authorization(
               InformeTesoreroMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -524,7 +524,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/presentacion_informes/informe_tesorero_mensual/update/:gestion/:ide"
+            path="/presentacion_informes/informe_tesorero_mensual/gestion/:gestion/:iglesia/:ide"
             component={Authorization(
               InformeTesoreroMensual,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"

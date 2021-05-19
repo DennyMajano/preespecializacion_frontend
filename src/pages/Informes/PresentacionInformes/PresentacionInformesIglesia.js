@@ -191,7 +191,7 @@ export default class PresentacionInformesIglesia extends Component {
                 type="button"
                 onClick={() => {
                   this.props.history.push(
-                    `${row.ruta}/create/${this.state.tab_active}`
+                    `${row.ruta}/gestion/${this.state.tab_active}/${this.props.match.params.id}`
                   );
                 }}
                 className="btn btn-info"
@@ -208,7 +208,7 @@ export default class PresentacionInformesIglesia extends Component {
                   type="button"
                   onClick={() => {
                     this.props.history.push(
-                      `${row.ruta}/update/${this.state.tab_active}/${row.informe_ide}`
+                      `${row.ruta}/gestion/${this.state.tab_active}/${this.props.match.params.id}/${row.informe_ide}`
                     );
                   }}
                   className="btn btn-outline-info mr-2"
@@ -349,12 +349,19 @@ export default class PresentacionInformesIglesia extends Component {
                 </div>
                 <div className="card-body">
                   {" "}
+                  <small className="text-muted">Pastor:</small>
+                  <h6>
+                    {" "}
+                    {this.state.iglesia !== null
+                      ? this.state.iglesia.pastor
+                      : "SIN PASTOR ASIGNADO"}
+                  </h6>{" "}
                   <small className="text-muted">Zona:</small>
                   <h6>
                     {" "}
                     {this.state.iglesia !== null
                       ? this.state.iglesia.zona
-                      : null}
+                      : "SIN ZONA ASIGNADA"}
                   </h6>{" "}
                   <small className="text-muted p-t-15 db">Distrito:</small>
                   <h6>
@@ -404,7 +411,7 @@ export default class PresentacionInformesIglesia extends Component {
                     {" "}
                     {this.state.iglesia !== null
                       ? this.state.iglesia.telefono
-                      : null}
+                      : "SIN TEÉFONO ASIGNADO"}
                   </h6>
                 </div>
               </div>

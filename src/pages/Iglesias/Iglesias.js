@@ -93,7 +93,9 @@ export default class Iglesias extends Component {
       sort: true,
       formatter: (cellContent, row) => {
         return (
-          <p className="text-center">{`${row.zona.toUpperCase()} - ${row.distrito.toUpperCase()}`}</p>
+          <p className="text-center">{`${
+            row.zona !== null ? row.zona.toUpperCase() : ""
+          } - ${row.distrito !== null ? row.distrito.toUpperCase() : ""}`}</p>
         );
       },
       headerStyle: () => {
