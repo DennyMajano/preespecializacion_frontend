@@ -5,10 +5,6 @@ import SimpleReactValidator from "simple-react-validator";
 import es from "../../../../../helpers/ValidatorTranslate_es";
 import Request from "../../../../../services/Request";
 import Alerts from "../../../../../services/Alerts";
-import { Tabs, Tab } from "react-bootstrap";
-import TablaFilter from "../../../../../components/tablas/TablaFilter";
-import LayoutPanelFormulario from "../../../../../components/layouts/panels/LayoutPanelFormulario";
-import LayoutPanel from "../../../../../components/layouts/panels/LayoutPanel";
 import LayoutPanelEmpty from "../../../../../components/layouts/panels/LayoutPanelEmpty";
 export default class InformeMinisterialMensual extends Component {
   constructor(props) {
@@ -26,6 +22,39 @@ export default class InformeMinisterialMensual extends Component {
     actualizando: false,
     iglesia: null,
     redirect: false,
+
+    //estodos para informe
+    mensajes: "",
+    convertidos: "",
+    santificados: "",
+    bautismosAgua: "",
+    bautismosEs: "",
+    agregados: "",
+    hogaresMiembrosV: "",
+    hogaresProspectosV: "",
+    diezmoRecibido: "",
+    diezmoPagado: "",
+    ofrendaRecibida: "",
+    diezmosIncluidosInforme: "",
+    gastosMinisteriales: "",
+    actividadesOracion: "",
+    //es bool
+    vidaOracion: 0,
+    actividadesMisiones: "",
+    actividadesLiderazgo: "",
+    lideresInvolucrados: "",
+    //es bool
+    mejoraMinisterial: 0,
+    miembrosActivos: "",
+    miembrosSalvos: "",
+    miembrosSantificados: "",
+    miembrosBautizadosEs: "",
+    promedioAsistenciaAdultos: "",
+    promedioAsistenciaNiJov: "",
+    //es bool
+    ministerioAlcanceSemanal: 0,
+    santaCena: 0,
+    lavatorios: 0,
   };
   handleInputChange = (e) => {
     const idComponente = e.target.id;
@@ -36,20 +65,17 @@ export default class InformeMinisterialMensual extends Component {
   componentDidMount() {
     // document.getElementById("nombre").focus();
     this.getIglesia();
-    // this.getGestiones();
+    this.getByID();
   }
 
-  getGestiones() {
-    if (this.props.match.params.id) {
+  getByID() {
+    if (this.props.match.params.ide) {
       HTTP.findById(
-        this.props.match.params.id,
-        "gestiones/disponibles/iglesia"
+        this.props.match.params.ide,
+        "informe/ministerial/mensual/info"
       ).then((result) => {
         if (result !== false) {
-          this.setState({
-            gestiones: result,
-            tab_active: result.length > 0 ? result[0].codigo : "",
-          });
+          this.setState(result);
         } else {
           this.setState({ redirect: true });
         }
@@ -148,10 +174,416 @@ export default class InformeMinisterialMensual extends Component {
       this.forceUpdate();
     }
   }
+  async guardar(estado) {
+    if (this.props.match.params.ide) {
+    } else {
+      if (estado === 1) {
+        const data_header = {
+          codigoIglesia: this.props.match.params.iglesia,
+          codigoPastor:
+            this.state.iglesia !== null
+              ? this.state.iglesia.codigo_pastor !== "" &&
+                this.state.iglesia.codigo_pastor !== null
+                ? this.state.iglesia.codigo_pastor
+                : null
+              : null,
+          codigoGestion: this.props.match.params.gestion,
+          estado: 1,
+        };
+        this.setState({
+          loading: true,
+        });
+        Alerts.loading_reload(true);
+        Request.POST("informe/ministerial/mensual/cabecera", data_header).then(
+          (resulth) => {
+            if (resulth !== false) {
+              if (resulth.status === 201) {
+                const data_detalle = {
+                  codigoInforme: resulth.data.code,
+                  mensajes:
+                    this.state.mensajes !== "" && this.state.mensajes !== null
+                      ? this.state.mensajes
+                      : 0,
+                  convertidos:
+                    this.state.convertidos !== "" &&
+                    this.state.convertidos !== null
+                      ? this.state.convertidos
+                      : 0,
+                  santificados:
+                    this.state.santificados !== "" &&
+                    this.state.santificados !== null
+                      ? this.state.santificados
+                      : 0,
+                  bautismosAgua:
+                    this.state.bautismosAgua !== "" &&
+                    this.state.bautismosAgua !== null
+                      ? this.state.bautismosAgua
+                      : 0,
+                  bautismosEs:
+                    this.state.bautismosEs !== "" &&
+                    this.state.bautismosEs !== null
+                      ? this.state.bautismosEs
+                      : 0,
+                  agregados:
+                    this.state.agregados !== "" && this.state.agregados !== null
+                      ? this.state.agregados
+                      : 0,
+                  hogaresMiembrosV:
+                    this.state.hogaresMiembrosV !== "" &&
+                    this.state.hogaresMiembrosV !== null
+                      ? this.state.hogaresMiembrosV
+                      : 0,
+                  hogaresProspectosV:
+                    this.state.hogaresProspectosV !== "" &&
+                    this.state.hogaresProspectosV !== null
+                      ? this.state.hogaresProspectosV
+                      : 0,
+                  diezmoRecibido:
+                    this.state.diezmoRecibido !== "" &&
+                    this.state.diezmoRecibido !== null
+                      ? this.state.diezmoRecibido
+                      : 0.0,
+                  diezmoPagado:
+                    this.state.diezmoPagado !== "" &&
+                    this.state.diezmoPagado !== null
+                      ? this.state.diezmoPagado
+                      : 0.0,
+                  ofrendaRecibida:
+                    this.state.ofrendaRecibida !== "" &&
+                    this.state.ofrendaRecibida !== null
+                      ? this.state.ofrendaRecibida
+                      : 0.0,
+                  gastosMinisteriales:
+                    this.state.gastosMinisteriales !== "" &&
+                    this.state.gastosMinisteriales !== null
+                      ? this.state.gastosMinisteriales
+                      : 0.0,
+                  actividadesOracion:
+                    this.state.actividadesOracion !== "" &&
+                    this.state.actividadesOracion !== null
+                      ? this.state.actividadesOracion
+                      : 0,
+                  vidaOracion: parseInt(this.state.vidaOracion),
+                  actividadesMisiones:
+                    this.state.actividadesMisiones !== "" &&
+                    this.state.actividadesMisiones !== null
+                      ? this.state.actividadesMisiones
+                      : 0,
+                  actividadesLiderazgo:
+                    this.state.actividadesLiderazgo !== "" &&
+                    this.state.actividadesLiderazgo !== null
+                      ? this.state.actividadesLiderazgo
+                      : 0,
+                  lideresInvolucrados:
+                    this.state.lideresInvolucrados !== "" &&
+                    this.state.lideresInvolucrados !== null
+                      ? this.state.lideresInvolucrados
+                      : 0,
+                  mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
+                  miembrosActivos:
+                    this.state.miembrosActivos !== "" &&
+                    this.state.miembrosActivos !== null
+                      ? this.state.miembrosActivos
+                      : 0,
+                  miembrosSalvos:
+                    this.state.miembrosSalvos !== "" &&
+                    this.state.miembrosSalvos !== null
+                      ? this.state.miembrosSalvos
+                      : 0,
+                  miembrosSantificados:
+                    this.state.miembrosSantificados !== "" &&
+                    this.state.miembrosSantificados !== null
+                      ? this.state.miembrosSantificados
+                      : 0,
+                  miembrosBautizadosEs:
+                    this.state.miembrosBautizadosEs !== "" &&
+                    this.state.miembrosBautizadosEs !== null
+                      ? this.state.miembrosBautizadosEs
+                      : 0,
+                  promedioAsistenciaAdultos:
+                    this.state.promedioAsistenciaAdultos !== "" &&
+                    this.state.promedioAsistenciaAdultos !== null
+                      ? this.state.promedioAsistenciaAdultos
+                      : 0,
+                  promedioAsistenciaNiJov:
+                    this.state.promedioAsistenciaNiJov !== "" &&
+                    this.state.promedioAsistenciaNiJov !== null
+                      ? this.state.promedioAsistenciaNiJov
+                      : 0,
+                  ministerioAlcanceSemanal: parseInt(
+                    this.state.ministerioAlcanceSemanal
+                  ),
+                  santaCena: parseInt(this.state.santaCena),
+                  lavatorios: parseInt(this.state.lavatorios),
+                  diezmosIncluidosInforme:
+                    this.state.diezmosIncluidosInforme !== "" &&
+                    this.state.diezmosIncluidosInforme !== null
+                      ? this.state.diezmosIncluidosInforme
+                      : 0,
+                };
 
+                Request.POST(
+                  "informe/ministerial/mensual/detalle",
+                  data_detalle
+                ).then((result) => {
+                  Alerts.loading_reload(false);
+
+                  if (result !== false) {
+                    if (result.status === 201) {
+                      Alerts.alertEmpty(
+                        "¡Informe enviado con éxito!",
+                        "Administración de informes",
+                        "success"
+                      );
+
+                      this.setState({
+                        loading: false,
+                        redirect: true,
+                      });
+                    } else {
+                      Alerts.alertEmpty(
+                        "¡No se pudo enviar el informe debido a un error!",
+                        "Administración de informes",
+                        "error"
+                      );
+                    }
+                  } else {
+                    Alerts.alertEmpty(
+                      "¡No se pudo enviar el informe debido a un error!",
+                      "Administración de informes",
+                      "error"
+                    );
+                  }
+                });
+              } else {
+                Alerts.alertEmpty(
+                  "¡No se pudo enviar el informe debido a un error!",
+                  "Administración de informes",
+                  "error"
+                );
+              }
+            } else {
+              Alerts.alertEmpty(
+                "¡No se pudo enviar el informe debido a un error!",
+                "Administración de informes",
+                "error"
+              );
+            }
+          }
+        );
+      } else if (estado === 2) {
+        Alerts.QuestionYesNo(
+          "¿Está seguro que desea enviar el informe?",
+          "¡Una vez enviado no podrá ser editado!",
+          "question"
+        ).then((resp) => {
+          if (resp) {
+            const data_header = {
+              codigoIglesia: this.props.match.params.iglesia,
+              codigoPastor:
+                this.state.iglesia !== null
+                  ? this.state.iglesia.codigo_pastor !== "" &&
+                    this.state.iglesia.codigo_pastor !== null
+                    ? this.state.iglesia.codigo_pastor
+                    : null
+                  : null,
+              codigoGestion: this.props.match.params.gestion,
+              estado: 2,
+            };
+            this.setState({
+              loading: true,
+            });
+            Alerts.loading_reload(true);
+            Request.POST(
+              "informe/ministerial/mensual/cabecera",
+              data_header
+            ).then((resulth) => {
+              if (resulth !== false) {
+                if (resulth.status === 201) {
+                  const data_detalle = {
+                    codigoInforme: resulth.data.code,
+                    mensajes:
+                      this.state.mensajes !== "" && this.state.mensajes !== null
+                        ? this.state.mensajes
+                        : 0,
+                    convertidos:
+                      this.state.convertidos !== "" &&
+                      this.state.convertidos !== null
+                        ? this.state.convertidos
+                        : 0,
+                    santificados:
+                      this.state.santificados !== "" &&
+                      this.state.santificados !== null
+                        ? this.state.santificados
+                        : 0,
+                    bautismosAgua:
+                      this.state.bautismosAgua !== "" &&
+                      this.state.bautismosAgua !== null
+                        ? this.state.bautismosAgua
+                        : 0,
+                    bautismosEs:
+                      this.state.bautismosEs !== "" &&
+                      this.state.bautismosEs !== null
+                        ? this.state.bautismosEs
+                        : 0,
+                    agregados:
+                      this.state.agregados !== "" &&
+                      this.state.agregados !== null
+                        ? this.state.agregados
+                        : 0,
+                    hogaresMiembrosV:
+                      this.state.hogaresMiembrosV !== "" &&
+                      this.state.hogaresMiembrosV !== null
+                        ? this.state.hogaresMiembrosV
+                        : 0,
+                    hogaresProspectosV:
+                      this.state.hogaresProspectosV !== "" &&
+                      this.state.hogaresProspectosV !== null
+                        ? this.state.hogaresProspectosV
+                        : 0,
+                    diezmoRecibido:
+                      this.state.diezmoRecibido !== "" &&
+                      this.state.diezmoRecibido !== null
+                        ? this.state.diezmoRecibido
+                        : 0.0,
+                    diezmoPagado:
+                      this.state.diezmoPagado !== "" &&
+                      this.state.diezmoPagado !== null
+                        ? this.state.diezmoPagado
+                        : 0.0,
+                    ofrendaRecibida:
+                      this.state.ofrendaRecibida !== "" &&
+                      this.state.ofrendaRecibida !== null
+                        ? this.state.ofrendaRecibida
+                        : 0.0,
+                    gastosMinisteriales:
+                      this.state.gastosMinisteriales !== "" &&
+                      this.state.gastosMinisteriales !== null
+                        ? this.state.gastosMinisteriales
+                        : 0.0,
+                    actividadesOracion:
+                      this.state.actividadesOracion !== "" &&
+                      this.state.actividadesOracion !== null
+                        ? this.state.actividadesOracion
+                        : 0,
+                    vidaOracion: parseInt(this.state.vidaOracion),
+                    actividadesMisiones:
+                      this.state.actividadesMisiones !== "" &&
+                      this.state.actividadesMisiones !== null
+                        ? this.state.actividadesMisiones
+                        : 0,
+                    actividadesLiderazgo:
+                      this.state.actividadesLiderazgo !== "" &&
+                      this.state.actividadesLiderazgo !== null
+                        ? this.state.actividadesLiderazgo
+                        : 0,
+                    lideresInvolucrados:
+                      this.state.lideresInvolucrados !== "" &&
+                      this.state.lideresInvolucrados !== null
+                        ? this.state.lideresInvolucrados
+                        : 0,
+                    mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
+                    miembrosActivos:
+                      this.state.miembrosActivos !== "" &&
+                      this.state.miembrosActivos !== null
+                        ? this.state.miembrosActivos
+                        : 0,
+                    miembrosSalvos:
+                      this.state.miembrosSalvos !== "" &&
+                      this.state.miembrosSalvos !== null
+                        ? this.state.miembrosSalvos
+                        : 0,
+                    miembrosSantificados:
+                      this.state.miembrosSantificados !== "" &&
+                      this.state.miembrosSantificados !== null
+                        ? this.state.miembrosSantificados
+                        : 0,
+                    miembrosBautizadosEs:
+                      this.state.miembrosBautizadosEs !== "" &&
+                      this.state.miembrosBautizadosEs !== null
+                        ? this.state.miembrosBautizadosEs
+                        : 0,
+                    promedioAsistenciaAdultos:
+                      this.state.promedioAsistenciaAdultos !== "" &&
+                      this.state.promedioAsistenciaAdultos !== null
+                        ? this.state.promedioAsistenciaAdultos
+                        : 0,
+                    promedioAsistenciaNiJov:
+                      this.state.promedioAsistenciaNiJov !== "" &&
+                      this.state.promedioAsistenciaNiJov !== null
+                        ? this.state.promedioAsistenciaNiJov
+                        : 0,
+                    ministerioAlcanceSemanal: parseInt(
+                      this.state.ministerioAlcanceSemanal
+                    ),
+                    santaCena: parseInt(this.state.santaCena),
+                    lavatorios: parseInt(this.state.lavatorios),
+                    diezmosIncluidosInforme:
+                      this.state.diezmosIncluidosInforme !== "" &&
+                      this.state.diezmosIncluidosInforme !== null
+                        ? this.state.diezmosIncluidosInforme
+                        : 0,
+                  };
+
+                  Request.POST(
+                    "informe/ministerial/mensual/detalle",
+                    data_detalle
+                  ).then((result) => {
+                    Alerts.loading_reload(false);
+
+                    if (result !== false) {
+                      if (result.status === 201) {
+                        Alerts.alertEmpty(
+                          "¡Informe enviado con éxito!",
+                          "Administración de informes",
+                          "success"
+                        );
+                        this.setState({
+                          loading: false,
+                          redirect: true,
+                        });
+                      } else {
+                        Alerts.alertEmpty(
+                          "¡No se pudo enviar el informe debido a un error!",
+                          "Administración de informes",
+                          "error"
+                        );
+                      }
+                    } else {
+                      Alerts.alertEmpty(
+                        "¡No se pudo enviar el informe debido a un error!",
+                        "Administración de informes",
+                        "error"
+                      );
+                    }
+                  });
+                } else {
+                  Alerts.alertEmpty(
+                    "¡No se pudo enviar el informe debido a un error!",
+                    "Administración de informes",
+                    "error"
+                  );
+                }
+              } else {
+                Alerts.alertEmpty(
+                  "¡No se pudo enviar el informe debido a un error!",
+                  "Administración de informes",
+                  "error"
+                );
+              }
+            });
+          }
+        });
+      }
+    }
+  }
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/presentacion_informes" />;
+      return (
+        <Redirect
+          to={`/presentacion_informes/iglesia/${this.props.match.params.iglesia}`}
+        />
+      );
     }
     return (
       <React.Fragment>
@@ -217,6 +649,13 @@ export default class InformeMinisterialMensual extends Component {
                 </div>
                 <div className="card-body">
                   {" "}
+                  <small className="text-muted">Pastor:</small>
+                  <h6>
+                    {" "}
+                    {this.state.iglesia !== null
+                      ? this.state.iglesia.pastor
+                      : "SIN PASTOR ASIGNADO"}
+                  </h6>{" "}
                   <small className="text-muted">Zona:</small>
                   <h6>
                     {" "}
@@ -294,20 +733,491 @@ export default class InformeMinisterialMensual extends Component {
                     >
                       <i className="fa fa-close mr-2"></i>CANCELAR
                     </button>
-
                     <button
-                      type="submit"
+                      type="button"
+                      className="btn btn-info mr-2"
+                      disabled={this.state.loading}
+                      onClick={this.guardar.bind(this, 2)}
+                    >
+                      <i className="fa fa-send mr-2"></i>
+                      ENVIAR
+                    </button>
+                    <button
+                      type="button"
                       className="btn btn-info"
                       disabled={this.state.loading}
+                      onClick={this.guardar.bind(this, 1)}
                     >
                       <i className="fa fa-save mr-2"></i>
-                      {this.state.loading === false
-                        ? "GUARDAR"
-                        : "GUARDANDO..."}
+                      GUARDAR
                     </button>
                   </React.Fragment>
                 }
-              ></LayoutPanelEmpty>
+              >
+                <h3 className="card-title">Área de Responsabilidad</h3>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Mensajes:</label>
+                    <input
+                      type="text"
+                      id="mensajes"
+                      value={this.state.mensajes}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Mensajes Impartidos"
+                    />
+                  </div>
+
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Convertidos:</label>
+                    <input
+                      type="text"
+                      id="convertidos"
+                      value={this.state.convertidos}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Convertidos"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Santificados:</label>
+                    <input
+                      type="text"
+                      id="santificados"
+                      value={this.state.santificados}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Santificados"
+                    />
+                  </div>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Bautizados con el Espíritu Santo"
+                  >
+                    <label htmlFor="">Bautizados E.S:</label>
+                    <input
+                      type="text"
+                      id="bautismosEs"
+                      value={this.state.bautismosEs}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Bautizados Espírito Santo"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Añadidos a la Iglesia:</label>
+                    <input
+                      type="text"
+                      id="agregados"
+                      value={this.state.agregados}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Añadidos"
+                    />
+                  </div>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Bautizados en agua"
+                  >
+                    <label htmlFor="">Bautizados E.A:</label>
+                    <input
+                      type="text"
+                      id="bautismosAgua"
+                      value={this.state.bautismosAgua}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Bautizados en Agua"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Hogares Miembros Visitados:</label>
+                    <input
+                      type="text"
+                      id="hogaresMiembrosV"
+                      value={this.state.hogaresMiembrosV}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="H. Miembros Visitados"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Hogares Prospectos Visitados:</label>
+                    <input
+                      type="text"
+                      id="hogaresProspectosV"
+                      value={this.state.hogaresProspectosV}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="H. Prospectos Visitados"
+                    />
+                  </div>
+                </div>
+                <h3 className="card-title">Área de Mayordomía</h3>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Diezmos recibidos:</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        id="diezmoRecibido"
+                        value={this.state.diezmoRecibido}
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                        placeholder="Diezmo Recibido"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Ofrendas recibidas por el pastor:</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        id="ofrendaRecibida"
+                        value={this.state.ofrendaRecibida}
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                        placeholder="Ofrenda recibida"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Diezmos pagados en la iglesia:</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        id="diezmoPagado"
+                        value={this.state.diezmoPagado}
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                        placeholder="Diezmo pagado"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Gastos en el ministerio:</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        id="gastosMinisteriales"
+                        value={this.state.gastosMinisteriales}
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                        placeholder="Gastos Ministerio"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Diezmos incluido en informe:</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        id="diezmosIncluidosInforme"
+                        value={this.state.diezmosIncluidosInforme}
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                        placeholder="Diezmos en informe"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="card-title">
+                  Información General y Valores Centrales
+                </h3>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-4 form-group">
+                    <label htmlFor="">Actividades para promover oración:</label>
+                    <input
+                      type="text"
+                      id="actividadesOracion"
+                      value={this.state.actividadesOracion}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Cantidad de actividades oración"
+                    />
+                  </div>
+
+                  <div
+                    className="col-lg-4 form-group"
+                    title="Actividade para promover misiones, alcances y organización de la Iglesia"
+                  >
+                    <label htmlFor="">
+                      Actividades misiones, alcance y organización:
+                    </label>
+                    <input
+                      type="text"
+                      id="actividadesMisiones"
+                      value={this.state.actividadesMisiones}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Cantidad de actividades misiones"
+                    />
+                  </div>
+                  <div className="col-lg-4 form-group ">
+                    <input
+                      type="checkbox"
+                      className="form-check-input filled-in chk-col-light-blue"
+                      id="vidaOracion"
+                      onChange={() => {
+                        if (document.getElementById("vidaOracion").checked) {
+                          this.setState({
+                            vidaOracion: 1,
+                          });
+                        } else {
+                          this.setState({
+                            vidaOracion: 0,
+                          });
+                        }
+                      }}
+                      value={this.state.vidaOracion}
+                    />
+                    <label
+                      className="form-check-label mt-4"
+                      htmlFor="vidaOracion"
+                    >
+                      Goza vida de oración y adoración consistente
+                    </label>
+                  </div>
+                </div>
+                <h3 className="card-title">Desarrollo de liderazgo</h3>
+                <hr />
+                <div className="row">
+                  <div
+                    className="col-lg-4 form-group"
+                    title="Actividade para promover el desarrollo de lideres"
+                  >
+                    <label htmlFor="">
+                      Actividades para desarrollo de líderes:
+                    </label>
+                    <input
+                      type="text"
+                      id="actividadesLiderazgo"
+                      value={this.state.actividadesLiderazgo}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Cantidad de actividades liderazgo"
+                    />
+                  </div>
+                  <div className="col-lg-4 form-group">
+                    <label htmlFor="">
+                      Líderes participantes en actividades:
+                    </label>
+                    <input
+                      type="text"
+                      id="lideresInvolucrados"
+                      value={this.state.lideresInvolucrados}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Cantidad de lideres participantes"
+                    />
+                  </div>
+                  <div className="col-lg-4 form-group ">
+                    <input
+                      type="checkbox"
+                      className="form-check-input filled-in chk-col-light-blue"
+                      id="mejoraMinisterial"
+                      onChange={() => {
+                        if (
+                          document.getElementById("mejoraMinisterial").checked
+                        ) {
+                          this.setState({
+                            mejoraMinisterial: 1,
+                          });
+                        } else {
+                          this.setState({
+                            mejoraMinisterial: 0,
+                          });
+                        }
+                      }}
+                      value={this.state.mejoraMinisterial}
+                    />
+                    <label
+                      className="form-check-label mt-4"
+                      htmlFor="mejoraMinisterial"
+                    >
+                      Continúa mejorando su ministerio
+                    </label>
+                  </div>
+                </div>
+                <h3 className="card-title">Área de Pastoral</h3>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Total Membresía:</label>
+
+                    <input
+                      type="number"
+                      id="miembrosActivos"
+                      value={this.state.miembrosActivos}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Membresía"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Miembros Salvos:</label>
+
+                    <input
+                      type="number"
+                      id="miembrosSalvos"
+                      value={this.state.miembrosSalvos}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Miembros Salvos"
+                    />
+                  </div>
+
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Miembros Santificados:</label>
+
+                    <input
+                      type="number"
+                      id="miembrosSantificados"
+                      value={this.state.miembrosSantificados}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Miembros Santificados"
+                    />
+                  </div>
+
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Miembros Bautizados por el Espírito Santo"
+                  >
+                    <label htmlFor="">Miembros Bautizados E.S:</label>
+
+                    <input
+                      type="number"
+                      id="miembrosBautizadosEs"
+                      value={this.state.miembrosBautizadosEs}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Miembros Bautizados E.S"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Asistencia Promedio Adultos:</label>
+
+                    <input
+                      type="number"
+                      id="promedioAsistenciaAdultos"
+                      value={this.state.promedioAsistenciaAdultos}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Asistencia promedio adultos"
+                    />
+                  </div>
+
+                  <div className="col-lg-3 form-group">
+                    <label htmlFor="">Asistencia Promedio Jóv. y Niños:</label>
+
+                    <input
+                      type="number"
+                      id="promedioAsistenciaNiJov"
+                      value={this.state.promedioAsistenciaNiJov}
+                      className="form-control"
+                      onChange={this.handleInputChange}
+                      placeholder="Asistencia promedio Jóvenes y Niños"
+                    />
+                  </div>
+                  <div className="col-lg-3 form-group text-center">
+                    <input
+                      type="checkbox"
+                      className="form-check-input filled-in chk-col-light-blue"
+                      id="ministerioAlcanceSemanal"
+                      onChange={() => {
+                        if (
+                          document.getElementById("ministerioAlcanceSemanal")
+                            .checked
+                        ) {
+                          this.setState({
+                            ministerioAlcanceSemanal: 1,
+                          });
+                        } else {
+                          this.setState({
+                            ministerioAlcanceSemanal: 0,
+                          });
+                        }
+                      }}
+                      value={this.state.ministerioAlcanceSemanal}
+                    />
+                    <label
+                      className="form-check-label mt-4"
+                      htmlFor="ministerioAlcanceSemanal"
+                    >
+                      Ministerio Semanal
+                    </label>
+                  </div>
+                  <div className="col-lg-3 form-group text-center">
+                    <input
+                      type="checkbox"
+                      className="form-check-input filled-in chk-col-light-blue"
+                      id="santaCena"
+                      onChange={() => {
+                        if (document.getElementById("santaCena").checked) {
+                          this.setState({
+                            santaCena: 1,
+                          });
+                        } else {
+                          this.setState({
+                            santaCena: 0,
+                          });
+                        }
+                      }}
+                      value={this.state.santaCena}
+                    />
+                    <label
+                      className="form-check-label mt-4"
+                      htmlFor="santaCena"
+                    >
+                      Se realizó San Cena
+                    </label>
+                  </div>
+                  <div className="col-lg-3 form-group text-center">
+                    <input
+                      type="checkbox"
+                      className="form-check-input filled-in chk-col-light-blue"
+                      id="lavatorios"
+                      onChange={() => {
+                        if (document.getElementById("lavatorios").checked) {
+                          this.setState({
+                            lavatorios: 1,
+                          });
+                        } else {
+                          this.setState({
+                            lavatorios: 0,
+                          });
+                        }
+                      }}
+                      value={this.state.lavatorios}
+                    />
+                    <label
+                      className="form-check-label mt-4"
+                      htmlFor="lavatorios"
+                    >
+                      Se realizó Lavarorio de Pies
+                    </label>
+                  </div>
+                </div>
+              </LayoutPanelEmpty>
             </div>
             {/* Column */}
           </div>
