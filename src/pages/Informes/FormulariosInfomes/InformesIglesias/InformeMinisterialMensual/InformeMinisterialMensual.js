@@ -426,7 +426,7 @@ export default class InformeMinisterialMensual extends Component {
         Request.PUT("informe/ministerial/mensual/detalle", data).then(
           (result) => {
             if (result !== false) {
-              if (result.status === 201) {
+              if (result.status === 200) {
                 Alerts.alertEmpty(
                   "¡Informe enviado con éxito!",
                   "Administración de informes",
