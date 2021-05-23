@@ -124,6 +124,8 @@ export default class InformeMinisterialMensual extends Component {
 
   async guardar(estado) {
     if (this.props.match.params.ide) {
+      Alerts.loading_reload(true);
+
       if (estado === 1) {
         const data = {
           codigoInforme: this.props.match.params.ide,
@@ -261,6 +263,8 @@ export default class InformeMinisterialMensual extends Component {
         };
         Request.PUT("informe/ministerial/mensual/detalle", data).then(
           (result) => {
+            Alerts.loading_reload(false);
+
             if (result !== false) {
               if (result.status === 200) {
                 Alerts.alertEmpty(
@@ -425,6 +429,8 @@ export default class InformeMinisterialMensual extends Component {
 
         Request.PUT("informe/ministerial/mensual/detalle", data).then(
           (result) => {
+            Alerts.loading_reload(false);
+
             if (result !== false) {
               if (result.status === 200) {
                 Alerts.alertEmpty(
@@ -607,7 +613,7 @@ export default class InformeMinisterialMensual extends Component {
                   if (result !== false) {
                     if (result.status === 201) {
                       Alerts.alertEmpty(
-                        "¡Informe enviado con éxito!",
+                        "¡Informe guardado con éxito!",
                         "Administración de informes",
                         "success"
                       );
