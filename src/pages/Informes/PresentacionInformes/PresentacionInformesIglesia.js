@@ -145,7 +145,47 @@ export default class PresentacionInformesIglesia extends Component {
       this.forceUpdate();
     }
   }
+  enviarInforme(codigo_informe, gestion) {
+    Alerts.QuestionYesNo(
+      "¿Está seguro que desea enviar el informe?",
+      "¡Una vez enviado no podrá actualizarlo!",
+      "question"
+    ).then((resp) => {
+      if (resp) {
+        const data = {
+          codigoInforme: codigo_informe,
+        };
+        Alerts.loading_reload(true);
+        Request.PUT("informe/enviar", data).then((result) => {
+          Alerts.loading_reload(false);
 
+          if (result !== false) {
+            if (result.status === 200) {
+              Alerts.alertEmpty(
+                "¡Informe enviado con éxito!",
+                "Administración de informes",
+                "success"
+              );
+
+              this.refs[gestion].clear();
+            } else {
+              Alerts.alertEmpty(
+                "¡El informe no pudo ser enviado porque ha ocurrido un error!",
+                "Administración de informes",
+                "error"
+              );
+            }
+          } else {
+            Alerts.alertEmpty(
+              "¡El informe no pudo ser enviado porque ha ocurrido un error!",
+              "Administración de informes",
+              "error"
+            );
+          }
+        });
+      }
+    });
+  }
   columns = [
     {
       dataField: "id",
@@ -217,11 +257,11 @@ export default class PresentacionInformesIglesia extends Component {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    this.props.history.push(
-                      `${row.ruta}/create/${this.state.tab_active}`
-                    );
-                  }}
+                  onClick={this.enviarInforme.bind(
+                    this,
+                    row.informe_ide,
+                    this.state.tab_active
+                  )}
                   className="btn btn-success mr-2"
                 >
                   <i className="fa fa-paper-plane-o mr-2"></i>ENVIAR

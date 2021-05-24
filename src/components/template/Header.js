@@ -349,6 +349,9 @@ class Header extends Component {
                         "/presentacion_informes/new" ||
                       this.props.location.pathname.includes(
                         "/presentacion_informes/informe_ministerial_mensual/gestion"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/presentacion_informes/iglesia"
                       )
                         ? "active"
                         : ""

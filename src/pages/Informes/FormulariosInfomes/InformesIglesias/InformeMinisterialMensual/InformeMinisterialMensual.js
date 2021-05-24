@@ -1013,7 +1013,7 @@ export default class InformeMinisterialMensual extends Component {
                       }}
                       disabled={this.state.loading}
                     >
-                      <i className="fa fa-close mr-2"></i>CANCELAR
+                      <i className="fa fa-arrow-left mr-2"></i>SALIR
                     </button>
                     <button
                       type="button"
@@ -1112,10 +1112,16 @@ export default class InformeMinisterialMensual extends Component {
                       placeholder="Bautizados en Agua"
                     />
                   </div>
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Hogares Miembros Visitados:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Hogares de miembros visitados"
+                  >
+                    <label htmlFor="" title="Hogares de miembros visitados">
+                      Hogares M. Visitados:
+                    </label>
                     <input
                       type="text"
+                      title="Hogares de miembros visitados"
                       id="hogaresMiembrosV"
                       value={this.state.hogaresMiembrosV}
                       className="form-control"
@@ -1123,10 +1129,16 @@ export default class InformeMinisterialMensual extends Component {
                       placeholder="H. Miembros Visitados"
                     />
                   </div>
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Hogares Prospectos Visitados:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Hogares de prospectos visitados"
+                  >
+                    <label htmlFor="" title="Hogares de prospectos visitados">
+                      Hogares P. Visitados:
+                    </label>
                     <input
                       type="text"
+                      title="Hogares de prospectos visitados"
                       id="hogaresProspectosV"
                       value={this.state.hogaresProspectosV}
                       className="form-control"
@@ -1154,13 +1166,19 @@ export default class InformeMinisterialMensual extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Ofrendas recibidas por el pastor:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Ofrenda recibida por el pastor"
+                  >
+                    <label htmlFor="" title="Ofrenda recibida por el pastor">
+                      Ofrenda recibida por P.:
+                    </label>
                     <div className="input-group">
                       <div className="input-group-prepend">
                         <span className="input-group-text">$</span>
                       </div>
                       <input
+                        title="Ofrenda recibida por el pastor"
                         type="number"
                         id="ofrendaRecibida"
                         value={this.state.ofrendaRecibida}
@@ -1171,13 +1189,19 @@ export default class InformeMinisterialMensual extends Component {
                     </div>
                   </div>
 
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Diezmos pagados en la iglesia:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Diezmos pagados en la Iglesia"
+                  >
+                    <label htmlFor="" title="Diezmos pagados en la Iglesia">
+                      Diezmos pagados en Ig.:
+                    </label>
                     <div className="input-group">
                       <div className="input-group-prepend">
                         <span className="input-group-text">$</span>
                       </div>
                       <input
+                        title="Diezmos pagados en la Iglesia"
                         type="number"
                         id="diezmoPagado"
                         value={this.state.diezmoPagado}
@@ -1203,13 +1227,19 @@ export default class InformeMinisterialMensual extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Diezmos incluido en informe:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Diezmos incluidos en el informe"
+                  >
+                    <label htmlFor="" title="Diezmos incluidos en el informe">
+                      Diezmos inc. en informe:
+                    </label>
                     <div className="input-group">
                       <div className="input-group-prepend">
                         <span className="input-group-text">$</span>
                       </div>
                       <input
+                        title="Diezmos incluidos en el informe"
                         type="number"
                         id="diezmosIncluidosInforme"
                         value={this.state.diezmosIncluidosInforme}
@@ -1225,10 +1255,19 @@ export default class InformeMinisterialMensual extends Component {
                 </h3>
                 <hr />
                 <div className="row">
-                  <div className="col-lg-4 form-group">
-                    <label htmlFor="">Actividades para promover oración:</label>
+                  <div
+                    className="col-lg-4 form-group"
+                    title="Actividades para promover la oración"
+                  >
+                    <label
+                      htmlFor=""
+                      title="Actividades para promover la oración"
+                    >
+                      Act. para Prom. Oración:
+                    </label>
                     <input
                       type="text"
+                      title="Actividades para promover la oración"
                       id="actividadesOracion"
                       value={this.state.actividadesOracion}
                       className="form-control"
@@ -1239,12 +1278,16 @@ export default class InformeMinisterialMensual extends Component {
 
                   <div
                     className="col-lg-4 form-group"
-                    title="Actividade para promover misiones, alcances y organización de la Iglesia"
+                    title="Actividades para promover misiones, alcances y organización de la Iglesia"
                   >
-                    <label htmlFor="">
-                      Actividades misiones, alcance y organización:
+                    <label
+                      htmlFor=""
+                      title="Actividades para promover misiones, alcances y organización de la Iglesia"
+                    >
+                      Act. misiones, alcance y Org.:
                     </label>
                     <input
+                      title="Actividades para promover misiones, alcances y organización de la Iglesia"
                       type="text"
                       id="actividadesMisiones"
                       value={this.state.actividadesMisiones}
@@ -1284,12 +1327,16 @@ export default class InformeMinisterialMensual extends Component {
                 <div className="row">
                   <div
                     className="col-lg-4 form-group"
-                    title="Actividade para promover el desarrollo de lideres"
+                    title="Actividades para promover el desarrollo de líderes"
                   >
-                    <label htmlFor="">
-                      Actividades para desarrollo de líderes:
+                    <label
+                      htmlFor=""
+                      title="Actividades para promover el desarrollo de líderes"
+                    >
+                      Act. para desarrollo de líderes:
                     </label>
                     <input
+                      title="Actividades para promover el desarrollo de líderes"
                       type="text"
                       id="actividadesLiderazgo"
                       value={this.state.actividadesLiderazgo}
@@ -1298,11 +1345,18 @@ export default class InformeMinisterialMensual extends Component {
                       placeholder="Cantidad de actividades liderazgo"
                     />
                   </div>
-                  <div className="col-lg-4 form-group">
-                    <label htmlFor="">
-                      Líderes participantes en actividades:
+                  <div
+                    className="col-lg-4 form-group"
+                    title="Líderes participantes en actividades"
+                  >
+                    <label
+                      htmlFor=""
+                      title="Líderes participantes en actividades"
+                    >
+                      Líderes participantes en Act.:
                     </label>
                     <input
+                      title="Líderes participantes en actividades"
                       type="text"
                       id="lideresInvolucrados"
                       value={this.state.lideresInvolucrados}
@@ -1395,10 +1449,16 @@ export default class InformeMinisterialMensual extends Component {
                       placeholder="Miembros Bautizados E.S"
                     />
                   </div>
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Asistencia Promedio Adultos:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Asistencia promedio adultos"
+                  >
+                    <label htmlFor="" title="Asistencia promedio adultos">
+                      Asis. Promedio Adultos:
+                    </label>
 
                     <input
+                      title="Asistencia promedio adultos"
                       type="number"
                       id="promedioAsistenciaAdultos"
                       value={this.state.promedioAsistenciaAdultos}
@@ -1408,10 +1468,19 @@ export default class InformeMinisterialMensual extends Component {
                     />
                   </div>
 
-                  <div className="col-lg-3 form-group">
-                    <label htmlFor="">Asistencia Promedio Jóv. y Niños:</label>
+                  <div
+                    className="col-lg-3 form-group"
+                    title="Asistencia promedio Jóvenes y Niños"
+                  >
+                    <label
+                      htmlFor=""
+                      title="Asistencia promedio Jóvenes y Niños"
+                    >
+                      Asis. Prom. Jóv. y Niños:
+                    </label>
 
                     <input
+                      title="Asistencia promedio Jóvenes y Niños"
                       type="number"
                       id="promedioAsistenciaNiJov"
                       value={this.state.promedioAsistenciaNiJov}
