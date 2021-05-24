@@ -533,11 +533,33 @@ export default class PresentacionInformesIglesia extends Component {
                     </div>
                     {/* Tab panes */}
                   </div>
+                  <div className="card-footer text-center">
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-lg"
+                      onClick={() => {
+                        this.props.history.push("/presentacion_informes");
+                      }}
+                    >
+                      <i className="fa fa-arrow-left"></i> SALIR
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="card">
                   <div className="card-body">
                     <h1>NO HAY GESTIONES ACTIVAS</h1>
+                  </div>
+                  <div className="card-footer text-center">
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-lg"
+                      onClick={() => {
+                        this.props.history.push("/presentacion_informes");
+                      }}
+                    >
+                      <i className="fa fa-arrow-left"></i> SALIR
+                    </button>
                   </div>
                 </div>
               )}
