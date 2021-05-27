@@ -35,7 +35,7 @@ export default class InformeTesoreroMensual extends Component {
     porcentajeMisionerosOficina: parseFloat(0).toFixed(2),
     misionesNacionales: parseFloat(0).toFixed(2),
     entradaFondoLocal: parseFloat(0).toFixed(2),
-    diezmosfondoLocal: parseFloat(0).toFixed(2),
+    diezmosFondoLocal: parseFloat(0).toFixed(2),
     fondoRetiroPastoral: parseFloat(0).toFixed(2),
     dineroOtrosPropositos: parseFloat(0).toFixed(2),
     ofrendaEmergenciaNacional: parseFloat(0).toFixed(2),
@@ -167,10 +167,10 @@ export default class InformeTesoreroMensual extends Component {
             this.state.entradaFondoLocal !== null
               ? this.state.entradaFondoLocal
               : 0,
-          diezmosfondoLocal:
-            this.state.diezmosfondoLocal !== "" &&
-            this.state.diezmosfondoLocal !== null
-              ? this.state.diezmosfondoLocal
+          diezmosFondoLocal:
+            this.state.diezmosFondoLocal !== "" &&
+            this.state.diezmosFondoLocal !== null
+              ? this.state.diezmosFondoLocal
               : 0,
           fondoRetiroPastoral:
             this.state.fondoRetiroPastoral !== "" &&
@@ -291,10 +291,10 @@ export default class InformeTesoreroMensual extends Component {
             this.state.entradaFondoLocal !== null
               ? this.state.entradaFondoLocal
               : 0,
-          diezmosfondoLocal:
-            this.state.diezmosfondoLocal !== "" &&
-            this.state.diezmosfondoLocal !== null
-              ? this.state.diezmosfondoLocal
+          diezmosFondoLocal:
+            this.state.diezmosFondoLocal !== "" &&
+            this.state.diezmosFondoLocal !== null
+              ? this.state.diezmosFondoLocal
               : 0,
           fondoRetiroPastoral:
             this.state.fondoRetiroPastoral !== "" &&
@@ -443,10 +443,10 @@ export default class InformeTesoreroMensual extends Component {
                     this.state.entradaFondoLocal !== null
                       ? this.state.entradaFondoLocal
                       : 0,
-                  diezmosfondoLocal:
-                    this.state.diezmosfondoLocal !== "" &&
-                    this.state.diezmosfondoLocal !== null
-                      ? this.state.diezmosfondoLocal
+                  diezmosFondoLocal:
+                    this.state.diezmosFondoLocal !== "" &&
+                    this.state.diezmosFondoLocal !== null
+                      ? this.state.diezmosFondoLocal
                       : 0,
                   fondoRetiroPastoral:
                     this.state.fondoRetiroPastoral !== "" &&
@@ -624,10 +624,10 @@ export default class InformeTesoreroMensual extends Component {
                       this.state.entradaFondoLocal !== null
                         ? this.state.entradaFondoLocal
                         : 0,
-                    diezmosfondoLocal:
-                      this.state.diezmosfondoLocal !== "" &&
-                      this.state.diezmosfondoLocal !== null
-                        ? this.state.diezmosfondoLocal
+                    diezmosFondoLocal:
+                      this.state.diezmosFondoLocal !== "" &&
+                      this.state.diezmosFondoLocal !== null
+                        ? this.state.diezmosFondoLocal
                         : 0,
                     fondoRetiroPastoral:
                       this.state.fondoRetiroPastoral !== "" &&
@@ -1061,8 +1061,8 @@ export default class InformeTesoreroMensual extends Component {
                       </div>
                       <input
                         type="number"
-                        id="diezmosfondoLocal"
-                        value={this.state.diezmosfondoLocal}
+                        id="diezmosFondoLocal"
+                        value={this.state.diezmosFondoLocal}
                         className="form-control"
                         onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
