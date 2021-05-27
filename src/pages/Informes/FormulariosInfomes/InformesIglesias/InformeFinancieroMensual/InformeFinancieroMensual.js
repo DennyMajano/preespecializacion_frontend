@@ -1140,8 +1140,8 @@ export default class InformeFinancieroMensual extends Component {
                       </div>
                       <input
                         type="number"
-                        id="compraPropiedadNacional"
-                        value={this.state.compraPropiedadNacional}
+                        id="construccionTemplosNuevos"
+                        value={this.state.construccionTemplosNuevos}
                         className="form-control"
                         onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
