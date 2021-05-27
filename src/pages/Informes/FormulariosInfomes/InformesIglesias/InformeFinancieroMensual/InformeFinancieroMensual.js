@@ -890,7 +890,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="oficinasInternacionales"
                         value={this.state.oficinasInternacionales}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -909,7 +909,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="sociosAmip"
                         value={this.state.sociosAmip}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -927,7 +927,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="misionesMundiales"
                         value={this.state.misionesMundiales}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -948,7 +948,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="tributosAnuales"
                         value={this.state.tributosAnuales}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -970,7 +970,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="ministroOrdenado"
                         value={this.state.ministroOrdenado}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -988,7 +988,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="pastorLaico"
                         value={this.state.pastorLaico}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1007,7 +1007,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="fondoLocal"
                         value={this.state.fondoLocal}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1025,7 +1025,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="retiroPastoral"
                         value={this.state.retiroPastoral}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1052,7 +1052,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="segundaParteOfrendaministerios"
                         value={this.state.segundaParteOfrendaministerios}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1071,7 +1071,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="fondoEmergenciaNacional"
                         value={this.state.fondoEmergenciaNacional}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1089,7 +1089,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="misionesNacionales"
                         value={this.state.misionesNacionales}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1107,7 +1107,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="diezmosMinistros"
                         value={this.state.diezmosMinistros}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1125,7 +1125,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="compraPropiedadNacional"
                         value={this.state.compraPropiedadNacional}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1143,7 +1143,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="compraPropiedadNacional"
                         value={this.state.compraPropiedadNacional}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1161,7 +1161,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="cotizacionPrestaciones"
                         value={this.state.cotizacionPrestaciones}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1179,7 +1179,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="seguroVida"
                         value={this.state.seguroVida}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1197,7 +1197,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="fondoSolidarioMinisterial"
                         value={this.state.fondoSolidarioMinisterial}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"
@@ -1215,7 +1215,7 @@ export default class InformeFinancieroMensual extends Component {
                         id="otros"
                         value={this.state.otros}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         placeholder="0.00"

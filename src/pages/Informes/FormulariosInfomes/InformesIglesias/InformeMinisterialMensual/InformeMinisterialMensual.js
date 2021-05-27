@@ -6,6 +6,7 @@ import es from "../../../../../helpers/ValidatorTranslate_es";
 import Request from "../../../../../services/Request";
 import Alerts from "../../../../../services/Alerts";
 import LayoutPanelEmpty from "../../../../../components/layouts/panels/LayoutPanelEmpty";
+import Redondeo from "../../../../../helpers/Redondeo";
 export default class InformeMinisterialMensual extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +68,24 @@ export default class InformeMinisterialMensual extends Component {
     this.getIglesia();
     this.getByID();
   }
+  handleFocus = (event) => event.target.select();
+  handleBlur = (event) => {
+    if (this.state[event.target.id] === "") {
+      this.setState({ [event.target.id]: parseFloat(0).toFixed(2) });
+    } else {
+      this.setState({
+        [event.target.id]: parseFloat(this.state[event.target.id]).toFixed(2),
+      });
+    }
+  };
+  handleChangeNumber = (e) => {
+    const idComponente = e.target.id;
+    const valorComponente = e.target.value;
 
+    this.setState({
+      [idComponente]: Redondeo.dosDecimalesInput(valorComponente),
+    });
+  };
   getByID() {
     if (this.props.match.params.ide) {
       HTTP.findById(
@@ -1047,6 +1065,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.mensajes}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Mensajes Impartidos"
                     />
                   </div>
@@ -1059,6 +1078,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.convertidos}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Convertidos"
                     />
                   </div>
@@ -1070,6 +1090,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.santificados}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Santificados"
                     />
                   </div>
@@ -1084,6 +1105,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.bautismosEs}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Bautizados Espírito Santo"
                     />
                   </div>
@@ -1095,6 +1117,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.agregados}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Añadidos"
                     />
                   </div>
@@ -1109,6 +1132,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.bautismosAgua}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Bautizados en Agua"
                     />
                   </div>
@@ -1126,6 +1150,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.hogaresMiembrosV}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="H. Miembros Visitados"
                     />
                   </div>
@@ -1143,6 +1168,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.hogaresProspectosV}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="H. Prospectos Visitados"
                     />
                   </div>
@@ -1161,7 +1187,9 @@ export default class InformeMinisterialMensual extends Component {
                         id="diezmoRecibido"
                         value={this.state.diezmoRecibido}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         placeholder="Diezmo Recibido"
                       />
                     </div>
@@ -1183,7 +1211,9 @@ export default class InformeMinisterialMensual extends Component {
                         id="ofrendaRecibida"
                         value={this.state.ofrendaRecibida}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         placeholder="Ofrenda recibida"
                       />
                     </div>
@@ -1206,7 +1236,9 @@ export default class InformeMinisterialMensual extends Component {
                         id="diezmoPagado"
                         value={this.state.diezmoPagado}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         placeholder="Diezmo pagado"
                       />
                     </div>
@@ -1222,7 +1254,9 @@ export default class InformeMinisterialMensual extends Component {
                         id="gastosMinisteriales"
                         value={this.state.gastosMinisteriales}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         placeholder="Gastos Ministerio"
                       />
                     </div>
@@ -1244,7 +1278,9 @@ export default class InformeMinisterialMensual extends Component {
                         id="diezmosIncluidosInforme"
                         value={this.state.diezmosIncluidosInforme}
                         className="form-control"
-                        onChange={this.handleInputChange}
+                        onChange={this.handleChangeNumber}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         placeholder="Diezmos en informe"
                       />
                     </div>
@@ -1272,6 +1308,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.actividadesOracion}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Cantidad de actividades oración"
                     />
                   </div>
@@ -1293,6 +1330,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.actividadesMisiones}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Cantidad de actividades misiones"
                     />
                   </div>
@@ -1340,6 +1378,7 @@ export default class InformeMinisterialMensual extends Component {
                       type="text"
                       id="actividadesLiderazgo"
                       value={this.state.actividadesLiderazgo}
+                      onFocus={this.handleFocus}
                       className="form-control"
                       onChange={this.handleInputChange}
                       placeholder="Cantidad de actividades liderazgo"
@@ -1360,6 +1399,7 @@ export default class InformeMinisterialMensual extends Component {
                       type="text"
                       id="lideresInvolucrados"
                       value={this.state.lideresInvolucrados}
+                      onFocus={this.handleFocus}
                       className="form-control"
                       onChange={this.handleInputChange}
                       placeholder="Cantidad de lideres participantes"
@@ -1405,6 +1445,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.miembrosActivos}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Membresía"
                     />
                   </div>
@@ -1417,6 +1458,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.miembrosSalvos}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Miembros Salvos"
                     />
                   </div>
@@ -1430,6 +1472,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.miembrosSantificados}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Miembros Santificados"
                     />
                   </div>
@@ -1446,6 +1489,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.miembrosBautizadosEs}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Miembros Bautizados E.S"
                     />
                   </div>
@@ -1464,6 +1508,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.promedioAsistenciaAdultos}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Asistencia promedio adultos"
                     />
                   </div>
@@ -1486,6 +1531,7 @@ export default class InformeMinisterialMensual extends Component {
                       value={this.state.promedioAsistenciaNiJov}
                       className="form-control"
                       onChange={this.handleInputChange}
+                      onFocus={this.handleFocus}
                       placeholder="Asistencia promedio Jóvenes y Niños"
                     />
                   </div>
