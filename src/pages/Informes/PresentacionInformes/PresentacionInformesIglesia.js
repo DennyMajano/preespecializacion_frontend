@@ -168,6 +168,7 @@ export default class PresentacionInformesIglesia extends Component {
               );
 
               this.refs[gestion].clear();
+              this.forceUpdate();
             } else {
               Alerts.alertEmpty(
                 "¡El informe no pudo ser enviado porque ha ocurrido un error!",
