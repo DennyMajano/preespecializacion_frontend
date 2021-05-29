@@ -19,7 +19,7 @@ export default class PresentacionInformesIglesia extends Component {
     nombre: "",
     loading: false,
     tab_active: "",
-    gestiones: null,
+    gestiones: [],
     actualizando: false,
     iglesia: null,
     redirect: false,
@@ -460,7 +460,7 @@ export default class PresentacionInformesIglesia extends Component {
             {/* Column */}
             {/* Column */}
             <div className="col-lg-9 col-xlg-9 col-md-7">
-              {this.state.gestiones !== null ? (
+              {this.state.gestiones.length > 0 ? (
                 <div className="card">
                   <div className="card-body">
                     {/* Nav tabs */}
