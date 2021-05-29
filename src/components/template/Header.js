@@ -70,13 +70,13 @@ class Header extends Component {
                   {/*You can put here icon as well // <i class="wi wi-sunset"></i> //*/}
                   {/* Dark Logo icon */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-icon.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_iddpues_small.png`}
                     alt="homepage"
                     className="dark-logo"
                   />
                   {/* Light Logo icon */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-light-icon.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_iddpues_small.png`}
                     alt="homepage"
                     className="light-logo"
                   />
@@ -86,13 +86,13 @@ class Header extends Component {
                 <span>
                   {/* dark Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-text.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto_small.png`}
                     alt="homepage"
                     className="dark-logo"
                   />
                   {/* Light Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-light-text.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto_small.png`}
                     className="light-logo"
                     alt="homepage"
                   />
