@@ -137,6 +137,11 @@ export default class Usuarios extends Component {
   update = async ({ event, props }) => {
     this.props.history.push(`/administracion/usuarios/update/${props.id}`);
   };
+  asignar = async ({ event, props }) => {
+    this.props.history.push(
+      `/administracion/usuarios/asignacion_iglesias/${props.id}`
+    );
+  };
 
   resetPassword = async ({ event, props }) => {
     Alerts.Question(
@@ -148,7 +153,7 @@ export default class Usuarios extends Component {
         Alerts.loading_reload(true);
         const data = {
           email: props.correo,
-          changeRequestType: 3
+          changeRequestType: 3,
         };
 
         Request.PUT("usuarios/request_new_password", data).then((result) => {
@@ -355,6 +360,11 @@ export default class Usuarios extends Component {
                     ACTUALIZAR
                   </Item>
                   <Separator />
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
+                  </Item>
+                  <Separator />
                   <Item onClick={this.bloquear}>
                     <IconFont className="fa fa-lock" /> BLOQUEAR
                   </Item>
@@ -371,6 +381,11 @@ export default class Usuarios extends Component {
                   <Item onClick={this.update}>
                     <IconFont className="fa fa-pencil" />
                     ACTUALIZAR
+                  </Item>
+                  <Separator />
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
                   </Item>
                   <Separator />
                   <Item onClick={this.desbloquear}>

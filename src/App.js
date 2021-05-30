@@ -54,6 +54,7 @@ import PresentacionInformes from "./pages/Informes/PresentacionInformes/Presenta
 import InformeFinancieroMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeFinancieroMensual/InformeFinancieroMensual";
 import InformeMinisterialMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeMinisterialMensual/InformeMinisterialMensual";
 import InformeTesoreroMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeTesoreroMensual/InformeTesoreroMensual";
+import UsuariosIglesias from "./pages/Acceso/Usuarios/UsuariosIglesias";
 
 function App() {
   return (
@@ -157,6 +158,14 @@ function App() {
             path="/administracion/usuarios/update/:id"
             component={Authorization(
               UsuariosForm,
+              "0e265555-6b54-4f97-b520-c836c4f7b215"
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/administracion/usuarios/asignacion_iglesias/:id"
+            component={Authorization(
+              UsuariosIglesias,
               "0e265555-6b54-4f97-b520-c836c4f7b215"
             )}
           />
