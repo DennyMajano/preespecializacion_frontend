@@ -26,7 +26,7 @@ export default class UsuariosIglesias extends Component {
     loading: false,
 
     nombre: "",
-
+    persona: "",
     zona: "",
     zonas: [],
     distrito: "",
@@ -94,6 +94,10 @@ export default class UsuariosIglesias extends Component {
               result.persona !== "" && result.persona !== null
                 ? result.persona.label
                 : "",
+            persona:
+              result.persona !== "" && result.persona !== null
+                ? result.persona.codigo
+                : "",
           });
         } else {
           this.setState({ redirect: true });
@@ -106,51 +110,6 @@ export default class UsuariosIglesias extends Component {
     this.validator.hideMessages();
     this.forceUpdate();
   }
-
-  onSubmit = async (e) => {
-    e.preventDefault();
-    if (this.validator.allValid()) {
-      this.setState({ loading: true });
-
-      if (this.props.match.params.id) {
-        const data = {
-          code: this.props.match.params.id,
-          name: this.state.nombre,
-          principal:
-            this.state.modulo_principal !== "" &&
-            this.state.modulo_principal !== null
-              ? this.state.modulo_principal.value
-              : 0,
-          modulo_principal: this.state.es_principal,
-        };
-        HTTP.update(data, "módulo", "módulos", "modulos").then((result) => {
-          this.setState({ loading: false });
-          if (result !== false) {
-            this.setState({ redirect: true });
-          }
-        });
-      } else {
-        const data = {
-          name: this.state.nombre,
-          principal:
-            this.state.modulo_principal !== "" &&
-            this.state.modulo_principal !== null
-              ? this.state.modulo_principal.value
-              : 0,
-          modulo_principal: this.state.es_principal,
-        };
-        HTTP.create(data, "módulo", "módulos", "modulos").then((result) => {
-          this.setState({ loading: false });
-          if (result !== false) {
-            this.setState({ redirect: true });
-          }
-        });
-      }
-    } else {
-      this.validator.showMessages();
-      this.forceUpdate();
-    }
-  };
 
   columns = [
     {
@@ -166,7 +125,7 @@ export default class UsuariosIglesias extends Component {
     },
     {
       dataField: "nombre",
-      text: "NOMBRE MÓDULO",
+      text: "NOMBRE IGLESIA ASIGNADA",
       sort: true,
       formatter: (cellContent, row) => {
         return <p className="ml-3">{cellContent.toUpperCase()}</p>;
@@ -176,61 +135,11 @@ export default class UsuariosIglesias extends Component {
       },
     },
     {
-      dataField: "fecha_creacion",
-      text: "FECHA REGISTRO",
+      dataField: "fecha_asignacion",
+      text: "FECHA ASIGNACIÓN",
       sort: true,
       formatter: (cellContent, row) => {
-        if (cellContent !== null) {
-          return <p>{cellContent}</p>;
-        } else {
-          return <p className="text-center">N/A</p>;
-        }
-      },
-      headerStyle: () => {
-        return { width: "20%", textAlign: "center" };
-      },
-    },
-    {
-      dataField: "e_padre",
-      text: "TIPO DE MÓDULO",
-      sort: true,
-      formatter: (cellContent, row) => {
-        if (row.e_padre === 1) {
-          return (
-            <p className="text-center">
-              <span className="label label-info"> PRINCIPAL</span>
-            </p>
-          );
-        } else {
-          return (
-            <p className="text-center">
-              <span className="label label-light-info">SECUNDARIO</span>
-            </p>
-          );
-        }
-      },
-      headerStyle: () => {
-        return { width: "20%", textAlign: "center" };
-      },
-    },
-    {
-      dataField: "status",
-      text: "ESTADO",
-      sort: true,
-      formatter: (cellContent, row) => {
-        if (row.status === 1) {
-          return (
-            <p className="text-center">
-              <span className="label label-light-info"> ACTIVO</span>
-            </p>
-          );
-        } else {
-          return (
-            <p className="text-center">
-              <span className="label label-light-danger">INACTIVO</span>
-            </p>
-          );
-        }
+        return <p className="text-center">{cellContent}</p>;
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
@@ -285,75 +194,44 @@ export default class UsuariosIglesias extends Component {
       }, 500);
     }
   };
-  getModulosPrincipales() {
-    let data = [];
-
-    HTTP.findAll("modulos/select").then((result) => {
-      result.forEach((element) => {
-        data.push({ label: element.name, value: element.modulo_id });
-      });
-      this.setState({ disabled_select: false });
-    });
-
-    return data;
-  }
-  getModulosAsignar(idPrincipal) {
-    let data = [];
-
-    HTTP.findAll(`modulos/children/${idPrincipal}`).then((result) => {
-      this.setState({
-        disabled_select_iglesia: false,
-      });
-      result.forEach((element) => {
-        data.push({ label: element.name, value: element.modulo_id });
-      });
-    });
-
-    return data;
-  }
 
   asignar() {
     if (this.validator.allValid()) {
       const data = {
-        modulo:
-          this.state.modulo_asignar !== "" && this.state.modulo_asignar !== null
-            ? this.state.modulo_asignar.value
-            : this.state.modulo_principal !== "" &&
-              this.state.modulo_principal !== null
-            ? this.state.modulo_principal.value
+        iglesia:
+          this.state.iglesia !== "" && this.state.iglesia !== null
+            ? this.state.iglesia.codigo
             : null,
-        rol: this.props.match.params.id,
+        persona: this.state.persona,
       };
       Alerts.loading_reload(true);
 
-      Request.POST("roles_modulos", data).then((result) => {
+      Request.POST("usuarios/asignar_iglesia", data).then((result) => {
         Alerts.loading_reload(false);
 
         if (result !== false) {
           if (result.status === 201) {
             Alerts.alertEmpty(
-              "¡Módulo asignado con éxito!",
-              "Administración de módulos",
+              "¡Iglesia asignada con éxito!",
+              "Administración de usuarios",
               "success"
             );
-            this.refs.tabla.getData(
-              `roles_modulos/all/${this.props.match.params.id}`
-            );
+            this.refs.tabla.clear();
 
             this.setState({
-              modulo_asignar: "",
+              iglesia: "",
             });
           } else if (result.status === 409) {
             Alerts.alertEmpty(
-              "¡El módulo ya fue asignado!",
-              "Administración de roles",
+              "¡La iglesia ya fue asignada!",
+              "Administración de usuarios",
               "warning"
             );
           }
         } else {
           Alerts.alertEmpty(
             "¡No se pudo asignar!",
-            "Administración de roles",
+            "Administración de usuarios",
             "error"
           );
         }
@@ -367,54 +245,22 @@ export default class UsuariosIglesias extends Component {
     const data = {
       code: props.id,
     };
-    if (props.principal === 1) {
-      Alerts.Question(
-        "El módulo a eliminar, es módulo principal, ¿Desea eliminar?",
-        "Administración de asignaciones de módulos"
-      ).then((resp) => {
-        if (resp) {
-          Alerts.loading_reload(true);
-          Request.DELETE("roles_modulos", data).then((result) => {
-            Alerts.loading_reload(false);
 
-            if (result !== false) {
-              if (result.status === 200) {
-                this.refs.tabla.getData(
-                  `roles_modulos/all/${this.props.match.params.id}`
-                );
-                Alerts.alertSuccessDelete(
-                  "asignación de módulo",
-                  "asignaciones de módulo"
-                );
-              } else {
-                Alerts.alertErrorDelete(
-                  "asignación de módulo",
-                  "asignaciones de módulo"
-                );
-              }
-            }
-          });
-        }
-      });
-    } else {
-      HTTP.delete_disable(
-        data,
-        "asignación de módulo",
-        "asignaciones de módulos",
-        "roles_modulos"
-      ).then((result) => {
-        this.refs.tabla.getData(
-          `roles_modulos/all/${this.props.match.params.id}`
-        );
-      });
-    }
+    HTTP.delete_disable(
+      data,
+      "asignación de iglesia",
+      "usuarios",
+      "usuarios/iglesia_asignada"
+    ).then((result) => {
+      this.refs.tabla.clear();
+    });
   };
   rowEvents = {
     onContextMenu: (e, row, rowIndex) => {
       e.preventDefault();
 
       contextMenu.show({
-        id: "menu_modulos",
+        id: "menu",
         event: e,
         props: {
           id: row.id,
@@ -425,7 +271,7 @@ export default class UsuariosIglesias extends Component {
   };
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/administracion/roles" />;
+      return <Redirect to="/administracion/usuarios" />;
     }
     return (
       <React.Fragment>
@@ -624,13 +470,13 @@ export default class UsuariosIglesias extends Component {
               <div className="col-lg-12">
                 <TablaFilter
                   ref="tabla"
-                  ruta={`roles_modulos/all/${this.props.match.params.id}`}
+                  ruta={`iglesias/asignadas/${this.props.match.params.id}`}
                   rowEvents={this.rowEvents}
                   identificador={"id"}
                   columns={this.columns}
                   titulo_tabla="Escriba el registro que desea buscar"
                 />
-                <Menu id={"menu_modulos"}>
+                <Menu id={"menu"}>
                   <Item onClick={this.eliminar}>
                     <IconFont className="fa fa-trash" />
                     ELIMINAR

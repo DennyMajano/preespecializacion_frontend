@@ -330,6 +330,15 @@ export default class Usuarios extends Component {
             },
           });
         }
+      } else {
+        contextMenu.show({
+          id: "menu_usuario_propio",
+          event: e,
+          props: {
+            id: row.id,
+            correo: row.correo_electronico,
+          },
+        });
       }
     },
   };
@@ -394,6 +403,12 @@ export default class Usuarios extends Component {
                   <Separator />
                   <Item onClick={this.delete}>
                     <IconFont className="fa fa-trash" /> ELIMINAR
+                  </Item>
+                </Menu>
+                <Menu id={"menu_usuario_propio"}>
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
                   </Item>
                 </Menu>
               </div>
