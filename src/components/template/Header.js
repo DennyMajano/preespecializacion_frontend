@@ -300,39 +300,58 @@ class Header extends Component {
                     <span className="hide-menu">Inicio </span>
                   </NavLink>
                 </li>{" "}
+                {this.state.modulos.includes(
+                  "069c8570-a351-4e5b-9228-448893c18e49"
+                ) && (
+                  <li
+                    className={
+                      this.props.location.pathname.includes(
+                        "/informes_mensuales/gestiones_entrega"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/informes_mensuales/gestiones_entrega/new"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/informes_mensuales/gestiones_entrega/asignados"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/informes_mensuales/gestiones_entrega/asignacion_informes"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/informes_mensuales/gestiones_entrega/update"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <NavLink to="/informes_mensuales/gestiones_entrega">
+                      <i className="mdi mdi-clipboard-flow mr-1" />
+                      <span>Gestiones de Entrega</span>
+                    </NavLink>
+                  </li>
+                )}
                 {/*---INFORMES MENSUALES*/}
                 <li>
                   {this.state.modulos.includes(
-                    "c60cf119-9e48-4267-9b68-1ac6e511bb39"
+                    "8130362d-d425-4019-b47b-42450ee15fed"
                   ) && (
                     <a
                       className="has-arrow waves-effect waves-dark"
                       href={this.hrefLink}
                       aria-expanded="false"
                     >
-                      <i className="mdi mdi-clipboard-text " />
-                      <span className="hide-menu">Informes Mensuales</span>
+                      <i className="mdi mdi-clipboard-check mr-1 " />
+                      <span className="hide-menu">Recepción Informes</span>
                     </a>
                   )}
                   <ul className="collapse">
                     {this.state.modulos.includes(
-                      "069c8570-a351-4e5b-9228-448893c18e49"
+                      "d56cf8b1-f637-446a-9b28-28bf846bdbac"
                     ) && (
                       <li>
-                        <NavLink to="/informes_mensuales/gestiones_entrega">
-                          <i className="mdi mdi-clipboard-flow mr-1" />
-                          <span>Gestiones de Entrega</span>
-                        </NavLink>
-                      </li>
-                    )}
-
-                    {this.state.modulos.includes(
-                      "8130362d-d425-4019-b47b-42450ee15fed"
-                    ) && (
-                      <li>
-                        <NavLink to="/informes_mensuales/recepcion_informes">
-                          <i className="mdi mdi-clipboard-check mr-1" />
-                          <span>Recepción de Informes</span>
+                        <NavLink to="/recepcion_informes/iglesia">
+                          <i className="mdi mdi mdi-church mr-1" />
+                          <span>Informes Iglesias</span>
                         </NavLink>
                       </li>
                     )}
@@ -341,26 +360,28 @@ class Header extends Component {
                 {this.state.modulos.includes(
                   "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
                 ) && (
-                  <li
-                    className={
-                      this.props.location.pathname ===
-                        "/presentacion_informes" ||
-                      this.props.location.pathname ===
-                        "/presentacion_informes/new" ||
-                      this.props.location.pathname.includes(
-                        "/presentacion_informes/informe_ministerial_mensual/gestion"
-                      ) ||
-                      this.props.location.pathname.includes(
-                        "/presentacion_informes/iglesia"
-                      )
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <NavLink exact to="/presentacion_informes">
+                  <li>
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
                       <i className="mdi mdi-clipboard-check" />
                       <span className="hide-menu">Presentar Informes</span>
-                    </NavLink>
+                    </a>
+
+                    <ul className="collapse">
+                      {this.state.modulos.includes(
+                        "0b691254-6df0-416b-ab79-fd6e260a6c9a"
+                      ) && (
+                        <li>
+                          <NavLink exact to="/presentacion_informes/iglesia">
+                            <i className="mdi mdi-church mr-1" />
+                            <span className="hide-menu">Informes Iglesias</span>
+                          </NavLink>
+                        </li>
+                      )}
+                    </ul>
                   </li>
                 )}
                 {this.state.modulos.includes(

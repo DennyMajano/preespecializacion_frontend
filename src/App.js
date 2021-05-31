@@ -474,7 +474,7 @@ function App() {
           {/**INCIO RUTAS PRESENTAR INFORMES */}
           <PrivateRoute
             exact
-            path="/presentacion_informes"
+            path="/presentacion_informes/iglesia"
             component={Authorization(
               PresentacionInformes,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"

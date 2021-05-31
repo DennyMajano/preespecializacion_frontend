@@ -539,7 +539,9 @@ export default class PresentacionInformesIglesia extends Component {
                       type="button"
                       className="btn btn-outline-secondary btn-lg"
                       onClick={() => {
-                        this.props.history.push("/presentacion_informes");
+                        this.props.history.push(
+                          "/presentacion_informes/iglesia"
+                        );
                       }}
                     >
                       <i className="fa fa-arrow-left"></i> SALIR
