@@ -3,7 +3,6 @@ import Encryptacion from "../../services/Encrypt";
 import { NavLink } from "react-router-dom";
 import Request from "../../services/Request";
 import DefaultImage from "../utils/images/default.png";
-import RoutesPath from "./../../config/RoutesPath";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -71,13 +70,13 @@ class Header extends Component {
                   {/*You can put here icon as well // <i class="wi wi-sunset"></i> //*/}
                   {/* Dark Logo icon */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-icon.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_iddpues_small.png`}
                     alt="homepage"
                     className="dark-logo"
                   />
                   {/* Light Logo icon */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-light-icon.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_iddpues_small.png`}
                     alt="homepage"
                     className="light-logo"
                   />
@@ -87,13 +86,13 @@ class Header extends Component {
                 <span>
                   {/* dark Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-text.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto.png`}
                     alt="homepage"
                     className="dark-logo"
                   />
                   {/* Light Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo-light-text.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto.png`}
                     className="light-logo"
                     alt="homepage"
                   />
@@ -300,87 +299,208 @@ class Header extends Component {
                     <i className="mdi mdi-gauge" />
                     <span className="hide-menu">Inicio </span>
                   </NavLink>
-                </li>
-                <li
-                  className={
-                    this.props.location.pathname === "/categorias" ||
-                    this.props.location.pathname === "/categorias/new" ||
-                    this.props.location.pathname.includes("/categorias/update")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
+                </li>{" "}
+                {/*---INFORMES MENSUALES*/}
+                <li>
                   {this.state.modulos.includes(
-                    "dbe5c0ee-253f-40b0-a244-34e6b1d0316e"
+                    "c60cf119-9e48-4267-9b68-1ac6e511bb39"
                   ) && (
-                    <NavLink exact to="/categorias">
-                      <i className="mdi mdi-clipboard" />
-                      <span className="hide-menu">Categorías </span>
-                    </NavLink>
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-clipboard-text " />
+                      <span className="hide-menu">Informes Mensuales</span>
+                    </a>
                   )}
-                </li>
-                {/*---GESTION*/}
-                <li
-                  className={
-                    this.props.location.pathname === RoutesPath.GESTIONES ||
-                    this.props.location.pathname ===
-                      RoutesPath.GESTIONES_NUEVA ||
-                    this.props.location.pathname ===
-                      RoutesPath.GESTIONES_HISTORIAL
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "3ba1f88d-3cf1-4bc2-90c4-74a5388acb10"
-                  ) && (
-                    <NavLink exact to="/gestiones">
-                      <i className="mdi mdi-clipboard" />
-                      <span className="hide-menu">Gestiones</span>
-                    </NavLink>
-                  )}
-                </li>
-                {/*---/GESTION*/}
-                <li
-                  className={
-                    this.props.location.pathname === "/productos" ||
-                    this.props.location.pathname === "/productos/new" ||
-                    this.props.location.pathname.includes("/productos/update")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {" "}
-                  {this.state.modulos.includes(
-                    "6506804a-90e0-40a5-8522-5fd094005f71"
-                  ) && (
-                    <NavLink exact to="/productos">
-                      <i className="mdi mdi-cart" />
-                      <span className="hide-menu">Productos </span>
-                    </NavLink>
-                  )}
-                </li>
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "069c8570-a351-4e5b-9228-448893c18e49"
+                    ) && (
+                      <li>
+                        <NavLink to="/informes_mensuales/gestiones_entrega">
+                          <i className="mdi mdi-clipboard-flow mr-1" />
+                          <span>Gestiones de Entrega</span>
+                        </NavLink>
+                      </li>
+                    )}
 
-                <li
-                  className={
-                    this.props.location.pathname === "/clientes" ||
-                    this.props.location.pathname === "/clientes/new" ||
-                    this.props.location.pathname.includes("/clientes/update")
-                      ? "active"
-                      : ""
-                  }
-                >
+                    {this.state.modulos.includes(
+                      "8130362d-d425-4019-b47b-42450ee15fed"
+                    ) && (
+                      <li>
+                        <NavLink to="/informes_mensuales/recepcion_informes">
+                          <i className="mdi mdi-clipboard-check mr-1" />
+                          <span>Recepción de Informes</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
+                </li>
+                {this.state.modulos.includes(
+                  "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
+                ) && (
+                  <li
+                    className={
+                      this.props.location.pathname ===
+                        "/presentacion_informes" ||
+                      this.props.location.pathname ===
+                        "/presentacion_informes/new" ||
+                      this.props.location.pathname.includes(
+                        "/presentacion_informes/informe_ministerial_mensual/gestion"
+                      ) ||
+                      this.props.location.pathname.includes(
+                        "/presentacion_informes/iglesia"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <NavLink exact to="/presentacion_informes">
+                      <i className="mdi mdi-clipboard-check" />
+                      <span className="hide-menu">Presentar Informes</span>
+                    </NavLink>
+                  </li>
+                )}
+                {this.state.modulos.includes(
+                  "18130aec-698b-4d2e-8f24-461eff84c4af"
+                ) && (
+                  <li
+                    className={
+                      this.props.location.pathname ===
+                        "/periodos_ministeriales" ||
+                      this.props.location.pathname ===
+                        "/periodos_ministeriales/new" ||
+                      this.props.location.pathname.includes(
+                        "/periodos_ministeriales/update"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <NavLink exact to="/periodos_ministeriales">
+                      <i className="mdi mdi-calendar-clock" />
+                      <span className="hide-menu">Periodos Ministeriales</span>
+                    </NavLink>
+                  </li>
+                )}
+                <li>
                   {" "}
                   {this.state.modulos.includes(
-                    "6e7719cb-ec27-41db-8330-bc36a612bd85"
+                    "79f92aab-e480-4037-bfcd-fb85a7405fe7"
                   ) && (
-                    <NavLink exact to="/clientes">
-                      <i className="mdi mdi-account-card-details" />
-                      <span className="hide-menu">Clientes </span>
-                    </NavLink>
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-account-multiple" />
+                      <span className="hide-menu">Recursos Humanos</span>
+                    </a>
                   )}
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "1a087be0-a30e-4d26-af29-1846a20e2d1a"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/niveles_pastorales">
+                          <i className="mdi mdi-file-chart mr-1" />
+                          <span>Niveles Pastorales</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                    {this.state.modulos.includes(
+                      "68ff3ca6-05c7-450b-9d6f-5e315ef76d6e"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/niveles_academicos">
+                          <i className="mdi mdi-file-chart mr-1" />
+                          <span>Niveles Académicos Teológicos</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "9c464bd0-6015-4927-a881-9b0005c645ed"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/personas">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Personas</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "753278e6-c194-4858-ab8e-5d3760cf5ea4"
+                    ) && (
+                      <li>
+                        <NavLink to="/recursos_humanos/pastores">
+                          <i className="mdi mdi-account-card-details mr-1" />
+                          <span>Pastores</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
+                </li>
+                <li>
+                  {" "}
+                  {this.state.modulos.includes(
+                    "efc079e7-b7ee-4c5c-b904-ea5b604f4433"
+                  ) && (
+                    <a
+                      className="has-arrow waves-effect waves-dark"
+                      href={this.hrefLink}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-book-open" />
+                      <span className="hide-menu">Organización</span>
+                    </a>
+                  )}
+                  <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "c13a1b4d-612a-4f46-ba98-6b0bc5e10e47"
+                    ) && (
+                      <li>
+                        <NavLink to="/organizacion/zonas">
+                          <i className="mdi mdi-google-maps mr-1" />
+                          <span>Zonas</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                    {this.state.modulos.includes(
+                      "dcc3ec83-1367-4166-94e2-ba46c9c029a1"
+                    ) && (
+                      <li>
+                        <NavLink to="/organizacion/distritos">
+                          <i className="mdi mdi-map-marker-radius mr-1" />
+                          <span>Distritos</span>
+                        </NavLink>
+                      </li>
+                    )}
+                    {this.state.modulos.includes(
+                      "ca8b7b5c-652d-46db-a640-6ce29b6e7457"
+                    ) && (
+                      <li>
+                        <NavLink to="/organizacion/iglesias">
+                          <i className="mdi mdi-church mr-1" />
+                          <span>Iglesias</span>
+                        </NavLink>
+                      </li>
+                    )}
+
+                    {this.state.modulos.includes(
+                      "b5dcf605-897d-4521-9464-7176e234fd98"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/configuracion">
+                          <i className="mdi mdi-settings mr-1" />
+                          <span>Configuración</span>
+                        </NavLink>
+                      </li>
+                    )}
+                  </ul>
                 </li>
                 <li>
                   {" "}
@@ -397,6 +517,16 @@ class Header extends Component {
                     </a>
                   )}
                   <ul className="collapse">
+                    {this.state.modulos.includes(
+                      "6036af3b-234f-4c74-bdec-53a457f39d0a"
+                    ) && (
+                      <li>
+                        <NavLink to="/administracion/maestro_informes">
+                          <i className="mdi mdi-file-document mr-1" />
+                          <span>Maestro de Informe</span>
+                        </NavLink>
+                      </li>
+                    )}
                     {this.state.modulos.includes(
                       "f91cdcdd-6623-47d7-ae19-87b75e966ff6"
                     ) && (
@@ -424,21 +554,12 @@ class Header extends Component {
                     ) && (
                       <li>
                         <NavLink to="/administracion/usuarios">
-                          <i className="mdi mdi-account mr-1" />
+                          <i className="mdi mdi-account-key mr-1" />
                           <span>Usuarios</span>
                         </NavLink>
                       </li>
                     )}
-                    {this.state.modulos.includes(
-                      "c85623b9-d6a6-44ea-a72c-011c5f4a13d7"
-                    ) && (
-                      <li>
-                        <NavLink to="/administracion/tasas_iva">
-                          <i className="mdi mdi-gavel mr-1" />
-                          <span>Tasas IVA</span>
-                        </NavLink>
-                      </li>
-                    )}
+
                     {this.state.modulos.includes(
                       "81ea746c-7539-4ff6-b33b-d8bf62f8af9e"
                     ) && (
@@ -479,53 +600,6 @@ class Header extends Component {
                         </NavLink>
                       </li>
                     )}
-                  </ul>
-                </li>
-
-                <li>
-                  {" "}
-                  <a
-                    className="has-arrow waves-effect waves-dark"
-                    href={this.hrefLink}
-                    aria-expanded="false"
-                  >
-                    <i className="mdi mdi-arrange-send-backward" />
-                    <span className="hide-menu">Multi level dd</span>
-                  </a>
-                  <ul className="collapse">
-                    <li>
-                      <a href={this.hrefLink}>item 1.1</a>
-                    </li>
-                    <li>
-                      <a href={this.hrefLink}>item 1.2</a>
-                    </li>
-                    <li>
-                      {" "}
-                      <a
-                        className="has-arrow"
-                        href={this.hrefLink}
-                        aria-expanded="false"
-                      >
-                        Menu 1.3
-                      </a>
-                      <ul className="collapse">
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.1</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.2</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.3</a>
-                        </li>
-                        <li>
-                          <a href={this.hrefLink}>item 1.3.4</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href={this.hrefLink}>item 1.4</a>
-                    </li>
                   </ul>
                 </li>
               </ul>

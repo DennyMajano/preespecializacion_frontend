@@ -257,10 +257,18 @@ export default class RolesModulos extends Component {
             : null,
         rol: this.props.match.params.id,
       };
+      Alerts.loading_reload(true);
+
       Request.POST("roles_modulos", data).then((result) => {
+        Alerts.loading_reload(false);
+
         if (result !== false) {
           if (result.status === 201) {
-            Alerts.toast("¡Módulo asignado con éxito!", "success");
+            Alerts.alertEmpty(
+              "¡Módulo asignado con éxito!",
+              "Administración de módulos",
+              "success"
+            );
             this.refs.tabla.getData(
               `roles_modulos/all/${this.props.match.params.id}`
             );
@@ -298,7 +306,10 @@ export default class RolesModulos extends Component {
         "Administración de asignaciones de módulos"
       ).then((resp) => {
         if (resp) {
+          Alerts.loading_reload(true);
           Request.DELETE("roles_modulos", data).then((result) => {
+            Alerts.loading_reload(false);
+
             if (result !== false) {
               if (result.status === 200) {
                 this.refs.tabla.getData(
@@ -319,7 +330,7 @@ export default class RolesModulos extends Component {
         }
       });
     } else {
-      HTTP.disable(
+      HTTP.delete_disable(
         data,
         "asignación de módulo",
         "asignaciones de módulos",
@@ -371,8 +382,8 @@ export default class RolesModulos extends Component {
           }
         >
           <div className="form-body">
-            <h3 class="box-title">Detalles de Asignación</h3>
-            <hr class="m-t-0 m-b-5" />
+            <h3 className="box-title">Detalles de Asignación</h3>
+            <hr className="m-t-0 m-b-5" />
             <div className="row p-t-20">
               <div className="col-lg-4 form-group">
                 <label htmlFor="">Nombre rol:</label>
@@ -388,7 +399,7 @@ export default class RolesModulos extends Component {
                 />
               </div>
               <div className="col-lg-4 form-group">
-                <label htmlFor="">Módulo principal:</label>
+                <label htmlFor="">Módulo principal: (*)</label>
 
                 <AsyncSelect
                   id="modulo_principal"
@@ -444,7 +455,7 @@ export default class RolesModulos extends Component {
               </div>
 
               <div className="col-lg-4 form-group">
-                <label htmlFor="">Módulo a Asignar:</label>
+                <label htmlFor="">Módulo a Asignar: (*)</label>
 
                 <AsyncSelect
                   id="modulo_asignar"
@@ -497,9 +508,9 @@ export default class RolesModulos extends Component {
                 </div>
               </div>
             </div>
-            <hr class="m-t-0 m-b-1" />
-            <h3 class="box-title">Módulos Asignados</h3>
-            <hr class="m-t-0 m-b-2" />
+            <hr className="m-t-0 m-b-1" />
+            <h3 className="box-title">Módulos Asignados</h3>
+            <hr className="m-t-0 m-b-2" />
             <div className="row p-t-20">
               <div className="col-lg-12">
                 <TablaFilter

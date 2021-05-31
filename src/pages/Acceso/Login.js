@@ -11,7 +11,7 @@ export default class Login extends Component {
   myhref = null;
   inicial_state = {
     username: "arielopez229422@gmail.com",
-    password: "12345",
+    password: "123456",
     logueando: false,
     error_credenciales: false,
     error_login: false,
@@ -59,6 +59,10 @@ export default class Login extends Component {
                 Encryption.setSession("correo", datos.acceso.correo);
 
                 Encryption.setSession("usuario", datos.acceso.usuario);
+                Encryption.setSession(
+                  "codigo_persona",
+                  datos.acceso.codigo_persona
+                );
 
                 Encryption.setSession(
                   "modulos",
@@ -113,6 +117,11 @@ export default class Login extends Component {
           style={{
             backgroundImage:
               "url(../assets/images/background/login-register.jpg)",
+            height: "100%",
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
           }}
         >
           <div className="login-box card">
@@ -123,9 +132,9 @@ export default class Login extends Component {
                 onSubmit={this.onSubmit}
               >
                 <a href={this.myhref}>
-                  <img src="../assets/images/logo-icon.png" alt="Home" />
+                  <img src="../assets/images/logo_login.png" alt="Home" />
                   <br />
-                  <img src="../assets/images/logo-text.png" alt="Home" />
+                  <img src="../assets/images/logo_texto_login.png" alt="Home" />
                 </a>
                 <div className="col-12">
                   {this.state.error_credenciales === true && (
@@ -193,7 +202,7 @@ export default class Login extends Component {
                   <div className="col-sm-12 text-center">
                     <p>
                       ¿Olvidaste tu contraseña?{" "}
-                        <Link to="/restaurar_acceso">Restaurar</Link>
+                      <Link to="/restaurar_acceso">Restaurar</Link>
                     </p>
                   </div>
                 </div>

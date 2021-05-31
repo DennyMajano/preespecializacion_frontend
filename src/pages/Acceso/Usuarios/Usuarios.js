@@ -137,6 +137,11 @@ export default class Usuarios extends Component {
   update = async ({ event, props }) => {
     this.props.history.push(`/administracion/usuarios/update/${props.id}`);
   };
+  asignar = async ({ event, props }) => {
+    this.props.history.push(
+      `/administracion/usuarios/asignacion_iglesias/${props.id}`
+    );
+  };
 
   resetPassword = async ({ event, props }) => {
     Alerts.Question(
@@ -148,7 +153,7 @@ export default class Usuarios extends Component {
         Alerts.loading_reload(true);
         const data = {
           email: props.correo,
-          changeRequestType: 3
+          changeRequestType: 3,
         };
 
         Request.PUT("usuarios/request_new_password", data).then((result) => {
@@ -325,6 +330,15 @@ export default class Usuarios extends Component {
             },
           });
         }
+      } else {
+        contextMenu.show({
+          id: "menu_usuario_propio",
+          event: e,
+          props: {
+            id: row.id,
+            correo: row.correo_electronico,
+          },
+        });
       }
     },
   };
@@ -355,6 +369,11 @@ export default class Usuarios extends Component {
                     ACTUALIZAR
                   </Item>
                   <Separator />
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
+                  </Item>
+                  <Separator />
                   <Item onClick={this.bloquear}>
                     <IconFont className="fa fa-lock" /> BLOQUEAR
                   </Item>
@@ -373,12 +392,23 @@ export default class Usuarios extends Component {
                     ACTUALIZAR
                   </Item>
                   <Separator />
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
+                  </Item>
+                  <Separator />
                   <Item onClick={this.desbloquear}>
                     <IconFont className="fa fa-unlock" /> DESBLOQUEAR
                   </Item>
                   <Separator />
                   <Item onClick={this.delete}>
                     <IconFont className="fa fa-trash" /> ELIMINAR
+                  </Item>
+                </Menu>
+                <Menu id={"menu_usuario_propio"}>
+                  <Item onClick={this.asignar}>
+                    <IconFont className="fa fa-plus" />
+                    ASIGNAR IGLESIAS PARA ADMINISTRACIÓN
                   </Item>
                 </Menu>
               </div>

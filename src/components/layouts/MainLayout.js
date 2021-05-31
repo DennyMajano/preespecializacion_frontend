@@ -6,24 +6,26 @@ import PublicRoute from "../../config/routers/PublicRoute";
 function MainLayout(props) {
   return (
     <React.Fragment>
-      <div id="main-wrapper">
-        {/* ============================================================== */}
-        {/* Page wrapper  */}
-        {/* ============================================================== */}
-        <PublicRoute exact key="header" path="/*" component={Header} />
-
-        <div className="page-wrapper">
-          {props.children}
-
-          <PublicRoute exact key="footer" path="/*" component={Footer} />
-
+      <div className="fix-sidebar fix-header card-no-border">
+        <div id="main-wrapper">
           {/* ============================================================== */}
-          {/* End footer */}
+          {/* Page wrapper  */}
+          {/* ============================================================== */}
+          <PublicRoute exact key="header" path="/*" component={Header} />
+
+          <div className="page-wrapper">
+            {props.children}
+
+            <PublicRoute exact key="footer" path="/*" component={Footer} />
+
+            {/* ============================================================== */}
+            {/* End footer */}
+            {/* ============================================================== */}
+          </div>
+          {/* ============================================================== */}
+          {/* End Page wrapper  */}
           {/* ============================================================== */}
         </div>
-        {/* ============================================================== */}
-        {/* End Page wrapper  */}
-        {/* ============================================================== */}
       </div>
 
       {/* {!Encryption.getSession("token") ? <div> {props.children}</div> : null} */}

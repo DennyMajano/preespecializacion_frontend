@@ -15,7 +15,7 @@ export default class Roles extends Component {
       },
       headerStyle: () => {
         return { width: "15%", textAlign: "center" };
-      }
+      },
     },
     {
       dataField: "name",
@@ -26,7 +26,7 @@ export default class Roles extends Component {
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
-      }
+      },
     },
     {
       dataField: "date",
@@ -38,7 +38,7 @@ export default class Roles extends Component {
             <p>
               {cellContent
                 .toLowerCase()
-                .replace(/(?<= )[^\s]|^./g, a => a.toUpperCase())}
+                .replace(/(?<= )[^\s]|^./g, (a) => a.toUpperCase())}
             </p>
           );
         } else {
@@ -47,7 +47,7 @@ export default class Roles extends Component {
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
-      }
+      },
     },
     {
       dataField: "date_update",
@@ -59,7 +59,7 @@ export default class Roles extends Component {
             <p>
               {cellContent
                 .toLowerCase()
-                .replace(/(?<= )[^\s]|^./g, a => a.toUpperCase())}
+                .replace(/(?<= )[^\s]|^./g, (a) => a.toUpperCase())}
             </p>
           );
         } else {
@@ -68,7 +68,7 @@ export default class Roles extends Component {
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
-      }
+      },
     },
     {
       dataField: "status",
@@ -91,24 +91,24 @@ export default class Roles extends Component {
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
-      }
-    }
+      },
+    },
   ];
   desactivar = async ({ event, props }) => {
     const data = {
       code: props.id,
-      status: 0
+      status: 0,
     };
-    HTTP.disable(data, "rol", "roles", "roles").then(result => {
+    HTTP.disable(data, "rol", "roles", "roles").then((result) => {
       this.refs.tabla.getData("roles/all");
     });
   };
   activar = async ({ event, props }) => {
     const data = {
       code: props.id,
-      status: 1
+      status: 1,
     };
-    HTTP.disable(data, "rol", "roles", "roles").then(result => {
+    HTTP.disable(data, "rol", "roles", "roles").then((result) => {
       this.refs.tabla.getData("roles/all");
     });
   };
@@ -127,19 +127,19 @@ export default class Roles extends Component {
           id: "menu_roles",
           event: e,
           props: {
-            id: row.rol_id
-          }
+            id: row.rol_id,
+          },
         });
       } else {
         contextMenu.show({
           id: "menu_roles_disable",
           event: e,
           props: {
-            id: row.rol_id
-          }
+            id: row.rol_id,
+          },
         });
       }
-    }
+    },
   };
   componentDidMount() {
     document.getElementById("buscar").focus();
@@ -158,7 +158,7 @@ export default class Roles extends Component {
                   ref="tabla"
                   ruta={"roles/all"}
                   rowEvents={this.rowEvents}
-                  identificador={"modulo_id"}
+                  identificador={"rol_id"}
                   columns={this.columns}
                   titulo_tabla="Escriba el registro que desea buscar"
                 />
