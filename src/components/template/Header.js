@@ -86,13 +86,13 @@ class Header extends Component {
                 <span>
                   {/* dark Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto_small.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto.png`}
                     alt="homepage"
                     className="dark-logo"
                   />
                   {/* Light Logo text */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto_small.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/logo_texto.png`}
                     className="light-logo"
                     alt="homepage"
                   />

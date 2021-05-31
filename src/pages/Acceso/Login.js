@@ -132,9 +132,9 @@ export default class Login extends Component {
                 onSubmit={this.onSubmit}
               >
                 <a href={this.myhref}>
-                  <img src="../assets/images/logo-icon.png" alt="Home" />
+                  <img src="../assets/images/logo_login.png" alt="Home" />
                   <br />
-                  <img src="../assets/images/logo-text.png" alt="Home" />
+                  <img src="../assets/images/logo_texto_login.png" alt="Home" />
                 </a>
                 <div className="col-12">
                   {this.state.error_credenciales === true && (
