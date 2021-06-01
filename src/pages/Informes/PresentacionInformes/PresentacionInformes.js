@@ -42,91 +42,62 @@ export default class PresentacionInformes extends Component {
               {this.state.iglesias.length > 0 ? (
                 this.state.iglesias.map((element) => {
                   return (
-                    <div className="col-lg-4" key={element.codigo}>
-                      <div className="card card-outline-info border border-dark">
+                    <div className="col-lg-3 mx-auto" key={element.codigo}>
+                      <div className="card  border border-dark">
                         <div className="card-header">
-                          <h4 className="m-b-0 text-white">
-                            {element.iglesia}
+                          <h4 className="m-b-0 text-black">
+                            <strong>{element.iglesia.toUpperCase()}</strong>
                           </h4>
                         </div>
                         <div className="card-body">
-                          <h3 className="card-title">Información:</h3>
-                          <div className="row">
-                            <div className="col-lg-12 text-center">
-                              <table className="table table-bordered">
-                                <tbody>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Código:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.codigo}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Pastor:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.pastor}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Departamento:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.departamento}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Municipio:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.municipio}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Cantón:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.canton}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Zona:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.zona}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="text-right">
-                                      <h4>Distrito:</h4>
-                                    </td>
-                                    <td className="text-left">
-                                      {element.distrito}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                          <h3 className="card-title text-center">
+                            <strong>Pastor</strong>:{" "}
+                            {element.pastor !== "" && element.pastor !== null
+                              ? element.pastor
+                              : "SIN PASTOR NOMBRADO"}
+                          </h3>
+                          {element.cantidad_informes_pendientes > 0 ? (
+                            <div className="text-center">
+                              {" "}
+                              <span className=" text-danger">
+                                Pendiente de enviar:{" "}
+                                {element.cantidad_informes_pendientes} Informes
+                              </span>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="text-center">
+                              {" "}
+                              <span className="text-info">
+                                No hay informes pendientes de envío
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <div className="card-footer text-center">
-                          <button
-                            onClick={() => {
-                              this.props.history.push(
-                                `/presentacion_informes/iglesia/${element.codigo}`
-                              );
-                            }}
-                            className="btn btn-inverse"
-                          >
-                            Presentar Informes
-                          </button>
+                          <div className="btn-group-vertical">
+                            <button
+                              // onClick={() => {
+                              //   this.props.history.push(
+                              //     `/presentacion_informes/iglesia/${element.codigo}`
+                              //   );
+                              // }}
+                              className="btn btn-secondary mb-2"
+                            >
+                              <i className="fa fa-clipboard mr-1"></i> Ver
+                              Detalle Iglesia
+                            </button>
+                            <button
+                              onClick={() => {
+                                this.props.history.push(
+                                  `/presentacion_informes/iglesia/${element.codigo}`
+                                );
+                              }}
+                              className="btn btn-outline-info "
+                            >
+                              <i className="fa fa-file-o mr-1"></i> Presentar
+                              Informes
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
