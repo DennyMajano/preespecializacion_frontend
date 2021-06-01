@@ -172,7 +172,7 @@ export default class RecepcionInformesIglesias extends Component {
           {this.state.cargadas === true ? (
             <div className="row">
               {this.state.gestiones.length > 0 ? (
-                <div class="col-lg-12">
+                <div className="col-lg-12">
                   <Tabs
                     activeKey={this.state.tab_active}
                     onSelect={this.handleChangeTab.bind(this)}
@@ -183,6 +183,7 @@ export default class RecepcionInformesIglesias extends Component {
                         <Tab
                           eventKey={element.codigo}
                           title={element.descripcion.toUpperCase()}
+                          key={element.codigo}
                         >
                           <div className="row">
                             <div className="col-lg-12">

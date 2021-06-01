@@ -42,13 +42,15 @@ export default class PresentacionInformes extends Component {
               {this.state.iglesias.length > 0 ? (
                 this.state.iglesias.map((element) => {
                   return (
-                    <div class="col-lg-4">
-                      <div class="card card-outline-info border border-dark">
-                        <div class="card-header">
-                          <h4 class="m-b-0 text-white">{element.iglesia}</h4>
+                    <div className="col-lg-4" key={element.codigo}>
+                      <div className="card card-outline-info border border-dark">
+                        <div className="card-header">
+                          <h4 className="m-b-0 text-white">
+                            {element.iglesia}
+                          </h4>
                         </div>
-                        <div class="card-body">
-                          <h3 class="card-title">Información:</h3>
+                        <div className="card-body">
+                          <h3 className="card-title">Información:</h3>
                           <div className="row">
                             <div className="col-lg-12 text-center">
                               <table className="table table-bordered">
@@ -121,7 +123,7 @@ export default class PresentacionInformes extends Component {
                                 `/presentacion_informes/iglesia/${element.codigo}`
                               );
                             }}
-                            class="btn btn-inverse"
+                            className="btn btn-inverse"
                           >
                             Presentar Informes
                           </button>

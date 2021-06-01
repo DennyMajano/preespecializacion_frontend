@@ -4,6 +4,7 @@ import HTTP from "../../../../helpers/HTTP";
 import Encrypt from "../../../../services/Encrypt";
 import { Tabs, Tab } from "react-bootstrap";
 import TablaSearch from "../../../../components/tablas/TablaSearch";
+import { Redirect } from "react-router";
 
 export default class RecepcionInformesIglesiasDetalle extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
     gestion: null,
     informe: null,
     cargadas: false,
+    redirect: false,
   };
   componentDidMount() {
     this.getGestiones();
@@ -31,7 +33,11 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
   async handleChangeTab(key) {
     await this.setState({ tab_active: key });
 
-    //this.refs[key].clear();
+    if (key === "iglesias_reportadas") {
+      this.getIglesiasReportadas();
+    } else if (key === "iglesias_pendientes") {
+      this.getIglesiasPendientes();
+    }
   }
   getGestiones() {
     HTTP.findById(this.props.match.params.gestion, "gestion").then((result) => {
@@ -89,6 +95,11 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
   }
   columnsIglesiasReportadas = [
     {
+      informe_ide: "id",
+      text: "id",
+      hidden: true,
+    },
+    {
       dataField: "codigo",
       text: "Código",
       hidden: true,
@@ -125,7 +136,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
       text: "Tipo Iglesia",
 
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        return <p>{cellContent.toUpperCase()}</p>;
       },
       headerStyle: () => {
         return { width: "8%", textAlign: "center" };
@@ -136,7 +147,11 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
       text: "Teléfono",
 
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent}</p>;
+        if (cellContent !== "" && cellContent !== null) {
+          return <p className="text-center">{cellContent}</p>;
+        } else {
+          return <p className="text-center">N/A</p>;
+        }
       },
       headerStyle: () => {
         return { width: "8%", textAlign: "center" };
@@ -194,7 +209,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
       text: "Tipo Iglesia",
 
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        return <p>{cellContent.toUpperCase()}</p>;
       },
       headerStyle: () => {
         return { width: "8%", textAlign: "center" };
@@ -205,7 +220,11 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
       text: "Teléfono",
 
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent}</p>;
+        if (cellContent !== "" && cellContent !== null) {
+          return <p className="text-center">{cellContent}</p>;
+        } else {
+          return <p className="text-center">N/A</p>;
+        }
       },
       headerStyle: () => {
         return { width: "8%", textAlign: "center" };
@@ -231,11 +250,25 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
     },
   ];
   render() {
+    if (this.state.redirect === true) {
+      return <Redirect to="/recepcion_informes/iglesia" />;
+    }
     return (
       <div>
         <LayoutPanelTable
           titulo="Recepción de informes de Iglesias Locales"
           titulo_panel="Panel de Recepción de Informe"
+          buttons={
+            <button
+              type="button"
+              className="btn btn-secondary btn-lg mr-2"
+              onClick={() => {
+                this.setState({ redirect: true });
+              }}
+            >
+              <i className="fa fa-arrow-left mr-2"></i>Salir
+            </button>
+          }
         >
           <div className="row">
             <div className="col-lg-12">
@@ -282,7 +315,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
               </div>
             </div>
 
-            <div class="col-lg-12">
+            <div className="col-lg-12">
               <Tabs
                 activeKey={this.state.tab_active}
                 onSelect={this.handleChangeTab.bind(this)}
@@ -290,7 +323,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
               >
                 <Tab
                   eventKey={"iglesias_reportadas"}
-                  title={"IGLESIAS REPORTADAS"}
+                  title={`IGLESIAS REPORTADAS: ${this.state.iglesias_reportadas.length}`}
                 >
                   <div className="row">
                     <div className="col-lg-12">
@@ -299,7 +332,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
                       </h4>
                       <TablaSearch
                         data={this.state.iglesias_reportadas}
-                        identificador={"codigo"}
+                        identificador={"id"}
                         columns={this.columnsIglesiasReportadas}
                       />
                     </div>
@@ -308,7 +341,7 @@ export default class RecepcionInformesIglesiasDetalle extends Component {
 
                 <Tab
                   eventKey={"iglesias_pendientes"}
-                  title={"IGLESIAS PENDIENTES"}
+                  title={`IGLESIAS PENDIENTES: ${this.state.iglesias_pendientes.length}`}
                 >
                   <div className="row">
                     <div className="col-lg-12">
