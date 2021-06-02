@@ -478,190 +478,159 @@ export default class InformeMinisterialMensual extends Component {
       }
     } else {
       if (estado === 1) {
-        const data_header = {
-          codigoIglesia: this.props.match.params.iglesia,
-          codigoPastor:
-            this.state.iglesia !== null
-              ? this.state.iglesia.codigo_pastor !== "" &&
-                this.state.iglesia.codigo_pastor !== null
-                ? this.state.iglesia.codigo_pastor
-                : null
-              : null,
-          codigoGestion: this.props.match.params.gestion,
-          estado: 1,
+        const data = {
+          cabecera: {
+            codigoIglesia: this.props.match.params.iglesia,
+            codigoPastor:
+              this.state.iglesia !== null
+                ? this.state.iglesia.codigo_pastor !== "" &&
+                  this.state.iglesia.codigo_pastor !== null
+                  ? this.state.iglesia.codigo_pastor
+                  : null
+                : null,
+            codigoGestion: this.props.match.params.gestion,
+            estado: 1,
+          },
+          detalle: {
+            mensajes:
+              this.state.mensajes !== "" && this.state.mensajes !== null
+                ? this.state.mensajes
+                : 0,
+            convertidos:
+              this.state.convertidos !== "" && this.state.convertidos !== null
+                ? this.state.convertidos
+                : 0,
+            santificados:
+              this.state.santificados !== "" && this.state.santificados !== null
+                ? this.state.santificados
+                : 0,
+            bautismosAgua:
+              this.state.bautismosAgua !== "" &&
+              this.state.bautismosAgua !== null
+                ? this.state.bautismosAgua
+                : 0,
+            bautismosEs:
+              this.state.bautismosEs !== "" && this.state.bautismosEs !== null
+                ? this.state.bautismosEs
+                : 0,
+            agregados:
+              this.state.agregados !== "" && this.state.agregados !== null
+                ? this.state.agregados
+                : 0,
+            hogaresMiembrosV:
+              this.state.hogaresMiembrosV !== "" &&
+              this.state.hogaresMiembrosV !== null
+                ? this.state.hogaresMiembrosV
+                : 0,
+            hogaresProspectosV:
+              this.state.hogaresProspectosV !== "" &&
+              this.state.hogaresProspectosV !== null
+                ? this.state.hogaresProspectosV
+                : 0,
+            diezmoRecibido:
+              this.state.diezmoRecibido !== "" &&
+              this.state.diezmoRecibido !== null
+                ? this.state.diezmoRecibido
+                : 0.0,
+            diezmoPagado:
+              this.state.diezmoPagado !== "" && this.state.diezmoPagado !== null
+                ? this.state.diezmoPagado
+                : 0.0,
+            ofrendaRecibida:
+              this.state.ofrendaRecibida !== "" &&
+              this.state.ofrendaRecibida !== null
+                ? this.state.ofrendaRecibida
+                : 0.0,
+            gastosMinisteriales:
+              this.state.gastosMinisteriales !== "" &&
+              this.state.gastosMinisteriales !== null
+                ? this.state.gastosMinisteriales
+                : 0.0,
+            actividadesOracion:
+              this.state.actividadesOracion !== "" &&
+              this.state.actividadesOracion !== null
+                ? this.state.actividadesOracion
+                : 0,
+            vidaOracion: parseInt(this.state.vidaOracion),
+            actividadesMisiones:
+              this.state.actividadesMisiones !== "" &&
+              this.state.actividadesMisiones !== null
+                ? this.state.actividadesMisiones
+                : 0,
+            actividadesLiderazgo:
+              this.state.actividadesLiderazgo !== "" &&
+              this.state.actividadesLiderazgo !== null
+                ? this.state.actividadesLiderazgo
+                : 0,
+            lideresInvolucrados:
+              this.state.lideresInvolucrados !== "" &&
+              this.state.lideresInvolucrados !== null
+                ? this.state.lideresInvolucrados
+                : 0,
+            mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
+            miembrosActivos:
+              this.state.miembrosActivos !== "" &&
+              this.state.miembrosActivos !== null
+                ? this.state.miembrosActivos
+                : 0,
+            miembrosSalvos:
+              this.state.miembrosSalvos !== "" &&
+              this.state.miembrosSalvos !== null
+                ? this.state.miembrosSalvos
+                : 0,
+            miembrosSantificados:
+              this.state.miembrosSantificados !== "" &&
+              this.state.miembrosSantificados !== null
+                ? this.state.miembrosSantificados
+                : 0,
+            miembrosBautizadosEs:
+              this.state.miembrosBautizadosEs !== "" &&
+              this.state.miembrosBautizadosEs !== null
+                ? this.state.miembrosBautizadosEs
+                : 0,
+            promedioAsistenciaAdultos:
+              this.state.promedioAsistenciaAdultos !== "" &&
+              this.state.promedioAsistenciaAdultos !== null
+                ? this.state.promedioAsistenciaAdultos
+                : 0,
+            promedioAsistenciaNiJov:
+              this.state.promedioAsistenciaNiJov !== "" &&
+              this.state.promedioAsistenciaNiJov !== null
+                ? this.state.promedioAsistenciaNiJov
+                : 0,
+            ministerioAlcanceSemanal: parseInt(
+              this.state.ministerioAlcanceSemanal
+            ),
+            santaCena: parseInt(this.state.santaCena),
+            lavatorios: parseInt(this.state.lavatorios),
+            diezmosIncluidosInforme:
+              this.state.diezmosIncluidosInforme !== "" &&
+              this.state.diezmosIncluidosInforme !== null
+                ? this.state.diezmosIncluidosInforme
+                : 0,
+          },
         };
         this.setState({
           loading: true,
         });
         Alerts.loading_reload(true);
-        Request.POST("informe/ministerial/mensual/cabecera", data_header).then(
-          (resulth) => {
-            if (resulth !== false) {
-              if (resulth.status === 201) {
-                const data_detalle = {
-                  codigoInforme: resulth.data.code,
-                  mensajes:
-                    this.state.mensajes !== "" && this.state.mensajes !== null
-                      ? this.state.mensajes
-                      : 0,
-                  convertidos:
-                    this.state.convertidos !== "" &&
-                    this.state.convertidos !== null
-                      ? this.state.convertidos
-                      : 0,
-                  santificados:
-                    this.state.santificados !== "" &&
-                    this.state.santificados !== null
-                      ? this.state.santificados
-                      : 0,
-                  bautismosAgua:
-                    this.state.bautismosAgua !== "" &&
-                    this.state.bautismosAgua !== null
-                      ? this.state.bautismosAgua
-                      : 0,
-                  bautismosEs:
-                    this.state.bautismosEs !== "" &&
-                    this.state.bautismosEs !== null
-                      ? this.state.bautismosEs
-                      : 0,
-                  agregados:
-                    this.state.agregados !== "" && this.state.agregados !== null
-                      ? this.state.agregados
-                      : 0,
-                  hogaresMiembrosV:
-                    this.state.hogaresMiembrosV !== "" &&
-                    this.state.hogaresMiembrosV !== null
-                      ? this.state.hogaresMiembrosV
-                      : 0,
-                  hogaresProspectosV:
-                    this.state.hogaresProspectosV !== "" &&
-                    this.state.hogaresProspectosV !== null
-                      ? this.state.hogaresProspectosV
-                      : 0,
-                  diezmoRecibido:
-                    this.state.diezmoRecibido !== "" &&
-                    this.state.diezmoRecibido !== null
-                      ? this.state.diezmoRecibido
-                      : 0.0,
-                  diezmoPagado:
-                    this.state.diezmoPagado !== "" &&
-                    this.state.diezmoPagado !== null
-                      ? this.state.diezmoPagado
-                      : 0.0,
-                  ofrendaRecibida:
-                    this.state.ofrendaRecibida !== "" &&
-                    this.state.ofrendaRecibida !== null
-                      ? this.state.ofrendaRecibida
-                      : 0.0,
-                  gastosMinisteriales:
-                    this.state.gastosMinisteriales !== "" &&
-                    this.state.gastosMinisteriales !== null
-                      ? this.state.gastosMinisteriales
-                      : 0.0,
-                  actividadesOracion:
-                    this.state.actividadesOracion !== "" &&
-                    this.state.actividadesOracion !== null
-                      ? this.state.actividadesOracion
-                      : 0,
-                  vidaOracion: parseInt(this.state.vidaOracion),
-                  actividadesMisiones:
-                    this.state.actividadesMisiones !== "" &&
-                    this.state.actividadesMisiones !== null
-                      ? this.state.actividadesMisiones
-                      : 0,
-                  actividadesLiderazgo:
-                    this.state.actividadesLiderazgo !== "" &&
-                    this.state.actividadesLiderazgo !== null
-                      ? this.state.actividadesLiderazgo
-                      : 0,
-                  lideresInvolucrados:
-                    this.state.lideresInvolucrados !== "" &&
-                    this.state.lideresInvolucrados !== null
-                      ? this.state.lideresInvolucrados
-                      : 0,
-                  mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
-                  miembrosActivos:
-                    this.state.miembrosActivos !== "" &&
-                    this.state.miembrosActivos !== null
-                      ? this.state.miembrosActivos
-                      : 0,
-                  miembrosSalvos:
-                    this.state.miembrosSalvos !== "" &&
-                    this.state.miembrosSalvos !== null
-                      ? this.state.miembrosSalvos
-                      : 0,
-                  miembrosSantificados:
-                    this.state.miembrosSantificados !== "" &&
-                    this.state.miembrosSantificados !== null
-                      ? this.state.miembrosSantificados
-                      : 0,
-                  miembrosBautizadosEs:
-                    this.state.miembrosBautizadosEs !== "" &&
-                    this.state.miembrosBautizadosEs !== null
-                      ? this.state.miembrosBautizadosEs
-                      : 0,
-                  promedioAsistenciaAdultos:
-                    this.state.promedioAsistenciaAdultos !== "" &&
-                    this.state.promedioAsistenciaAdultos !== null
-                      ? this.state.promedioAsistenciaAdultos
-                      : 0,
-                  promedioAsistenciaNiJov:
-                    this.state.promedioAsistenciaNiJov !== "" &&
-                    this.state.promedioAsistenciaNiJov !== null
-                      ? this.state.promedioAsistenciaNiJov
-                      : 0,
-                  ministerioAlcanceSemanal: parseInt(
-                    this.state.ministerioAlcanceSemanal
-                  ),
-                  santaCena: parseInt(this.state.santaCena),
-                  lavatorios: parseInt(this.state.lavatorios),
-                  diezmosIncluidosInforme:
-                    this.state.diezmosIncluidosInforme !== "" &&
-                    this.state.diezmosIncluidosInforme !== null
-                      ? this.state.diezmosIncluidosInforme
-                      : 0,
-                };
+        Request.POST("informe/ministerial/mensual", data).then((result) => {
+          Alerts.loading_reload(false);
+          this.setState({
+            loading: false,
+          });
+          if (result !== false) {
+            if (result.status === 200) {
+              Alerts.alertEmpty(
+                "¡Informe guardado con éxito!",
+                "Administración de informes",
+                "success"
+              );
 
-                Request.POST(
-                  "informe/ministerial/mensual/detalle",
-                  data_detalle
-                ).then((result) => {
-                  Alerts.loading_reload(false);
-
-                  if (result !== false) {
-                    if (result.status === 201) {
-                      Alerts.alertEmpty(
-                        "¡Informe guardado con éxito!",
-                        "Administración de informes",
-                        "success"
-                      );
-
-                      this.setState({
-                        loading: false,
-                        redirect: true,
-                      });
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
-                  } else {
-                    Alerts.alertEmpty(
-                      "¡No se pudo enviar el informe debido a un error!",
-                      "Administración de informes",
-                      "error"
-                    );
-                  }
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo enviar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
-              }
+              this.setState({
+                loading: false,
+                redirect: true,
+              });
             } else {
               Alerts.alertEmpty(
                 "¡No se pudo enviar el informe debido a un error!",
@@ -669,8 +638,14 @@ export default class InformeMinisterialMensual extends Component {
                 "error"
               );
             }
+          } else {
+            Alerts.alertEmpty(
+              "¡No se pudo enviar el informe debido a un error!",
+              "Administración de informes",
+              "error"
+            );
           }
-        );
+        });
       } else if (estado === 2) {
         Alerts.QuestionYesNo(
           "¿Está seguro que desea enviar el informe?",
@@ -678,184 +653,161 @@ export default class InformeMinisterialMensual extends Component {
           "question"
         ).then((resp) => {
           if (resp) {
-            const data_header = {
-              codigoIglesia: this.props.match.params.iglesia,
-              codigoPastor:
-                this.state.iglesia !== null
-                  ? this.state.iglesia.codigo_pastor !== "" &&
-                    this.state.iglesia.codigo_pastor !== null
-                    ? this.state.iglesia.codigo_pastor
-                    : null
-                  : null,
-              codigoGestion: this.props.match.params.gestion,
-              estado: 2,
+            const data = {
+              cabecera: {
+                codigoIglesia: this.props.match.params.iglesia,
+                codigoPastor:
+                  this.state.iglesia !== null
+                    ? this.state.iglesia.codigo_pastor !== "" &&
+                      this.state.iglesia.codigo_pastor !== null
+                      ? this.state.iglesia.codigo_pastor
+                      : null
+                    : null,
+                codigoGestion: this.props.match.params.gestion,
+                estado: 2,
+              },
+              detalle: {
+                mensajes:
+                  this.state.mensajes !== "" && this.state.mensajes !== null
+                    ? this.state.mensajes
+                    : 0,
+                convertidos:
+                  this.state.convertidos !== "" &&
+                  this.state.convertidos !== null
+                    ? this.state.convertidos
+                    : 0,
+                santificados:
+                  this.state.santificados !== "" &&
+                  this.state.santificados !== null
+                    ? this.state.santificados
+                    : 0,
+                bautismosAgua:
+                  this.state.bautismosAgua !== "" &&
+                  this.state.bautismosAgua !== null
+                    ? this.state.bautismosAgua
+                    : 0,
+                bautismosEs:
+                  this.state.bautismosEs !== "" &&
+                  this.state.bautismosEs !== null
+                    ? this.state.bautismosEs
+                    : 0,
+                agregados:
+                  this.state.agregados !== "" && this.state.agregados !== null
+                    ? this.state.agregados
+                    : 0,
+                hogaresMiembrosV:
+                  this.state.hogaresMiembrosV !== "" &&
+                  this.state.hogaresMiembrosV !== null
+                    ? this.state.hogaresMiembrosV
+                    : 0,
+                hogaresProspectosV:
+                  this.state.hogaresProspectosV !== "" &&
+                  this.state.hogaresProspectosV !== null
+                    ? this.state.hogaresProspectosV
+                    : 0,
+                diezmoRecibido:
+                  this.state.diezmoRecibido !== "" &&
+                  this.state.diezmoRecibido !== null
+                    ? this.state.diezmoRecibido
+                    : 0.0,
+                diezmoPagado:
+                  this.state.diezmoPagado !== "" &&
+                  this.state.diezmoPagado !== null
+                    ? this.state.diezmoPagado
+                    : 0.0,
+                ofrendaRecibida:
+                  this.state.ofrendaRecibida !== "" &&
+                  this.state.ofrendaRecibida !== null
+                    ? this.state.ofrendaRecibida
+                    : 0.0,
+                gastosMinisteriales:
+                  this.state.gastosMinisteriales !== "" &&
+                  this.state.gastosMinisteriales !== null
+                    ? this.state.gastosMinisteriales
+                    : 0.0,
+                actividadesOracion:
+                  this.state.actividadesOracion !== "" &&
+                  this.state.actividadesOracion !== null
+                    ? this.state.actividadesOracion
+                    : 0,
+                vidaOracion: parseInt(this.state.vidaOracion),
+                actividadesMisiones:
+                  this.state.actividadesMisiones !== "" &&
+                  this.state.actividadesMisiones !== null
+                    ? this.state.actividadesMisiones
+                    : 0,
+                actividadesLiderazgo:
+                  this.state.actividadesLiderazgo !== "" &&
+                  this.state.actividadesLiderazgo !== null
+                    ? this.state.actividadesLiderazgo
+                    : 0,
+                lideresInvolucrados:
+                  this.state.lideresInvolucrados !== "" &&
+                  this.state.lideresInvolucrados !== null
+                    ? this.state.lideresInvolucrados
+                    : 0,
+                mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
+                miembrosActivos:
+                  this.state.miembrosActivos !== "" &&
+                  this.state.miembrosActivos !== null
+                    ? this.state.miembrosActivos
+                    : 0,
+                miembrosSalvos:
+                  this.state.miembrosSalvos !== "" &&
+                  this.state.miembrosSalvos !== null
+                    ? this.state.miembrosSalvos
+                    : 0,
+                miembrosSantificados:
+                  this.state.miembrosSantificados !== "" &&
+                  this.state.miembrosSantificados !== null
+                    ? this.state.miembrosSantificados
+                    : 0,
+                miembrosBautizadosEs:
+                  this.state.miembrosBautizadosEs !== "" &&
+                  this.state.miembrosBautizadosEs !== null
+                    ? this.state.miembrosBautizadosEs
+                    : 0,
+                promedioAsistenciaAdultos:
+                  this.state.promedioAsistenciaAdultos !== "" &&
+                  this.state.promedioAsistenciaAdultos !== null
+                    ? this.state.promedioAsistenciaAdultos
+                    : 0,
+                promedioAsistenciaNiJov:
+                  this.state.promedioAsistenciaNiJov !== "" &&
+                  this.state.promedioAsistenciaNiJov !== null
+                    ? this.state.promedioAsistenciaNiJov
+                    : 0,
+                ministerioAlcanceSemanal: parseInt(
+                  this.state.ministerioAlcanceSemanal
+                ),
+                santaCena: parseInt(this.state.santaCena),
+                lavatorios: parseInt(this.state.lavatorios),
+                diezmosIncluidosInforme:
+                  this.state.diezmosIncluidosInforme !== "" &&
+                  this.state.diezmosIncluidosInforme !== null
+                    ? this.state.diezmosIncluidosInforme
+                    : 0,
+              },
             };
             this.setState({
               loading: true,
             });
             Alerts.loading_reload(true);
-            Request.POST(
-              "informe/ministerial/mensual/cabecera",
-              data_header
-            ).then((resulth) => {
-              if (resulth !== false) {
-                if (resulth.status === 201) {
-                  const data_detalle = {
-                    codigoInforme: resulth.data.code,
-                    mensajes:
-                      this.state.mensajes !== "" && this.state.mensajes !== null
-                        ? this.state.mensajes
-                        : 0,
-                    convertidos:
-                      this.state.convertidos !== "" &&
-                      this.state.convertidos !== null
-                        ? this.state.convertidos
-                        : 0,
-                    santificados:
-                      this.state.santificados !== "" &&
-                      this.state.santificados !== null
-                        ? this.state.santificados
-                        : 0,
-                    bautismosAgua:
-                      this.state.bautismosAgua !== "" &&
-                      this.state.bautismosAgua !== null
-                        ? this.state.bautismosAgua
-                        : 0,
-                    bautismosEs:
-                      this.state.bautismosEs !== "" &&
-                      this.state.bautismosEs !== null
-                        ? this.state.bautismosEs
-                        : 0,
-                    agregados:
-                      this.state.agregados !== "" &&
-                      this.state.agregados !== null
-                        ? this.state.agregados
-                        : 0,
-                    hogaresMiembrosV:
-                      this.state.hogaresMiembrosV !== "" &&
-                      this.state.hogaresMiembrosV !== null
-                        ? this.state.hogaresMiembrosV
-                        : 0,
-                    hogaresProspectosV:
-                      this.state.hogaresProspectosV !== "" &&
-                      this.state.hogaresProspectosV !== null
-                        ? this.state.hogaresProspectosV
-                        : 0,
-                    diezmoRecibido:
-                      this.state.diezmoRecibido !== "" &&
-                      this.state.diezmoRecibido !== null
-                        ? this.state.diezmoRecibido
-                        : 0.0,
-                    diezmoPagado:
-                      this.state.diezmoPagado !== "" &&
-                      this.state.diezmoPagado !== null
-                        ? this.state.diezmoPagado
-                        : 0.0,
-                    ofrendaRecibida:
-                      this.state.ofrendaRecibida !== "" &&
-                      this.state.ofrendaRecibida !== null
-                        ? this.state.ofrendaRecibida
-                        : 0.0,
-                    gastosMinisteriales:
-                      this.state.gastosMinisteriales !== "" &&
-                      this.state.gastosMinisteriales !== null
-                        ? this.state.gastosMinisteriales
-                        : 0.0,
-                    actividadesOracion:
-                      this.state.actividadesOracion !== "" &&
-                      this.state.actividadesOracion !== null
-                        ? this.state.actividadesOracion
-                        : 0,
-                    vidaOracion: parseInt(this.state.vidaOracion),
-                    actividadesMisiones:
-                      this.state.actividadesMisiones !== "" &&
-                      this.state.actividadesMisiones !== null
-                        ? this.state.actividadesMisiones
-                        : 0,
-                    actividadesLiderazgo:
-                      this.state.actividadesLiderazgo !== "" &&
-                      this.state.actividadesLiderazgo !== null
-                        ? this.state.actividadesLiderazgo
-                        : 0,
-                    lideresInvolucrados:
-                      this.state.lideresInvolucrados !== "" &&
-                      this.state.lideresInvolucrados !== null
-                        ? this.state.lideresInvolucrados
-                        : 0,
-                    mejoraMinisterial: parseInt(this.state.mejoraMinisterial),
-                    miembrosActivos:
-                      this.state.miembrosActivos !== "" &&
-                      this.state.miembrosActivos !== null
-                        ? this.state.miembrosActivos
-                        : 0,
-                    miembrosSalvos:
-                      this.state.miembrosSalvos !== "" &&
-                      this.state.miembrosSalvos !== null
-                        ? this.state.miembrosSalvos
-                        : 0,
-                    miembrosSantificados:
-                      this.state.miembrosSantificados !== "" &&
-                      this.state.miembrosSantificados !== null
-                        ? this.state.miembrosSantificados
-                        : 0,
-                    miembrosBautizadosEs:
-                      this.state.miembrosBautizadosEs !== "" &&
-                      this.state.miembrosBautizadosEs !== null
-                        ? this.state.miembrosBautizadosEs
-                        : 0,
-                    promedioAsistenciaAdultos:
-                      this.state.promedioAsistenciaAdultos !== "" &&
-                      this.state.promedioAsistenciaAdultos !== null
-                        ? this.state.promedioAsistenciaAdultos
-                        : 0,
-                    promedioAsistenciaNiJov:
-                      this.state.promedioAsistenciaNiJov !== "" &&
-                      this.state.promedioAsistenciaNiJov !== null
-                        ? this.state.promedioAsistenciaNiJov
-                        : 0,
-                    ministerioAlcanceSemanal: parseInt(
-                      this.state.ministerioAlcanceSemanal
-                    ),
-                    santaCena: parseInt(this.state.santaCena),
-                    lavatorios: parseInt(this.state.lavatorios),
-                    diezmosIncluidosInforme:
-                      this.state.diezmosIncluidosInforme !== "" &&
-                      this.state.diezmosIncluidosInforme !== null
-                        ? this.state.diezmosIncluidosInforme
-                        : 0,
-                  };
-
-                  Request.POST(
-                    "informe/ministerial/mensual/detalle",
-                    data_detalle
-                  ).then((result) => {
-                    Alerts.loading_reload(false);
-
-                    if (result !== false) {
-                      if (result.status === 201) {
-                        Alerts.alertEmpty(
-                          "¡Informe enviado con éxito!",
-                          "Administración de informes",
-                          "success"
-                        );
-                        this.setState({
-                          loading: false,
-                          redirect: true,
-                        });
-                      } else {
-                        Alerts.alertEmpty(
-                          "¡No se pudo enviar el informe debido a un error!",
-                          "Administración de informes",
-                          "error"
-                        );
-                      }
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
+            Request.POST("informe/ministerial/mensual", data).then((result) => {
+              Alerts.loading_reload(false);
+              this.setState({
+                loading: false,
+              });
+              if (result !== false) {
+                if (result.status === 200) {
+                  Alerts.alertEmpty(
+                    "¡Informe enviado con éxito!",
+                    "Administración de informes",
+                    "success"
+                  );
+                  this.setState({
+                    loading: false,
+                    redirect: true,
                   });
                 } else {
                   Alerts.alertEmpty(
