@@ -370,169 +370,137 @@ export default class InformeTesoreroMensual extends Component {
       }
     } else {
       if (estado === 1) {
-        const data_header = {
-          codigoIglesia: this.props.match.params.iglesia,
-          codigoPastor:
-            this.state.iglesia !== null
-              ? this.state.iglesia.codigo_pastor !== "" &&
-                this.state.iglesia.codigo_pastor !== null
-                ? this.state.iglesia.codigo_pastor
-                : null
-              : null,
-          codigoGestion: this.props.match.params.gestion,
+        const data = {
+          cabecera: {
+            codigoIglesia: this.props.match.params.iglesia,
+            codigoPastor:
+              this.state.iglesia !== null
+                ? this.state.iglesia.codigo_pastor !== "" &&
+                  this.state.iglesia.codigo_pastor !== null
+                  ? this.state.iglesia.codigo_pastor
+                  : null
+                : null,
+            codigoGestion: this.props.match.params.gestion,
 
-          nombreTesorero: "HARDCODED",
-          telefono: "5555-5555",
-          direccion: "Col Las Olivas",
-          mail: "tesorero@mail.com",
-          estado: 1,
+            nombreTesorero: "HARDCODED",
+            telefono: "5555-5555",
+            direccion: "Col Las Olivas",
+            mail: "tesorero@mail.com",
+            estado: 1,
+          },
+          detalle: {
+            diezmosRecibidosIglesia:
+              this.state.diezmosRecibidosIglesia !== "" &&
+              this.state.diezmosRecibidosIglesia !== null
+                ? this.state.diezmosRecibidosIglesia
+                : 0,
+            diezmoEnviadoOficina:
+              this.state.diezmoEnviadoOficina !== "" &&
+              this.state.diezmoEnviadoOficina !== null
+                ? this.state.diezmoEnviadoOficina
+                : 0,
+            diezmosEntregadosPastor:
+              this.state.diezmosEntregadosPastor !== "" &&
+              this.state.diezmosEntregadosPastor !== null
+                ? this.state.diezmosEntregadosPastor
+                : 0,
+            membresiaPatrimonioHistorico:
+              this.state.membresiaPatrimonioHistorico !== "" &&
+              this.state.membresiaPatrimonioHistorico !== null
+                ? this.state.membresiaPatrimonioHistorico
+                : 0,
+            ofrendaMisioneraSegundoDomingo:
+              this.state.ofrendaMisioneraSegundoDomingo !== "" &&
+              this.state.ofrendaMisioneraSegundoDomingo !== null
+                ? this.state.ofrendaMisioneraSegundoDomingo
+                : 0,
+            impulsoMisiones:
+              this.state.impulsoMisiones !== "" &&
+              this.state.impulsoMisiones !== null
+                ? this.state.impulsoMisiones
+                : 0,
+            porcentajeMisionerosOficina:
+              this.state.porcentajeMisionerosOficina !== "" &&
+              this.state.porcentajeMisionerosOficina !== null
+                ? this.state.porcentajeMisionerosOficina
+                : 0,
+            misionesNacionales:
+              this.state.misionesNacionales !== "" &&
+              this.state.misionesNacionales !== null
+                ? this.state.misionesNacionales
+                : 0,
+            entradaFondoLocal:
+              this.state.entradaFondoLocal !== "" &&
+              this.state.entradaFondoLocal !== null
+                ? this.state.entradaFondoLocal
+                : 0,
+            diezmosFondoLocal:
+              this.state.diezmosFondoLocal !== "" &&
+              this.state.diezmosFondoLocal !== null
+                ? this.state.diezmosFondoLocal
+                : 0,
+            fondoRetiroPastoral:
+              this.state.fondoRetiroPastoral !== "" &&
+              this.state.fondoRetiroPastoral !== null
+                ? this.state.fondoRetiroPastoral
+                : 0,
+            dineroOtrosPropositos:
+              this.state.dineroOtrosPropositos !== "" &&
+              this.state.dineroOtrosPropositos !== null
+                ? this.state.dineroOtrosPropositos
+                : 0,
+            ofrendaEmergenciaNacional:
+              this.state.ofrendaEmergenciaNacional !== "" &&
+              this.state.ofrendaEmergenciaNacional !== null
+                ? this.state.ofrendaEmergenciaNacional
+                : 0,
+            fondoSolidarioMinisterial:
+              this.state.fondoSolidarioMinisterial !== "" &&
+              this.state.fondoSolidarioMinisterial !== null
+                ? this.state.fondoSolidarioMinisterial
+                : 0,
+            totalMiembros:
+              this.state.totalMiembros !== "" &&
+              this.state.totalMiembros !== null
+                ? this.state.totalMiembros
+                : 0,
+            masculinos:
+              this.state.masculinos !== "" && this.state.masculinos !== null
+                ? this.state.masculinos
+                : 0,
+            femeninos:
+              this.state.femeninos !== "" && this.state.femeninos !== null
+                ? this.state.femeninos
+                : 0,
+            excluidos:
+              this.state.excluidos !== "" && this.state.excluidos !== null
+                ? this.state.excluidos
+                : 0,
+            trasladados:
+              this.state.trasladados !== "" && this.state.trasladados !== null
+                ? this.state.trasladados
+                : 0,
+          },
         };
         this.setState({
           loading: true,
         });
         Alerts.loading_reload(true);
-        Request.POST("informe/tesorero/mensual/cabecera", data_header).then(
-          (resulth) => {
-            if (resulth !== false) {
-              if (resulth.status === 201) {
-                const data_detalle = {
-                  codigoInforme: resulth.data.code,
+        Request.POST("informe/tesorero/mensual", data).then((result) => {
+          Alerts.loading_reload(false);
 
-                  diezmosRecibidosIglesia:
-                    this.state.diezmosRecibidosIglesia !== "" &&
-                    this.state.diezmosRecibidosIglesia !== null
-                      ? this.state.diezmosRecibidosIglesia
-                      : 0,
-                  diezmoEnviadoOficina:
-                    this.state.diezmoEnviadoOficina !== "" &&
-                    this.state.diezmoEnviadoOficina !== null
-                      ? this.state.diezmoEnviadoOficina
-                      : 0,
-                  diezmosEntregadosPastor:
-                    this.state.diezmosEntregadosPastor !== "" &&
-                    this.state.diezmosEntregadosPastor !== null
-                      ? this.state.diezmosEntregadosPastor
-                      : 0,
-                  membresiaPatrimonioHistorico:
-                    this.state.membresiaPatrimonioHistorico !== "" &&
-                    this.state.membresiaPatrimonioHistorico !== null
-                      ? this.state.membresiaPatrimonioHistorico
-                      : 0,
-                  ofrendaMisioneraSegundoDomingo:
-                    this.state.ofrendaMisioneraSegundoDomingo !== "" &&
-                    this.state.ofrendaMisioneraSegundoDomingo !== null
-                      ? this.state.ofrendaMisioneraSegundoDomingo
-                      : 0,
-                  impulsoMisiones:
-                    this.state.impulsoMisiones !== "" &&
-                    this.state.impulsoMisiones !== null
-                      ? this.state.impulsoMisiones
-                      : 0,
-                  porcentajeMisionerosOficina:
-                    this.state.porcentajeMisionerosOficina !== "" &&
-                    this.state.porcentajeMisionerosOficina !== null
-                      ? this.state.porcentajeMisionerosOficina
-                      : 0,
-                  misionesNacionales:
-                    this.state.misionesNacionales !== "" &&
-                    this.state.misionesNacionales !== null
-                      ? this.state.misionesNacionales
-                      : 0,
-                  entradaFondoLocal:
-                    this.state.entradaFondoLocal !== "" &&
-                    this.state.entradaFondoLocal !== null
-                      ? this.state.entradaFondoLocal
-                      : 0,
-                  diezmosFondoLocal:
-                    this.state.diezmosFondoLocal !== "" &&
-                    this.state.diezmosFondoLocal !== null
-                      ? this.state.diezmosFondoLocal
-                      : 0,
-                  fondoRetiroPastoral:
-                    this.state.fondoRetiroPastoral !== "" &&
-                    this.state.fondoRetiroPastoral !== null
-                      ? this.state.fondoRetiroPastoral
-                      : 0,
-                  dineroOtrosPropositos:
-                    this.state.dineroOtrosPropositos !== "" &&
-                    this.state.dineroOtrosPropositos !== null
-                      ? this.state.dineroOtrosPropositos
-                      : 0,
-                  ofrendaEmergenciaNacional:
-                    this.state.ofrendaEmergenciaNacional !== "" &&
-                    this.state.ofrendaEmergenciaNacional !== null
-                      ? this.state.ofrendaEmergenciaNacional
-                      : 0,
-                  fondoSolidarioMinisterial:
-                    this.state.fondoSolidarioMinisterial !== "" &&
-                    this.state.fondoSolidarioMinisterial !== null
-                      ? this.state.fondoSolidarioMinisterial
-                      : 0,
-                  totalMiembros:
-                    this.state.totalMiembros !== "" &&
-                    this.state.totalMiembros !== null
-                      ? this.state.totalMiembros
-                      : 0,
-                  masculinos:
-                    this.state.masculinos !== "" &&
-                    this.state.masculinos !== null
-                      ? this.state.masculinos
-                      : 0,
-                  femeninos:
-                    this.state.femeninos !== "" && this.state.femeninos !== null
-                      ? this.state.femeninos
-                      : 0,
-                  excluidos:
-                    this.state.excluidos !== "" && this.state.excluidos !== null
-                      ? this.state.excluidos
-                      : 0,
-                  trasladados:
-                    this.state.trasladados !== "" &&
-                    this.state.trasladados !== null
-                      ? this.state.trasladados
-                      : 0,
-                };
+          if (result !== false) {
+            if (result.status === 201) {
+              Alerts.alertEmpty(
+                "¡Informe guardado con éxito!",
+                "Administración de informes",
+                "success"
+              );
 
-                Request.POST(
-                  "informe/tesorero/mensual/detalle",
-                  data_detalle
-                ).then((result) => {
-                  Alerts.loading_reload(false);
-
-                  if (result !== false) {
-                    if (result.status === 201) {
-                      Alerts.alertEmpty(
-                        "¡Informe guardado con éxito!",
-                        "Administración de informes",
-                        "success"
-                      );
-
-                      this.setState({
-                        loading: false,
-                        redirect: true,
-                      });
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
-                  } else {
-                    Alerts.alertEmpty(
-                      "¡No se pudo enviar el informe debido a un error!",
-                      "Administración de informes",
-                      "error"
-                    );
-                  }
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo enviar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
-              }
+              this.setState({
+                loading: false,
+                redirect: true,
+              });
             } else {
               Alerts.alertEmpty(
                 "¡No se pudo enviar el informe debido a un error!",
@@ -540,8 +508,14 @@ export default class InformeTesoreroMensual extends Component {
                 "error"
               );
             }
+          } else {
+            Alerts.alertEmpty(
+              "¡No se pudo enviar el informe debido a un error!",
+              "Administración de informes",
+              "error"
+            );
           }
-        );
+        });
       } else if (estado === 2) {
         Alerts.QuestionYesNo(
           "¿Está seguro que desea enviar el informe?",
@@ -549,164 +523,136 @@ export default class InformeTesoreroMensual extends Component {
           "question"
         ).then((resp) => {
           if (resp) {
-            const data_header = {
-              codigoIglesia: this.props.match.params.iglesia,
-              codigoPastor:
-                this.state.iglesia !== null
-                  ? this.state.iglesia.codigo_pastor !== "" &&
-                    this.state.iglesia.codigo_pastor !== null
-                    ? this.state.iglesia.codigo_pastor
-                    : null
-                  : null,
-              codigoGestion: this.props.match.params.gestion,
+            const data = {
+              cabecera: {
+                codigoIglesia: this.props.match.params.iglesia,
+                codigoPastor:
+                  this.state.iglesia !== null
+                    ? this.state.iglesia.codigo_pastor !== "" &&
+                      this.state.iglesia.codigo_pastor !== null
+                      ? this.state.iglesia.codigo_pastor
+                      : null
+                    : null,
+                codigoGestion: this.props.match.params.gestion,
 
-              nombreTesorero: "HARDCODED",
-              telefono: "5555-5555",
-              direccion: "Col Las Olivas",
-              mail: "tesorero@mail.com",
-              estado: 2,
+                nombreTesorero: "HARDCODED",
+                telefono: "5555-5555",
+                direccion: "Col Las Olivas",
+                mail: "tesorero@mail.com",
+                estado: 2,
+              },
+              detalle: {
+                diezmosRecibidosIglesia:
+                  this.state.diezmosRecibidosIglesia !== "" &&
+                  this.state.diezmosRecibidosIglesia !== null
+                    ? this.state.diezmosRecibidosIglesia
+                    : 0,
+                diezmoEnviadoOficina:
+                  this.state.diezmoEnviadoOficina !== "" &&
+                  this.state.diezmoEnviadoOficina !== null
+                    ? this.state.diezmoEnviadoOficina
+                    : 0,
+                diezmosEntregadosPastor:
+                  this.state.diezmosEntregadosPastor !== "" &&
+                  this.state.diezmosEntregadosPastor !== null
+                    ? this.state.diezmosEntregadosPastor
+                    : 0,
+                membresiaPatrimonioHistorico:
+                  this.state.membresiaPatrimonioHistorico !== "" &&
+                  this.state.membresiaPatrimonioHistorico !== null
+                    ? this.state.membresiaPatrimonioHistorico
+                    : 0,
+                ofrendaMisioneraSegundoDomingo:
+                  this.state.ofrendaMisioneraSegundoDomingo !== "" &&
+                  this.state.ofrendaMisioneraSegundoDomingo !== null
+                    ? this.state.ofrendaMisioneraSegundoDomingo
+                    : 0,
+                impulsoMisiones:
+                  this.state.impulsoMisiones !== "" &&
+                  this.state.impulsoMisiones !== null
+                    ? this.state.impulsoMisiones
+                    : 0,
+                porcentajeMisionerosOficina:
+                  this.state.porcentajeMisionerosOficina !== "" &&
+                  this.state.porcentajeMisionerosOficina !== null
+                    ? this.state.porcentajeMisionerosOficina
+                    : 0,
+                misionesNacionales:
+                  this.state.misionesNacionales !== "" &&
+                  this.state.misionesNacionales !== null
+                    ? this.state.misionesNacionales
+                    : 0,
+                entradaFondoLocal:
+                  this.state.entradaFondoLocal !== "" &&
+                  this.state.entradaFondoLocal !== null
+                    ? this.state.entradaFondoLocal
+                    : 0,
+                diezmosFondoLocal:
+                  this.state.diezmosFondoLocal !== "" &&
+                  this.state.diezmosFondoLocal !== null
+                    ? this.state.diezmosFondoLocal
+                    : 0,
+                fondoRetiroPastoral:
+                  this.state.fondoRetiroPastoral !== "" &&
+                  this.state.fondoRetiroPastoral !== null
+                    ? this.state.fondoRetiroPastoral
+                    : 0,
+                dineroOtrosPropositos:
+                  this.state.dineroOtrosPropositos !== "" &&
+                  this.state.dineroOtrosPropositos !== null
+                    ? this.state.dineroOtrosPropositos
+                    : 0,
+                ofrendaEmergenciaNacional:
+                  this.state.ofrendaEmergenciaNacional !== "" &&
+                  this.state.ofrendaEmergenciaNacional !== null
+                    ? this.state.ofrendaEmergenciaNacional
+                    : 0,
+                fondoSolidarioMinisterial:
+                  this.state.fondoSolidarioMinisterial !== "" &&
+                  this.state.fondoSolidarioMinisterial !== null
+                    ? this.state.fondoSolidarioMinisterial
+                    : 0,
+                totalMiembros:
+                  this.state.totalMiembros !== "" &&
+                  this.state.totalMiembros !== null
+                    ? this.state.totalMiembros
+                    : 0,
+                masculinos:
+                  this.state.masculinos !== "" && this.state.masculinos !== null
+                    ? this.state.masculinos
+                    : 0,
+                femeninos:
+                  this.state.femeninos !== "" && this.state.femeninos !== null
+                    ? this.state.femeninos
+                    : 0,
+                excluidos:
+                  this.state.excluidos !== "" && this.state.excluidos !== null
+                    ? this.state.excluidos
+                    : 0,
+                trasladados:
+                  this.state.trasladados !== "" &&
+                  this.state.trasladados !== null
+                    ? this.state.trasladados
+                    : 0,
+              },
             };
             this.setState({
               loading: true,
             });
             Alerts.loading_reload(true);
-            Request.POST(
-              "informe/financiero/mensual/cabecera",
-              data_header
-            ).then((resulth) => {
-              if (resulth !== false) {
-                if (resulth.status === 201) {
-                  const data_detalle = {
-                    codigoInforme: resulth.data.code,
+            Request.POST("informe/tesorero/mensual", data).then((result) => {
+              Alerts.loading_reload(false);
 
-                    diezmosRecibidosIglesia:
-                      this.state.diezmosRecibidosIglesia !== "" &&
-                      this.state.diezmosRecibidosIglesia !== null
-                        ? this.state.diezmosRecibidosIglesia
-                        : 0,
-                    diezmoEnviadoOficina:
-                      this.state.diezmoEnviadoOficina !== "" &&
-                      this.state.diezmoEnviadoOficina !== null
-                        ? this.state.diezmoEnviadoOficina
-                        : 0,
-                    diezmosEntregadosPastor:
-                      this.state.diezmosEntregadosPastor !== "" &&
-                      this.state.diezmosEntregadosPastor !== null
-                        ? this.state.diezmosEntregadosPastor
-                        : 0,
-                    membresiaPatrimonioHistorico:
-                      this.state.membresiaPatrimonioHistorico !== "" &&
-                      this.state.membresiaPatrimonioHistorico !== null
-                        ? this.state.membresiaPatrimonioHistorico
-                        : 0,
-                    ofrendaMisioneraSegundoDomingo:
-                      this.state.ofrendaMisioneraSegundoDomingo !== "" &&
-                      this.state.ofrendaMisioneraSegundoDomingo !== null
-                        ? this.state.ofrendaMisioneraSegundoDomingo
-                        : 0,
-                    impulsoMisiones:
-                      this.state.impulsoMisiones !== "" &&
-                      this.state.impulsoMisiones !== null
-                        ? this.state.impulsoMisiones
-                        : 0,
-                    porcentajeMisionerosOficina:
-                      this.state.porcentajeMisionerosOficina !== "" &&
-                      this.state.porcentajeMisionerosOficina !== null
-                        ? this.state.porcentajeMisionerosOficina
-                        : 0,
-                    misionesNacionales:
-                      this.state.misionesNacionales !== "" &&
-                      this.state.misionesNacionales !== null
-                        ? this.state.misionesNacionales
-                        : 0,
-                    entradaFondoLocal:
-                      this.state.entradaFondoLocal !== "" &&
-                      this.state.entradaFondoLocal !== null
-                        ? this.state.entradaFondoLocal
-                        : 0,
-                    diezmosFondoLocal:
-                      this.state.diezmosFondoLocal !== "" &&
-                      this.state.diezmosFondoLocal !== null
-                        ? this.state.diezmosFondoLocal
-                        : 0,
-                    fondoRetiroPastoral:
-                      this.state.fondoRetiroPastoral !== "" &&
-                      this.state.fondoRetiroPastoral !== null
-                        ? this.state.fondoRetiroPastoral
-                        : 0,
-                    dineroOtrosPropositos:
-                      this.state.dineroOtrosPropositos !== "" &&
-                      this.state.dineroOtrosPropositos !== null
-                        ? this.state.dineroOtrosPropositos
-                        : 0,
-                    ofrendaEmergenciaNacional:
-                      this.state.ofrendaEmergenciaNacional !== "" &&
-                      this.state.ofrendaEmergenciaNacional !== null
-                        ? this.state.ofrendaEmergenciaNacional
-                        : 0,
-                    fondoSolidarioMinisterial:
-                      this.state.fondoSolidarioMinisterial !== "" &&
-                      this.state.fondoSolidarioMinisterial !== null
-                        ? this.state.fondoSolidarioMinisterial
-                        : 0,
-                    totalMiembros:
-                      this.state.totalMiembros !== "" &&
-                      this.state.totalMiembros !== null
-                        ? this.state.totalMiembros
-                        : 0,
-                    masculinos:
-                      this.state.masculinos !== "" &&
-                      this.state.masculinos !== null
-                        ? this.state.masculinos
-                        : 0,
-                    femeninos:
-                      this.state.femeninos !== "" &&
-                      this.state.femeninos !== null
-                        ? this.state.femeninos
-                        : 0,
-                    excluidos:
-                      this.state.excluidos !== "" &&
-                      this.state.excluidos !== null
-                        ? this.state.excluidos
-                        : 0,
-                    trasladados:
-                      this.state.trasladados !== "" &&
-                      this.state.trasladados !== null
-                        ? this.state.trasladados
-                        : 0,
-                  };
-
-                  Request.POST(
-                    "informe/tesorero/mensual/detalle",
-                    data_detalle
-                  ).then((result) => {
-                    Alerts.loading_reload(false);
-
-                    if (result !== false) {
-                      if (result.status === 201) {
-                        Alerts.alertEmpty(
-                          "¡Informe enviado con éxito!",
-                          "Administración de informes",
-                          "success"
-                        );
-                        this.setState({
-                          loading: false,
-                          redirect: true,
-                        });
-                      } else {
-                        Alerts.alertEmpty(
-                          "¡No se pudo enviar el informe debido a un error!",
-                          "Administración de informes",
-                          "error"
-                        );
-                      }
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
+              if (result !== false) {
+                if (result.status === 201) {
+                  Alerts.alertEmpty(
+                    "¡Informe enviado con éxito!",
+                    "Administración de informes",
+                    "success"
+                  );
+                  this.setState({
+                    loading: false,
+                    redirect: true,
                   });
                 } else {
                   Alerts.alertEmpty(
