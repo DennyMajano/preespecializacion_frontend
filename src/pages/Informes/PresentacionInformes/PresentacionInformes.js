@@ -42,7 +42,10 @@ export default class PresentacionInformes extends Component {
               {this.state.iglesias.length > 0 ? (
                 this.state.iglesias.map((element) => {
                   return (
-                    <div className="col-lg-3 mx-auto" key={element.codigo}>
+                    <div
+                      className="col-lg-4 col-md-4 col-sm-6 col-xs-12 mx-auto"
+                      key={element.codigo}
+                    >
                       <div className="card  border border-dark">
                         <div className="card-header">
                           <h4 className="m-b-0 text-black">
