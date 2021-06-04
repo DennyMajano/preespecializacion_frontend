@@ -620,7 +620,7 @@ export default class InformeMinisterialMensual extends Component {
             loading: false,
           });
           if (result !== false) {
-            if (result.status === 200) {
+            if (result.status === 201) {
               Alerts.alertEmpty(
                 "¡Informe guardado con éxito!",
                 "Administración de informes",
@@ -799,7 +799,7 @@ export default class InformeMinisterialMensual extends Component {
                 loading: false,
               });
               if (result !== false) {
-                if (result.status === 200) {
+                if (result.status === 201) {
                   Alerts.alertEmpty(
                     "¡Informe enviado con éxito!",
                     "Administración de informes",
