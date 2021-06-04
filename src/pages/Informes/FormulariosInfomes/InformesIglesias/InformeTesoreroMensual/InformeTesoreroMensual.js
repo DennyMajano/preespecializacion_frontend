@@ -214,11 +214,11 @@ export default class InformeTesoreroMensual extends Component {
               : 0,
           estado: 1,
         };
-        Request.PUT("informe/tesorero/mensual/detalle", data).then((result) => {
+        Request.PUT("informe/tesorero/mensual", data).then((result) => {
           Alerts.loading_reload(false);
 
           if (result !== false) {
-            if (result.status === 200) {
+            if (result.status === 201) {
               Alerts.alertEmpty(
                 "¡Informe actualizado con éxito!",
                 "Administración de informes",
@@ -339,11 +339,11 @@ export default class InformeTesoreroMensual extends Component {
           estado: 2,
         };
 
-        Request.PUT("informe/tesorero/mensual/detalle", data).then((result) => {
+        Request.PUT("informe/tesorero/mensual", data).then((result) => {
           Alerts.loading_reload(false);
 
           if (result !== false) {
-            if (result.status === 200) {
+            if (result.status === 201) {
               Alerts.alertEmpty(
                 "¡Informe enviado con éxito!",
                 "Administración de informes",

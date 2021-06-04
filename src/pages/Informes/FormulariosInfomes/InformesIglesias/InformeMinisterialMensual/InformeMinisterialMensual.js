@@ -279,12 +279,12 @@ export default class InformeMinisterialMensual extends Component {
               ? this.state.diezmosIncluidosInforme
               : 0,
         };
-        Request.PUT("informe/ministerial/mensual/detalle", data).then(
+        Request.PUT("informe/ministerial/mensual", data).then(
           (result) => {
             Alerts.loading_reload(false);
 
             if (result !== false) {
-              if (result.status === 200) {
+              if (result.status === 201) {
                 Alerts.alertEmpty(
                   "¡Informe actualizado con éxito!",
                   "Administración de informes",
@@ -445,12 +445,12 @@ export default class InformeMinisterialMensual extends Component {
               : 0,
         };
 
-        Request.PUT("informe/ministerial/mensual/detalle", data).then(
+        Request.PUT("informe/ministerial/mensual", data).then(
           (result) => {
             Alerts.loading_reload(false);
 
             if (result !== false) {
-              if (result.status === 200) {
+              if (result.status === 201) {
                 Alerts.alertEmpty(
                   "¡Informe enviado con éxito!",
                   "Administración de informes",

@@ -206,12 +206,12 @@ export default class InformeFinancieroMensual extends Component {
               : 0,
           estado: 1,
         };
-        Request.PUT("informe/financiero/mensual/detalle", data).then(
+        Request.PUT("informe/financiero/mensual", data).then(
           (result) => {
             Alerts.loading_reload(false);
 
             if (result !== false) {
-              if (result.status === 200) {
+              if (result.status === 201) {
                 Alerts.alertEmpty(
                   "¡Informe actualizado con éxito!",
                   "Administración de informes",
@@ -327,12 +327,12 @@ export default class InformeFinancieroMensual extends Component {
           estado: 2,
         };
 
-        Request.PUT("informe/financiero/mensual/detalle", data).then(
+        Request.PUT("informe/financiero/mensual", data).then(
           (result) => {
             Alerts.loading_reload(false);
 
             if (result !== false) {
-              if (result.status === 200) {
+              if (result.status === 201) {
                 Alerts.alertEmpty(
                   "¡Informe enviado con éxito!",
                   "Administración de informes",
