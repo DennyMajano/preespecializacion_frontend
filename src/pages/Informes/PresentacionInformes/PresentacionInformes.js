@@ -3,7 +3,6 @@ import LayoutPanelTable from "../../../components/layouts/panels/LayoutPanelTabl
 import HTTP from "../../../helpers/HTTP";
 import Encrypt from "../../../services/Encrypt";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import LayoutPanelEmpty from "../../../components/layouts/panels/LayoutPanelEmpty";
 import Alerts from "../../../services/Alerts";
 
 export default class PresentacionInformes extends Component {
