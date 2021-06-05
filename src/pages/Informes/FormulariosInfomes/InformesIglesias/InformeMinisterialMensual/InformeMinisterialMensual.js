@@ -279,36 +279,49 @@ export default class InformeMinisterialMensual extends Component {
               ? this.state.diezmosIncluidosInforme
               : 0,
         };
-        Request.PUT("informe/ministerial/mensual", data).then(
-          (result) => {
-            Alerts.loading_reload(false);
-
-            if (result !== false) {
-              if (result.status === 201) {
-                Alerts.alertEmpty(
-                  "¡Informe actualizado con éxito!",
-                  "Administración de informes",
-                  "success"
-                );
-                this.setState({
-                  redirect: true,
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo actualizar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
+        
+        Alerts.Question(
+          "¿Desea guardar el informe?",
+          "Podrá editarlo después"
+        ).then((resp) => {
+          if (resp) {
+            Request.PUT("informe/ministerial/mensual", data).then(
+              (result) => {
+                Alerts.loading_reload(false);
+    
+                if (result !== false) {
+                  if (result.status === 201) {
+                    Alerts.alertEmpty(
+                      "¡Informe actualizado con éxito!",
+                      "Administración de informes",
+                      "success"
+                    );
+                    this.setState({
+                      redirect: true,
+                    });
+                  } else {
+                    Alerts.alertEmpty(
+                      "¡No se pudo actualizar el informe debido a un error!",
+                      "Administración de informes",
+                      "error"
+                    );
+                  }
+                } else {
+                  Alerts.alertEmpty(
+                    "¡No se pudo actualizar el informe debido a un error!",
+                    "Administración de informes",
+                    "error"
+                  );
+                }
               }
-            } else {
-              Alerts.alertEmpty(
-                "¡No se pudo actualizar el informe debido a un error!",
-                "Administración de informes",
-                "error"
-              );
-            }
+            );
+    
+            
           }
-        );
+        });
+
+
+
       } else if (estado === 2) {
         const data = {
           codigoInforme: this.props.match.params.ide,
@@ -444,37 +457,44 @@ export default class InformeMinisterialMensual extends Component {
               ? this.state.diezmosIncluidosInforme
               : 0,
         };
-
-        Request.PUT("informe/ministerial/mensual", data).then(
-          (result) => {
-            Alerts.loading_reload(false);
-
-            if (result !== false) {
-              if (result.status === 201) {
-                Alerts.alertEmpty(
-                  "¡Informe enviado con éxito!",
-                  "Administración de informes",
-                  "success"
-                );
-                this.setState({
-                  redirect: true,
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo enviar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
+        
+        Alerts.Question(
+          "¿Está seguro que desea enviar el informe?",
+          "¡Una vez enviado no podrá actualizarlo!"
+        ).then((resp) => {
+          if (resp) {
+            Request.PUT("informe/ministerial/mensual", data).then(
+              (result) => {
+                Alerts.loading_reload(false);
+    
+                if (result !== false) {
+                  if (result.status === 201) {
+                    Alerts.alertEmpty(
+                      "¡Informe enviado con éxito!",
+                      "Administración de informes",
+                      "success"
+                    );
+                    this.setState({
+                      redirect: true,
+                    });
+                  } else {
+                    Alerts.alertEmpty(
+                      "¡No se pudo enviar el informe debido a un error!",
+                      "Administración de informes",
+                      "error"
+                    );
+                  }
+                } else {
+                  Alerts.alertEmpty(
+                    "¡No se pudo enviar el informe debido a un error!",
+                    "Administración de informes",
+                    "error"
+                  );
+                }
               }
-            } else {
-              Alerts.alertEmpty(
-                "¡No se pudo enviar el informe debido a un error!",
-                "Administración de informes",
-                "error"
-              );
-            }
+            );
           }
-        );
+        });
       }
     } else {
       if (estado === 1) {
