@@ -206,36 +206,44 @@ export default class InformeFinancieroMensual extends Component {
               : 0,
           estado: 1,
         };
-        Request.PUT("informe/financiero/mensual/detalle", data).then(
-          (result) => {
-            Alerts.loading_reload(false);
-
-            if (result !== false) {
-              if (result.status === 200) {
-                Alerts.alertEmpty(
-                  "¡Informe actualizado con éxito!",
-                  "Administración de informes",
-                  "success"
-                );
-                this.setState({
-                  redirect: true,
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo actualizar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
+        Alerts.Question(
+          "¿Desea guardar el informe?",
+          "Podrá editarlo después"
+        ).then((resp) => {
+          if (resp) {
+            Request.PUT("informe/financiero/mensual", data).then(
+              (result) => {
+                Alerts.loading_reload(false);
+    
+                if (result !== false) {
+                  if (result.status === 201) {
+                    Alerts.alertEmpty(
+                      "¡Informe actualizado con éxito!",
+                      "Administración de informes",
+                      "success"
+                    );
+                    this.setState({
+                      redirect: true,
+                    });
+                  } else {
+                    Alerts.alertEmpty(
+                      "¡No se pudo actualizar el informe debido a un error!",
+                      "Administración de informes",
+                      "error"
+                    );
+                  }
+                } else {
+                  Alerts.alertEmpty(
+                    "¡No se pudo actualizar el informe debido a un error!",
+                    "Administración de informes",
+                    "error"
+                  );
+                }
               }
-            } else {
-              Alerts.alertEmpty(
-                "¡No se pudo actualizar el informe debido a un error!",
-                "Administración de informes",
-                "error"
-              );
-            }
+            );
           }
-        );
+        });
+
       } else if (estado === 2) {
         const data = {
           codigoInforme: this.props.match.params.ide,
@@ -326,179 +334,25 @@ export default class InformeFinancieroMensual extends Component {
               : 0,
           estado: 2,
         };
-
-        Request.PUT("informe/financiero/mensual/detalle", data).then(
-          (result) => {
-            Alerts.loading_reload(false);
-
-            if (result !== false) {
-              if (result.status === 200) {
-                Alerts.alertEmpty(
-                  "¡Informe enviado con éxito!",
-                  "Administración de informes",
-                  "success"
-                );
-                this.setState({
-                  redirect: true,
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo enviar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
-              }
-            } else {
-              Alerts.alertEmpty(
-                "¡No se pudo enviar el informe debido a un error!",
-                "Administración de informes",
-                "error"
-              );
-            }
-          }
-        );
-      }
-    } else {
-      if (estado === 1) {
-        const data_header = {
-          codigoIglesia: this.props.match.params.iglesia,
-          codigoPastor:
-            this.state.iglesia !== null
-              ? this.state.iglesia.codigo_pastor !== "" &&
-                this.state.iglesia.codigo_pastor !== null
-                ? this.state.iglesia.codigo_pastor
-                : null
-              : null,
-          codigoGestion: this.props.match.params.gestion,
-          nombreTesorero: "HARDCODED",
-          estado: 1,
-        };
-        this.setState({
-          loading: true,
-        });
-        Alerts.loading_reload(true);
-        Request.POST("informe/financiero/mensual/cabecera", data_header).then(
-          (resulth) => {
-            if (resulth !== false) {
-              if (resulth.status === 201) {
-                const data_detalle = {
-                  codigoInforme: resulth.data.code,
-                  oficinasInternacionales:
-                    this.state.oficinasInternacionales !== "" &&
-                    this.state.oficinasInternacionales !== null
-                      ? this.state.oficinasInternacionales
-                      : 0,
-                  sociosAmip:
-                    this.state.sociosAmip !== "" &&
-                    this.state.sociosAmip !== null
-                      ? this.state.sociosAmip
-                      : 0,
-                  misionesMundiales:
-                    this.state.misionesMundiales !== "" &&
-                    this.state.misionesMundiales !== null
-                      ? this.state.misionesMundiales
-                      : 0,
-                  tributosAnuales:
-                    this.state.tributosAnuales !== "" &&
-                    this.state.tributosAnuales !== null
-                      ? this.state.tributosAnuales
-                      : 0,
-                  ministroOrdenado:
-                    this.state.ministroOrdenado !== "" &&
-                    this.state.ministroOrdenado !== null
-                      ? this.state.ministroOrdenado
-                      : 0,
-                  pastorLaico:
-                    this.state.pastorLaico !== "" &&
-                    this.state.pastorLaico !== null
-                      ? this.state.pastorLaico
-                      : 0,
-                  fondoLocal:
-                    this.state.fondoLocal !== "" &&
-                    this.state.fondoLocal !== null
-                      ? this.state.fondoLocal
-                      : 0,
-                  retiroPastoral:
-                    this.state.retiroPastoral !== "" &&
-                    this.state.retiroPastoral !== null
-                      ? this.state.retiroPastoral
-                      : 0,
-                  segundaParteOfrendaministerios:
-                    this.state.segundaParteOfrendaministerios !== "" &&
-                    this.state.segundaParteOfrendaministerios !== null
-                      ? this.state.segundaParteOfrendaministerios
-                      : 0,
-                  fondoEmergenciaNacional:
-                    this.state.fondoEmergenciaNacional !== "" &&
-                    this.state.fondoEmergenciaNacional !== null
-                      ? this.state.fondoEmergenciaNacional
-                      : 0,
-                  misionesNacionales:
-                    this.state.misionesNacionales !== "" &&
-                    this.state.misionesNacionales !== null
-                      ? this.state.misionesNacionales
-                      : 0,
-                  diezmosMinistros:
-                    this.state.diezmosMinistros !== "" &&
-                    this.state.diezmosMinistros !== null
-                      ? this.state.diezmosMinistros
-                      : 0,
-                  compraPropiedadNacional:
-                    this.state.compraPropiedadNacional !== "" &&
-                    this.state.compraPropiedadNacional !== null
-                      ? this.state.compraPropiedadNacional
-                      : 0,
-                  construccionTemplosNuevos:
-                    this.state.construccionTemplosNuevos !== "" &&
-                    this.state.construccionTemplosNuevos !== null
-                      ? this.state.construccionTemplosNuevos
-                      : 0,
-                  cotizacionPrestaciones:
-                    this.state.cotizacionPrestaciones !== "" &&
-                    this.state.cotizacionPrestaciones !== null
-                      ? this.state.cotizacionPrestaciones
-                      : 0,
-                  seguroVida:
-                    this.state.seguroVida !== "" &&
-                    this.state.seguroVida !== null
-                      ? this.state.seguroVida
-                      : 0,
-                  fondoSolidarioMinisterial:
-                    this.state.fondoSolidarioMinisterial !== "" &&
-                    this.state.fondoSolidarioMinisterial !== null
-                      ? this.state.fondoSolidarioMinisterial
-                      : 0,
-                  otros:
-                    this.state.otros !== "" && this.state.otros !== null
-                      ? this.state.otros
-                      : 0,
-                };
-
-                Request.POST(
-                  "informe/financiero/mensual/detalle",
-                  data_detalle
-                ).then((result) => {
-                  Alerts.loading_reload(false);
-
-                  if (result !== false) {
-                    if (result.status === 201) {
-                      Alerts.alertEmpty(
-                        "¡Informe guardado con éxito!",
-                        "Administración de informes",
-                        "success"
-                      );
-
-                      this.setState({
-                        loading: false,
-                        redirect: true,
-                      });
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
+        Alerts.Question(
+          "¿Está seguro que desea enviar el informe?",
+          "¡Una vez enviado no podrá actualizarlo!"
+        ).then((resp) => {
+          if (resp) {
+            Request.PUT("informe/financiero/mensual", data).then(
+              (result) => {
+                Alerts.loading_reload(false);
+    
+                if (result !== false) {
+                  if (result.status === 201) {
+                    Alerts.alertEmpty(
+                      "¡Informe enviado con éxito!",
+                      "Administración de informes",
+                      "success"
+                    );
+                    this.setState({
+                      redirect: true,
+                    });
                   } else {
                     Alerts.alertEmpty(
                       "¡No se pudo enviar el informe debido a un error!",
@@ -506,14 +360,142 @@ export default class InformeFinancieroMensual extends Component {
                       "error"
                     );
                   }
-                });
-              } else {
-                Alerts.alertEmpty(
-                  "¡No se pudo enviar el informe debido a un error!",
-                  "Administración de informes",
-                  "error"
-                );
+                } else {
+                  Alerts.alertEmpty(
+                    "¡No se pudo enviar el informe debido a un error!",
+                    "Administración de informes",
+                    "error"
+                  );
+                }
               }
+            );
+          }
+        });
+
+      }
+    } else {
+      if (estado === 1) {
+        const data = {
+          cabecera: {
+            codigoIglesia: this.props.match.params.iglesia,
+            codigoPastor:
+              this.state.iglesia !== null
+                ? this.state.iglesia.codigo_pastor !== "" &&
+                  this.state.iglesia.codigo_pastor !== null
+                  ? this.state.iglesia.codigo_pastor
+                  : null
+                : null,
+            codigoGestion: this.props.match.params.gestion,
+            nombreTesorero: "HARDCODED",
+            estado: 1,
+          },
+          detalle: {
+            oficinasInternacionales:
+              this.state.oficinasInternacionales !== "" &&
+              this.state.oficinasInternacionales !== null
+                ? this.state.oficinasInternacionales
+                : 0,
+            sociosAmip:
+              this.state.sociosAmip !== "" && this.state.sociosAmip !== null
+                ? this.state.sociosAmip
+                : 0,
+            misionesMundiales:
+              this.state.misionesMundiales !== "" &&
+              this.state.misionesMundiales !== null
+                ? this.state.misionesMundiales
+                : 0,
+            tributosAnuales:
+              this.state.tributosAnuales !== "" &&
+              this.state.tributosAnuales !== null
+                ? this.state.tributosAnuales
+                : 0,
+            ministroOrdenado:
+              this.state.ministroOrdenado !== "" &&
+              this.state.ministroOrdenado !== null
+                ? this.state.ministroOrdenado
+                : 0,
+            pastorLaico:
+              this.state.pastorLaico !== "" && this.state.pastorLaico !== null
+                ? this.state.pastorLaico
+                : 0,
+            fondoLocal:
+              this.state.fondoLocal !== "" && this.state.fondoLocal !== null
+                ? this.state.fondoLocal
+                : 0,
+            retiroPastoral:
+              this.state.retiroPastoral !== "" &&
+              this.state.retiroPastoral !== null
+                ? this.state.retiroPastoral
+                : 0,
+            segundaParteOfrendaministerios:
+              this.state.segundaParteOfrendaministerios !== "" &&
+              this.state.segundaParteOfrendaministerios !== null
+                ? this.state.segundaParteOfrendaministerios
+                : 0,
+            fondoEmergenciaNacional:
+              this.state.fondoEmergenciaNacional !== "" &&
+              this.state.fondoEmergenciaNacional !== null
+                ? this.state.fondoEmergenciaNacional
+                : 0,
+            misionesNacionales:
+              this.state.misionesNacionales !== "" &&
+              this.state.misionesNacionales !== null
+                ? this.state.misionesNacionales
+                : 0,
+            diezmosMinistros:
+              this.state.diezmosMinistros !== "" &&
+              this.state.diezmosMinistros !== null
+                ? this.state.diezmosMinistros
+                : 0,
+            compraPropiedadNacional:
+              this.state.compraPropiedadNacional !== "" &&
+              this.state.compraPropiedadNacional !== null
+                ? this.state.compraPropiedadNacional
+                : 0,
+            construccionTemplosNuevos:
+              this.state.construccionTemplosNuevos !== "" &&
+              this.state.construccionTemplosNuevos !== null
+                ? this.state.construccionTemplosNuevos
+                : 0,
+            cotizacionPrestaciones:
+              this.state.cotizacionPrestaciones !== "" &&
+              this.state.cotizacionPrestaciones !== null
+                ? this.state.cotizacionPrestaciones
+                : 0,
+            seguroVida:
+              this.state.seguroVida !== "" && this.state.seguroVida !== null
+                ? this.state.seguroVida
+                : 0,
+            fondoSolidarioMinisterial:
+              this.state.fondoSolidarioMinisterial !== "" &&
+              this.state.fondoSolidarioMinisterial !== null
+                ? this.state.fondoSolidarioMinisterial
+                : 0,
+            otros:
+              this.state.otros !== "" && this.state.otros !== null
+                ? this.state.otros
+                : 0,
+          },
+        };
+        this.setState({
+          loading: true,
+        });
+        Alerts.loading_reload(true);
+        Request.POST("informe/financiero/mensual", data).then((result) => {
+          Alerts.loading_reload(false);
+
+          if (result !== false) {
+            if (result.status === 201) {
+              Alerts.alertEmpty(
+                "¡Informe guardado con éxito!",
+                "Administración de informes",
+                "success"
+              );
+
+              this.setState({
+                loading: false,
+                redirect: true,
+              });
             } else {
               Alerts.alertEmpty(
                 "¡No se pudo enviar el informe debido a un error!",
@@ -521,8 +503,14 @@ export default class InformeFinancieroMensual extends Component {
                 "error"
               );
             }
+          } else {
+            Alerts.alertEmpty(
+              "¡No se pudo enviar el informe debido a un error!",
+              "Administración de informes",
+              "error"
+            );
           }
-        );
+        });
       } else if (estado === 2) {
         Alerts.QuestionYesNo(
           "¿Está seguro que desea enviar el informe?",
@@ -530,154 +518,126 @@ export default class InformeFinancieroMensual extends Component {
           "question"
         ).then((resp) => {
           if (resp) {
-            const data_header = {
-              codigoIglesia: this.props.match.params.iglesia,
-              codigoPastor:
-                this.state.iglesia !== null
-                  ? this.state.iglesia.codigo_pastor !== "" &&
-                    this.state.iglesia.codigo_pastor !== null
-                    ? this.state.iglesia.codigo_pastor
-                    : null
-                  : null,
-              codigoGestion: this.props.match.params.gestion,
-              nombreTesorero: "HARDCODED",
-
-              estado: 2,
+            const data = {
+              cabecera: {
+                codigoIglesia: this.props.match.params.iglesia,
+                codigoPastor:
+                  this.state.iglesia !== null
+                    ? this.state.iglesia.codigo_pastor !== "" &&
+                      this.state.iglesia.codigo_pastor !== null
+                      ? this.state.iglesia.codigo_pastor
+                      : null
+                    : null,
+                codigoGestion: this.props.match.params.gestion,
+                nombreTesorero: "HARDCODED",
+                estado: 2,
+              },
+              detalle: {
+                oficinasInternacionales:
+                  this.state.oficinasInternacionales !== "" &&
+                  this.state.oficinasInternacionales !== null
+                    ? this.state.oficinasInternacionales
+                    : 0,
+                sociosAmip:
+                  this.state.sociosAmip !== "" && this.state.sociosAmip !== null
+                    ? this.state.sociosAmip
+                    : 0,
+                misionesMundiales:
+                  this.state.misionesMundiales !== "" &&
+                  this.state.misionesMundiales !== null
+                    ? this.state.misionesMundiales
+                    : 0,
+                tributosAnuales:
+                  this.state.tributosAnuales !== "" &&
+                  this.state.tributosAnuales !== null
+                    ? this.state.tributosAnuales
+                    : 0,
+                ministroOrdenado:
+                  this.state.ministroOrdenado !== "" &&
+                  this.state.ministroOrdenado !== null
+                    ? this.state.ministroOrdenado
+                    : 0,
+                pastorLaico:
+                  this.state.pastorLaico !== "" &&
+                  this.state.pastorLaico !== null
+                    ? this.state.pastorLaico
+                    : 0,
+                fondoLocal:
+                  this.state.fondoLocal !== "" && this.state.fondoLocal !== null
+                    ? this.state.fondoLocal
+                    : 0,
+                retiroPastoral:
+                  this.state.retiroPastoral !== "" &&
+                  this.state.retiroPastoral !== null
+                    ? this.state.retiroPastoral
+                    : 0,
+                segundaParteOfrendaministerios:
+                  this.state.segundaParteOfrendaministerios !== "" &&
+                  this.state.segundaParteOfrendaministerios !== null
+                    ? this.state.segundaParteOfrendaministerios
+                    : 0,
+                fondoEmergenciaNacional:
+                  this.state.fondoEmergenciaNacional !== "" &&
+                  this.state.fondoEmergenciaNacional !== null
+                    ? this.state.fondoEmergenciaNacional
+                    : 0,
+                misionesNacionales:
+                  this.state.misionesNacionales !== "" &&
+                  this.state.misionesNacionales !== null
+                    ? this.state.misionesNacionales
+                    : 0,
+                diezmosMinistros:
+                  this.state.diezmosMinistros !== "" &&
+                  this.state.diezmosMinistros !== null
+                    ? this.state.diezmosMinistros
+                    : 0,
+                compraPropiedadNacional:
+                  this.state.compraPropiedadNacional !== "" &&
+                  this.state.compraPropiedadNacional !== null
+                    ? this.state.compraPropiedadNacional
+                    : 0,
+                construccionTemplosNuevos:
+                  this.state.construccionTemplosNuevos !== "" &&
+                  this.state.construccionTemplosNuevos !== null
+                    ? this.state.construccionTemplosNuevos
+                    : 0,
+                cotizacionPrestaciones:
+                  this.state.cotizacionPrestaciones !== "" &&
+                  this.state.cotizacionPrestaciones !== null
+                    ? this.state.cotizacionPrestaciones
+                    : 0,
+                seguroVida:
+                  this.state.seguroVida !== "" && this.state.seguroVida !== null
+                    ? this.state.seguroVida
+                    : 0,
+                fondoSolidarioMinisterial:
+                  this.state.fondoSolidarioMinisterial !== "" &&
+                  this.state.fondoSolidarioMinisterial !== null
+                    ? this.state.fondoSolidarioMinisterial
+                    : 0,
+                otros:
+                  this.state.otros !== "" && this.state.otros !== null
+                    ? this.state.otros
+                    : 0,
+              },
             };
             this.setState({
               loading: true,
             });
             Alerts.loading_reload(true);
-            Request.POST(
-              "informe/financiero/mensual/cabecera",
-              data_header
-            ).then((resulth) => {
-              if (resulth !== false) {
-                if (resulth.status === 201) {
-                  const data_detalle = {
-                    codigoInforme: resulth.data.code,
-                    oficinasInternacionales:
-                      this.state.oficinasInternacionales !== "" &&
-                      this.state.oficinasInternacionales !== null
-                        ? this.state.oficinasInternacionales
-                        : 0,
-                    sociosAmip:
-                      this.state.sociosAmip !== "" &&
-                      this.state.sociosAmip !== null
-                        ? this.state.sociosAmip
-                        : 0,
-                    misionesMundiales:
-                      this.state.misionesMundiales !== "" &&
-                      this.state.misionesMundiales !== null
-                        ? this.state.misionesMundiales
-                        : 0,
-                    tributosAnuales:
-                      this.state.tributosAnuales !== "" &&
-                      this.state.tributosAnuales !== null
-                        ? this.state.tributosAnuales
-                        : 0,
-                    ministroOrdenado:
-                      this.state.ministroOrdenado !== "" &&
-                      this.state.ministroOrdenado !== null
-                        ? this.state.ministroOrdenado
-                        : 0,
-                    pastorLaico:
-                      this.state.pastorLaico !== "" &&
-                      this.state.pastorLaico !== null
-                        ? this.state.pastorLaico
-                        : 0,
-                    fondoLocal:
-                      this.state.fondoLocal !== "" &&
-                      this.state.fondoLocal !== null
-                        ? this.state.fondoLocal
-                        : 0,
-                    retiroPastoral:
-                      this.state.retiroPastoral !== "" &&
-                      this.state.retiroPastoral !== null
-                        ? this.state.retiroPastoral
-                        : 0,
-                    segundaParteOfrendaministerios:
-                      this.state.segundaParteOfrendaministerios !== "" &&
-                      this.state.segundaParteOfrendaministerios !== null
-                        ? this.state.segundaParteOfrendaministerios
-                        : 0,
-                    fondoEmergenciaNacional:
-                      this.state.fondoEmergenciaNacional !== "" &&
-                      this.state.fondoEmergenciaNacional !== null
-                        ? this.state.fondoEmergenciaNacional
-                        : 0,
-                    misionesNacionales:
-                      this.state.misionesNacionales !== "" &&
-                      this.state.misionesNacionales !== null
-                        ? this.state.misionesNacionales
-                        : 0,
-                    diezmosMinistros:
-                      this.state.diezmosMinistros !== "" &&
-                      this.state.diezmosMinistros !== null
-                        ? this.state.diezmosMinistros
-                        : 0,
-                    compraPropiedadNacional:
-                      this.state.compraPropiedadNacional !== "" &&
-                      this.state.compraPropiedadNacional !== null
-                        ? this.state.compraPropiedadNacional
-                        : 0,
-                    construccionTemplosNuevos:
-                      this.state.construccionTemplosNuevos !== "" &&
-                      this.state.construccionTemplosNuevos !== null
-                        ? this.state.construccionTemplosNuevos
-                        : 0,
-                    cotizacionPrestaciones:
-                      this.state.cotizacionPrestaciones !== "" &&
-                      this.state.cotizacionPrestaciones !== null
-                        ? this.state.cotizacionPrestaciones
-                        : 0,
-                    seguroVida:
-                      this.state.seguroVida !== "" &&
-                      this.state.seguroVida !== null
-                        ? this.state.seguroVida
-                        : 0,
-                    fondoSolidarioMinisterial:
-                      this.state.fondoSolidarioMinisterial !== "" &&
-                      this.state.fondoSolidarioMinisterial !== null
-                        ? this.state.fondoSolidarioMinisterial
-                        : 0,
-                    otros:
-                      this.state.otros !== "" && this.state.otros !== null
-                        ? this.state.otros
-                        : 0,
-                  };
+            Request.POST("informe/financiero/mensual", data).then((result) => {
+              Alerts.loading_reload(false);
 
-                  Request.POST(
-                    "informe/financiero/mensual/detalle",
-                    data_detalle
-                  ).then((result) => {
-                    Alerts.loading_reload(false);
-
-                    if (result !== false) {
-                      if (result.status === 201) {
-                        Alerts.alertEmpty(
-                          "¡Informe enviado con éxito!",
-                          "Administración de informes",
-                          "success"
-                        );
-                        this.setState({
-                          loading: false,
-                          redirect: true,
-                        });
-                      } else {
-                        Alerts.alertEmpty(
-                          "¡No se pudo enviar el informe debido a un error!",
-                          "Administración de informes",
-                          "error"
-                        );
-                      }
-                    } else {
-                      Alerts.alertEmpty(
-                        "¡No se pudo enviar el informe debido a un error!",
-                        "Administración de informes",
-                        "error"
-                      );
-                    }
+              if (result !== false) {
+                if (result.status === 201) {
+                  Alerts.alertEmpty(
+                    "¡Informe enviado con éxito!",
+                    "Administración de informes",
+                    "success"
+                  );
+                  this.setState({
+                    loading: false,
+                    redirect: true,
                   });
                 } else {
                   Alerts.alertEmpty(

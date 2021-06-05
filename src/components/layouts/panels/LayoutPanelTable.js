@@ -58,6 +58,9 @@ function LayoutPanelTable(props) {
                 )}
               </div>
               <div className="card-body">{props.children}</div>
+              {props.buttons ? (
+                <div className="card-footer text-center">{props.buttons}</div>
+              ) : null}
             </div>
           </div>
         </div>

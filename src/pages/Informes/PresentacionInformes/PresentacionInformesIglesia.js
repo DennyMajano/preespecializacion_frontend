@@ -263,7 +263,7 @@ export default class PresentacionInformesIglesia extends Component {
                     row.informe_ide,
                     this.state.tab_active
                   )}
-                  className="btn btn-success mr-2"
+                  className="btn btn-outline-info mr-2"
                 >
                   <i className="fa fa-paper-plane-o mr-2"></i>ENVIAR
                 </button>
@@ -307,7 +307,7 @@ export default class PresentacionInformesIglesia extends Component {
         } else if (cellContent === 2) {
           return (
             <p className="text-center">
-              <span className="label label-light-success">ENVIADO</span>
+              <span className="label label-success text-inverse">ENVIADO</span>
             </p>
           );
         }
@@ -539,7 +539,9 @@ export default class PresentacionInformesIglesia extends Component {
                       type="button"
                       className="btn btn-outline-secondary btn-lg"
                       onClick={() => {
-                        this.props.history.push("/presentacion_informes");
+                        this.props.history.push(
+                          "/presentacion_informes/iglesia"
+                        );
                       }}
                     >
                       <i className="fa fa-arrow-left"></i> SALIR

@@ -55,6 +55,8 @@ import InformeFinancieroMensual from "./pages/Informes/FormulariosInfomes/Inform
 import InformeMinisterialMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeMinisterialMensual/InformeMinisterialMensual";
 import InformeTesoreroMensual from "./pages/Informes/FormulariosInfomes/InformesIglesias/InformeTesoreroMensual/InformeTesoreroMensual";
 import UsuariosIglesias from "./pages/Acceso/Usuarios/UsuariosIglesias";
+import RecepcionInformesIglesias from "./pages/Informes/RecepcionInformes/RecepcionInformesIglesias/RecepcionInformesIglesias";
+import RecepcionInformesIglesiasDetalle from "./pages/Informes/RecepcionInformes/RecepcionInformesIglesias/RecepcionInformesIglesiasDetalle";
 
 function App() {
   return (
@@ -474,7 +476,7 @@ function App() {
           {/**INCIO RUTAS PRESENTAR INFORMES */}
           <PrivateRoute
             exact
-            path="/presentacion_informes"
+            path="/presentacion_informes/iglesia"
             component={Authorization(
               PresentacionInformes,
               "32c9c5a4-6b90-4c08-bed4-57caa03ff573"
@@ -540,6 +542,26 @@ function App() {
             )}
           />
           {/**FIN RUTAS PRESENTAR INFORMES */}
+
+          {/**INICIO RUTAS RECEPCION INFORMES */}
+          <PrivateRoute
+            exact
+            path="/recepcion_informes/iglesia"
+            component={Authorization(
+              RecepcionInformesIglesias,
+              "d56cf8b1-f637-446a-9b28-28bf846bdbac"
+            )}
+          />
+
+          <PrivateRoute
+            exact
+            path="/recepcion_informes/iglesia/detalle_informe_recibido/:gestion/:id_informe"
+            component={Authorization(
+              RecepcionInformesIglesiasDetalle,
+              "d56cf8b1-f637-446a-9b28-28bf846bdbac"
+            )}
+          />
+          {/**FIN RUTAS RECEPCION INFORMES */}
 
           <Redirect to="/" />
         </Switch>

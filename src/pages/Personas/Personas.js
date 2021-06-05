@@ -65,7 +65,7 @@ export default class Personas extends Component {
       text: "Teléfono",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        return <p className="ml-4">{cellContent}</p>;
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
@@ -168,7 +168,9 @@ export default class Personas extends Component {
     });
   };
   update = ({ event, props }) => {
-    this.props.history.push("/recursos_humanos/personas/update/" + props.codigo);
+    this.props.history.push(
+      "/recursos_humanos/personas/update/" + props.codigo
+    );
   };
   rowEvents = {
     onContextMenu: (e, row, rowIndex) => {
@@ -181,7 +183,7 @@ export default class Personas extends Component {
           props: {
             id: row.id,
             userId: row.userId,
-            codigo: row.codigo
+            codigo: row.codigo,
           },
         });
       } else if (row.condicion === 1) {
@@ -190,7 +192,7 @@ export default class Personas extends Component {
           event: e,
           props: {
             id: row.id,
-            codigo: row.codigo
+            codigo: row.codigo,
           },
         });
       } else {
@@ -199,7 +201,7 @@ export default class Personas extends Component {
           event: e,
           props: {
             id: row.id,
-            codigo: row.codigo
+            codigo: row.codigo,
           },
         });
       }
