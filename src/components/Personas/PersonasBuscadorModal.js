@@ -71,7 +71,7 @@ export default class PersonasBuscadorModal extends Component {
       text: "Teléfono",
       sort: true,
       formatter: (cellContent, row) => {
-        return <p className="ml-4">{cellContent.toUpperCase()}</p>;
+        return <p className="ml-4">{cellContent}</p>;
       },
       headerStyle: () => {
         return { width: "20%", textAlign: "center" };
@@ -169,7 +169,11 @@ export default class PersonasBuscadorModal extends Component {
           <ModalBody>
             <TablaFilter
               ref="tabla"
-              ruta={this.props.rutaAConsultar?this.props.rutaAConsultar:"personas/actives"}
+              ruta={
+                this.props.rutaAConsultar
+                  ? this.props.rutaAConsultar
+                  : "personas/actives"
+              }
               rowEvents={this.rowEvents}
               identificador={"modulo_id"}
               columns={this.columns}
